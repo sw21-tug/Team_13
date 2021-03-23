@@ -1,7 +1,7 @@
 # Team_13
 
 ## Vison
-DealMyMeal - App
+DealMyMeal - App <br/>
 The App generates a randomized complete weekly plan of meals. The meal list will be created by the user. The user creates the meal entries and categorize them. They can be categorized into vegetarian meals, special meals or meat meals, etc. After creating the meal list, the user should define some parameters for the dealer.  
 
 In the end, the meal dealer should suggest you a complete list of daily meals according the defined parameters. 
