@@ -8,9 +8,7 @@ In the end, the meal dealer should suggest you a complete list of daily meals ac
 For example: plan for 7 days, starting by Monday, 2 days per week with meat meals, 5 days only vegetarian, considered meal randomizer rule - no meal should be suggested twice a week
 
 
-<img src="https://user-images.githubusercontent.com/7067559/112191273-239b3a00-8c06-11eb-8356-8c2054edfb20.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/112191286-26962a80-8c06-11eb-8521-df2c2c9df786.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/112191296-28f88480-8c06-11eb-886c-35794e9c9886.png" width="20%">
+<img src="https://user-images.githubusercontent.com/7067559/112191273-239b3a00-8c06-11eb-8356-8c2054edfb20.png" width="20%"> <img src="https://user-images.githubusercontent.com/7067559/112191286-26962a80-8c06-11eb-8521-df2c2c9df786.png" width="20%"> <img src="https://user-images.githubusercontent.com/7067559/112191296-28f88480-8c06-11eb-886c-35794e9c9886.png" width="20%">
 
 
 ## Team
