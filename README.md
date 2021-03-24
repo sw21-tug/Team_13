@@ -15,11 +15,10 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Role | Name |
 | ---- | ---- |
 | **Product Owner** | Elke Perner |
-| **Scrum Master** | aa bb |
+| **Scrum Master** | Matthias Kargl |
 | **Developer** | Patrick Eckel |
 | **Developer** | Marco Herzl |
 | **Developer** | Ivan Iličić |
-| **Developer** | Matthias Kargl |
 | **Developer** | Natalie Kvita |
 | **Developer** | Maximilian Mallweger |
 | **Developer** | Gregor Mayr |
