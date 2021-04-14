@@ -29,4 +29,4 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 ## Implemented Feature List
 | Name | Associated User Story | Additional Information |
 | --- | --- | --- |
-| Placeholder | TT-0 | None |
+| Start the App | DMM-012 | Set Up Environment |
