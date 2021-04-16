@@ -30,9 +30,11 @@ class MealOverviewAdapter(
 
         view.setOnClickListener {
             //TODO edit
-            Toast.makeText(parent.context, "Edit", Toast.LENGTH_SHORT).show()
-
-            view.findViewById<TextView>(R.id.item_name).setTextColor(Color.RED)
+            //TODO check if we are in selection -> abort
+            if(tracker?.hasSelection() == false) {
+                Toast.makeText(parent.context, "Edit", Toast.LENGTH_SHORT).show()
+                view.findViewById<TextView>(R.id.item_name).setTextColor(Color.RED)
+            }
         }
 
         return ViewHolder(view)
@@ -58,12 +60,12 @@ class MealOverviewAdapter(
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
             object : ItemDetailsLookup.ItemDetails<String>() {
-                override fun getPosition(): Int = position
-                override fun getSelectionKey(): String? = values[position]
+                override fun getPosition(): Int = bindingAdapterPosition
+                override fun getSelectionKey(): String? = values[bindingAdapterPosition]
             }
 
-        fun setItemSelected(postItem: String, isActivated: Boolean = false) {
-            itemView.isActivated = isActivated
+        fun setItemSelected(postItem: String, isSelected: Boolean = false) {
+            itemView.isSelected = isSelected
         }
     }
 
