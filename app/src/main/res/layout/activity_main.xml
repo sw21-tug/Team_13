@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:layout_margin="10dp">
 
     <EditText
         android:id="@+id/form_edit"
@@ -46,7 +47,8 @@
         android:layout_height="match_parent"
         android:text="Add Entry..."
         tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="10dp" />
+        tools:layout_editor_absoluteY="10dp"
+        android:textSize="40dp"/>
 
     <CheckBox
         android:id="@+id/check_meat"
