@@ -15,6 +15,6 @@ Dev 8: Martina Pranjic <br/>
 | Dev 3       | HH:MM       | 03:15       | X           | HH:MM       | HH:MM       | HH:MM       | HH:MM       | HH:MM       |
 | Dev 4       | 04:00       | HH:MM       | HH:MM       | X           | HH:MM       | HH:MM       | HH:MM       | HH:MM       |
 | Dev 5       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | X           | HH:MM       | 04:00       | HH:MM       |
-| Dev 6       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | X           | HH:MM       | 04:00       |
+| Dev 6       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | X           | HH:MM       | 10:00       |
 | Dev 7       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | 04:00       | HH:MM       | X           | HH:MM       |
-| Dev 8       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | 04:00       | HH:MM       | X           |
+| Dev 8       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | HH:MM       | 10:00       | HH:MM       | X           |
