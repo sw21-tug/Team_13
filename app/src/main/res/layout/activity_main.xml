@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Enter menu"
-        app:layout_constraintBottom_toTopOf="@+id/form_ratingBar"
+
+        app:layout_constraintBottom_toTopOf="@+id/check_veggie"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -37,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="4"
-        app:layout_constraintBottom_toBottomOf="@+id/form_showEntry"
+        app:layout_constraintBottom_toTopOf="@+id/form_cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -55,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Meat"
-        app:layout_constraintBottom_toTopOf="@+id/form_edit"
+        app:layout_constraintBottom_toTopOf="@+id/form_ratingBar"
         app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
@@ -64,18 +65,16 @@
         android:layout_height="wrap_content"
         android:text="Vegetarian"
 
-        app:layout_constraintBottom_toTopOf="@+id/form_edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/form_showEntry"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toTopOf="@+id/form_ratingBar"
+        app:layout_constraintEnd_toStartOf="@+id/check_special"
+        app:layout_constraintStart_toEndOf="@+id/check_meat" />
 
     <CheckBox
         android:id="@+id/check_special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Special"
-        app:layout_constraintBottom_toTopOf="@+id/form_edit"
-        app:layout_constraintEnd_toStartOf="@+id/check_veggie"
-        app:layout_constraintStart_toEndOf="@+id/check_meat" />
+        app:layout_constraintBottom_toTopOf="@+id/form_ratingBar"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
