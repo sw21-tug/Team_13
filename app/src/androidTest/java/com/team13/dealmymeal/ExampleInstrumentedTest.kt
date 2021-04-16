@@ -12,6 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.FixMethodOrder
 
 
@@ -120,6 +121,7 @@ class ExampleInstrumentedTest {
         }
     }
 
+    //Unselects items by clicking into empty space
     @Test
     fun test_meal_overview_list_item_unselect_multiple_all() {
         // start selection
@@ -146,13 +148,79 @@ class ExampleInstrumentedTest {
         }
     }
 
+    //Unselects items by clicking every item that is selected
+    @Test
+    fun test_meal_overview_list_item_unselect_multiple_all_manual() {
+        // start selection
+        onView(withText("3 Item")).perform(longClick())
+
+        // check if selection has started
+        onView(withText("3 Item")).check(matches(hasTextColor(R.color.teal_700)))
+        onView(withText("3 Item")).check(matches(isSelected()))
+
+        // select multiple items
+        for (i in 4..10) {
+            onView(withText("%d Item".format(i))).perform(click())
+            Thread.sleep(500)
+            onView(withText("%d Item".format(i))).check(matches(isSelected()))
+            onView(withText("%d Item".format(i))).check(matches(hasTextColor(R.color.teal_700)))
+        }
+
+        // check if all target items have been unselected
+        for (i in 4..10) {
+            onView(withText("%d Item".format(i))).perform(click())
+            Thread.sleep(500)
+            onView(withText("%d Item".format(i))).check(matches(hasTextColor(R.color.black)))
+        }
+    }
+
+    //Unselects items by clicking X
+    @Test
+    fun test_meal_overview_list_item_close_selection() {
+        // start selection
+        onView(withText("3 Item")).perform(longClick())
+
+        // check if selection has started
+        onView(withText("3 Item")).check(matches(hasTextColor(R.color.teal_700)))
+        onView(withText("3 Item")).check(matches(isSelected()))
+
+        // select multiple items
+        for (i in 4..10) {
+            onView(withText("%d Item".format(i))).perform(click())
+            Thread.sleep(500)
+            onView(withText("%d Item".format(i))).check(matches(isSelected()))
+            onView(withText("%d Item".format(i))).check(matches(hasTextColor(R.color.teal_700)))
+        }
+
+        pressImeActionButton()
+        // check if all target items have been unselected
+        for (i in 3..10) {
+            onView(withText("%d Item".format(i))).check(matches(hasTextColor(R.color.black)))
+        }
+    }
+
+
     @Test
     fun delete_clicked() {
-        onView(withId(R.id.delete)).perform(click())
+        //onView(withId(R.id.delete)).perform(click())
     }
 
     @Test
+    fun delete_visible() {
+
+        onView(withText("3 Item")).perform(longClick())
+
+        // check if selection has started
+        onView(withText("3 Item")).check(matches(hasTextColor(R.color.teal_700)))
+        onView(withText("3 Item")).check(matches(isSelected()))
+
+        onView(withId(R.id.action_view_delete)).check(matches(isDisplayed()))
+    }
+
+    @Before
+    @Test
     fun overview_clicked() {
-        onView(withId(R.id.overview)).perform(click())
+       onView(withId(R.id.navigation_overview)).perform(click())
+       onView(withId(R.id.list)).check(matches(isDisplayed()))
     }
 }

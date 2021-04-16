@@ -1,4 +1,4 @@
-package com.team13.dealmymeal
+package com.team13.dealmymeal.ui.overview
 
 import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
+import com.team13.dealmymeal.R
 
 import com.team13.dealmymeal.dummy.DummyContent.DummyItem
 
@@ -87,7 +88,7 @@ class MealOverviewAdapter(
         override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
-                return (recyclerView.getChildViewHolder(view) as MealOverviewAdapter.ViewHolder)
+                return (recyclerView.getChildViewHolder(view) as ViewHolder)
                     .getItemDetails()
             }
             return null
