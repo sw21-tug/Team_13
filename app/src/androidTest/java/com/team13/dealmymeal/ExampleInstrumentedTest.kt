@@ -3,8 +3,7 @@ package com.team13.dealmymeal
 import android.graphics.Color
 import android.service.autofill.Validators.not
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -47,7 +46,7 @@ class ExampleInstrumentedTest {
     @Test
     fun test_meal_overview_list_item_edit_long_clicked() {
         onView(withText("2")).check(matches(isDisplayed()))
-        onView(withText("2")).perform(click())
+        onView(withText("2")).perform(longClick())
         //TODO activate selection for delete
         onView(withText("2")).check(matches(hasTextColor(R.color.teal_700)))
     }

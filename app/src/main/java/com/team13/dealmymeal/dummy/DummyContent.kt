@@ -14,7 +14,7 @@ object DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    val ITEMS: MutableList<DummyItem> = ArrayList()
+    val ITEMS: MutableList<String> = ArrayList()
 
     /**
      * A map of sample (dummy) items, by ID.
@@ -30,13 +30,12 @@ object DummyContent {
         }
     }
 
-    private fun addItem(item: DummyItem) {
+    private fun addItem(item: String) {
         ITEMS.add(item)
-        ITEM_MAP.put(item.id, item)
     }
 
-    private fun createDummyItem(position: Int): DummyItem {
-        return DummyItem(position.toString(), "Item " + position, makeDetails(position))
+    private fun createDummyItem(position: Int): String {
+        return position.toString() + " Item"
     }
 
     private fun makeDetails(position: Int): String {

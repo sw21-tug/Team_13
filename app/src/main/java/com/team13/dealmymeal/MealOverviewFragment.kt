@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import com.team13.dealmymeal.dummy.DummyContent
 
 /**
@@ -16,6 +19,8 @@ import com.team13.dealmymeal.dummy.DummyContent
 class MealOverviewFragment : Fragment() {
 
     private var columnCount = 1
+
+    private var tracker: SelectionTracker<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +44,19 @@ class MealOverviewFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
                 // TODO hier items von db
-                adapter = MyItemRecyclerViewAdapter(DummyContent.ITEMS)
+                adapter = MealOverviewAdapter(DummyContent.ITEMS)
+
+                tracker = SelectionTracker.Builder<String>(
+                    "mySelection",
+                    view,
+                    MealOverviewAdapter.MyItemKeyProvider(adapter as MealOverviewAdapter),
+                    MealOverviewAdapter.MyItemDetailsLookup(view),
+                    StorageStrategy.createStringStorage()
+                ).withSelectionPredicate(
+                    SelectionPredicates.createSelectAnything()
+                ).build()
+
+                (adapter as MealOverviewAdapter).tracker = tracker
             }
         }
         return view
