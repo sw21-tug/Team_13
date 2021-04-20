@@ -1,6 +1,7 @@
 package com.team13.dealmymeal
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -36,5 +37,12 @@ class MainActivityTest{
     {
         onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
+    }
+
+    @Test
+    fun openViewBar()
+    {
+        onView(withId(R.id.btnmenu)).perform(click())
+        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
