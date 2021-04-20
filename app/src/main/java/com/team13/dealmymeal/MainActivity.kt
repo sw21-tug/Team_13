@@ -24,9 +24,18 @@ class MainActivity : AppCompatActivity() {
 
         btn.setOnClickListener()
         {
-            menu.visibility = View.VISIBLE
+            if(menu.visibility == View.VISIBLE)
+            {
+                menu.visibility = View.INVISIBLE
+            }
+            else
+            {
+                menu.visibility = View.VISIBLE
+            }
 
         }
+
+
 
 
 

@@ -53,4 +53,12 @@ class MainActivityTest{
         onView(withId(R.id.btnmenu)).perform(click())
         onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
     }
+
+    @Test
+    fun welcomeText()
+    {
+        onView(withId(R.id.btnmenu)).perform(click())
+        onView(withId(R.id.menu_welcometext)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
 }
