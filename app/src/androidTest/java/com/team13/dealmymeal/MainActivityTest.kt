@@ -43,6 +43,14 @@ class MainActivityTest{
     fun openViewBar()
     {
         onView(withId(R.id.btnmenu)).perform(click())
-        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+    }
+
+    @Test
+    fun closeViewBar()
+    {
+        onView(withId(R.id.btnmenu)).perform(click())
+        onView(withId(R.id.btnmenu)).perform(click())
+        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
     }
 }
