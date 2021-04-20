@@ -33,6 +33,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
+        <TextView
+            android:id="@+id/menu_welcometext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:textSize="25dp"
+            android:text="Menu" />
     </com.google.android.material.navigation.NavigationView>
 
 
