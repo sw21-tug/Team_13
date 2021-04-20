@@ -1,6 +1,7 @@
 package com.team13.dealmymeal
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -13,12 +14,27 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest{
-    @Rule
-    @JvmField
 
-    val rule: ActivityScenarioRule<MainActivity> = ActivityScenarioRule(MainActivity::class.java)
+    @get:Rule
+    val rule = ActivityScenarioRule(MainActivity::class.java)
+
     @Test
-    fun buttonExists(){
-        onView(withId(R.id.btnmenu)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    fun buttonExists()
+    {
+      onView(withId(R.id.btnmenu)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+
+    @Test
+    fun buttonClickable()
+    {
+        onView(withId(R.id.btnmenu)).perform(click())
+    }
+
+    @Test
+    fun menuOpen()
+    {
+        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
     }
 }
