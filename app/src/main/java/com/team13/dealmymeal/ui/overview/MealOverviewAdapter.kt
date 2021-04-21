@@ -20,7 +20,7 @@ import com.team13.dealmymeal.dummy.DummyContent.DummyItem
  * 
  */
 class MealOverviewAdapter(
-    private val values: List<String>
+    private var values: List<String>
 ) : RecyclerView.Adapter<MealOverviewAdapter.ViewHolder>() {
 
     var tracker: SelectionTracker<String>? = null
@@ -51,6 +51,10 @@ class MealOverviewAdapter(
     }
 
     override fun getItemCount(): Int = values.size
+
+    fun addItems(items: List<String>) {
+        values += items
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val idView: TextView = view.findViewById(R.id.item_name)

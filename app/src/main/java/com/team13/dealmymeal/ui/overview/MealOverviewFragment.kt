@@ -51,7 +51,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
 
                 adapter =
                     MealOverviewAdapter(
-                        DummyContent.ITEMS
+                        ArrayList()
                     )
 
                 tracker = SelectionTracker.Builder<String>(
@@ -71,7 +71,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                 (adapter as MealOverviewAdapter).tracker = tracker
 
                 tracker?.addObserver(
-                    object : SelectionTracker.SelectionObserver<Long>() {
+                    object : SelectionTracker.SelectionObserver<String>() {
                         override fun onSelectionChanged() {
                             super.onSelectionChanged()
                             tracker?.let {
