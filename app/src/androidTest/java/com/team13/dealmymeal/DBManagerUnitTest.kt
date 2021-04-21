@@ -27,7 +27,7 @@ class DBManagerUnitTest {
 
     @Test
     fun saveStoreDBManagerTest() {
-        val meal = Meal(1, "Spaghetti")
+        val meal = Meal("Spaghetti")
         mealDao.insertAll(meal)
 
         val meal_db = mealDao.getAll()

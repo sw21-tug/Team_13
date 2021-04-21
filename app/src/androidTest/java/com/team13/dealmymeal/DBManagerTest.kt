@@ -15,26 +15,25 @@ class DBManagerTest: TestCase() {
     private lateinit var db: DBManager
     private lateinit var mealDao: MealDao
 
-    // Override function setUp() and annotate it with @Before
-    // this function will be called at first when this test class is called
+    // the setUp function is called before the first test is run, it builds the database,
+    // @Before
     @Before
     public override fun setUp() {
-        // get context -- since this is an instrumental test it requires
+        // get context -- this is an instrumental test
         // context from the running application
         val context = ApplicationProvider.getApplicationContext<Context>()
-        // initialize the db and dao variable
+        // init the db and dao variable
         db = Room.inMemoryDatabaseBuilder(context, DBManager::class.java).build()
         mealDao = db.mealDao()
     }
 
-    // Override function closeDb() and annotate it with @After
-    // this function will be called at last when this test class is called
+    // The function closeDb is called after the last test, annotated with @After
     @After
     fun closeDb() {
         db.close()
     }
 
-    // create a test function and annotate it with @Test
+    // this is a test function annotated with @Test
     // here we are first adding an item to the db and then checking if that item
     // is present in the db -- if the item is present then our test cases pass
     @Test
