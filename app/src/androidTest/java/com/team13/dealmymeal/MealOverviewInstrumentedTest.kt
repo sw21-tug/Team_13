@@ -29,7 +29,7 @@ import kotlin.random.Random
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class MealOverviewInstrumentedTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
@@ -205,6 +205,8 @@ class ExampleInstrumentedTest {
         //onView(withId(R.id.delete)).perform(click())
     }
 
+    // later when delete will be implemented
+    /*
     @Test
     fun delete_visible() {
 
@@ -215,7 +217,7 @@ class ExampleInstrumentedTest {
         onView(withText("3 Item")).check(matches(isSelected()))
 
         onView(withId(R.id.action_view_delete)).check(matches(isDisplayed()))
-    }
+    }*/
 
     @Before
     @Test

@@ -24,7 +24,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
 
     private var selectedPostItems: MutableList<String> = mutableListOf()
     private var actionMode: ActionMode? = null
-    private var overview_adapter: MealOverviewAdapter? = null
+    private var overviewAdapter: MealOverviewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,19 +77,21 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                             tracker?.let {
                                 selectedPostItems = it.selection.toMutableList()
 
+                                // TODO enable this when implementing delete
+                                /*
                                 if (selectedPostItems.isEmpty()) {
                                     actionMode?.finish()
                                 } else {
                                     if (actionMode == null) actionMode = parent.startActionModeForChild(view, this@MealOverviewFragment)
                                     actionMode?.title =
                                         "${selectedPostItems.size}"
-                                }
+                                }*/
 
                                 // TODO delete
                             }
                         }
                     })
-                overview_adapter = adapter as MealOverviewAdapter;
+                overviewAdapter = adapter as MealOverviewAdapter;
             }
         }
         return view
@@ -122,8 +124,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
-        overview_adapter?.tracker?.clearSelection()
-        overview_adapter?.notifyDataSetChanged()
+        overviewAdapter?.tracker?.clearSelection()
+        overviewAdapter?.notifyDataSetChanged()
         actionMode = null
     }
 
