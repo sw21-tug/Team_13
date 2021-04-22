@@ -14,4 +14,11 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="burgerbuttonmenu">BurgerButtonMenu</string>
+    <string name="title_activity_test">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_overview">Overview</string>
+    <string name="title_activity_navigation_bar">MainActivity</string>
+    <string name="delete">Delete</string>
+    <string name="MenuButtonHomeFragment">MenuButtonHomeFragment</string>
 </resources>
