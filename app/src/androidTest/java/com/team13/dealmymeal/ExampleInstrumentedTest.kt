@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 
 /**
@@ -27,12 +28,22 @@ class ExampleInstrumentedTest {
     val activityRule: ActivityScenarioRule<MainActivity>
             = ActivityScenarioRule(MainActivity::class.java)
 
+    @Before
     @Test
-    fun form_buttonTest() {
+    fun overview_clicked() {
+        Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.fragment1)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun form_buttonSaveTest() {
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+
+    }
+
+    @Test
+    fun form_buttonCancelTest() {
         Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
-
-
     }
 
     @Test
@@ -71,6 +82,13 @@ class ExampleInstrumentedTest {
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.form_showEntry)).check(ViewAssertions.matches(ViewMatchers.withText("test")))
+
+    }
+
+    @Test
+    fun form_backToMenu() {
+        Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.main)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
     }
 }
