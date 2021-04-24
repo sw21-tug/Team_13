@@ -13,41 +13,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
 
         val form_button: Button = findViewById(R.id.form_goAdd)
-        //val cancel_button: Button = findViewById(R.id.form_cancel)
 
 
+
+        supportFragmentManager.setFragmentResultListener("requestKey", this) { requestKey, bundle ->
+            val result = bundle.getString("bundleKey")
+            form_button.visibility = View.VISIBLE
+        }
 
         form_button.setOnClickListener() { v ->
-            var a = supportFragmentManager.beginTransaction()
-            var b = AddEntry()
+            val a = supportFragmentManager.beginTransaction()
+            val b = AddEntry()
             a.replace(R.id.main, b)
             a.addToBackStack(null)
-            form_button.setVisibility(View.GONE)
+            form_button.visibility = View.GONE
             a.commit()
-
-
-
-
-        }
-/*
-        cancel_button.setOnClickListener() { v ->
-            var a = supportFragmentManager.beginTransaction()
-            var b = AddEntry()
-            a.replace(R.id.main, b)
-            form_button.setVisibility(View.GONE)
-            a.commit()
-
-
 
 
         }
 
-*/
 
-
-    }
-
+        if (supportFragmentManager.findFragmentById(R.id.fragment1)?.childFragmentManager?.isDestroyed == true) {
+            form_button.visibility = View.VISIBLE
+        }
 
 }
+}
+
+
+
 
 

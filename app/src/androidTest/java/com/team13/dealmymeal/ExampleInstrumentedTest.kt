@@ -29,7 +29,6 @@ class ExampleInstrumentedTest {
             = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
-    @Test
     fun overview_clicked() {
         Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.fragment1)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -88,7 +87,9 @@ class ExampleInstrumentedTest {
     @Test
     fun form_backToMenu() {
         Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.main)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
 
     }
 }
