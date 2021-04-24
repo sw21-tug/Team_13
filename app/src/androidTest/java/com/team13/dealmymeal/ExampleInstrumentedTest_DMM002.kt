@@ -22,7 +22,7 @@ import org.junit.Rule
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class ExampleInstrumentedTest_DMM002 {
 
     @get:Rule
     val activityRule: ActivityScenarioRule<MainActivity>
