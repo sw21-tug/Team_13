@@ -1,52 +1,37 @@
 package com.team13.dealmymeal
 
-
-import android.widget.CheckBox
-import android.widget.EditText
+import android.service.autofill.Validators.not
+import androidx.core.os.bundleOf
 import org.junit.Test
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.matcher.ViewMatchers.*
-
-import org.hamcrest.Matchers.not
-
-
 
 import org.junit.Assert.*
-import org.junit.Rule
-import org.junit.runner.RunWith
+import java.util.regex.Pattern.matches
+import androidx.test.espresso.*
+import androidx.test.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-
 class ExampleUnitTest {
-
-
     @Test
-    fun form_buttonTest() {
-        onView(withId(R.id.form_save)).perform(click())
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
 
+    /*
+     the "Meal Overview" button is pressed
+     a complete list of all existing meals will be shown
+     */
+    @Test
+    fun test_meal_overview_pressed() {
+        fail()
     }
 
     @Test
-    fun form_checkBoxes() {
-        onView(withId(R.id.check_meat)).perform(click())
-        onView(withId(R.id.check_veggie)).perform(click())
-        onView(withId(R.id.check_special)).perform(click())
-
-
+    fun test_meal_overview_shown() {
+        fail()
     }
 
-    @Test
-    fun form_TextInput() {
-        onView(withId(R.id.form_edit)).perform(typeText("test"))
-        onView(withId(R.id.form_edit)).check(matches(withText("test")))
-
-    }
 }
