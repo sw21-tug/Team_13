@@ -22,7 +22,7 @@ import org.junit.Rule
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest_DMM002 {
+class ExampleInstrumentedTestDMM002 {
 
     @get:Rule
     val activityRule: ActivityScenarioRule<MainActivity>
@@ -30,20 +30,19 @@ class ExampleInstrumentedTest_DMM002 {
 
     @Before
     fun overview_clicked() {
-        Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.fragment1)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.fragment_addMeal)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Thread.sleep(500)
     }
 
     @Test
     fun form_buttonSaveTest() {
+        Thread.sleep(500)
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
 
     }
 
-    @Test
-    fun form_buttonCancelTest() {
-        Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
-    }
 
     @Test
     fun form_checkBoxes() {
@@ -84,12 +83,5 @@ class ExampleInstrumentedTest_DMM002 {
 
     }
 
-    @Test
-    fun form_backToMenu() {
-        Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_cancel)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_goAdd)).perform(ViewActions.click())
 
-    }
 }
