@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.runBlocking
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,9 +28,22 @@ import org.junit.Rule
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTestDMM002 {
 
+    private lateinit var db: DBManager
+    private lateinit var mealDao: MealDao
+
     @get:Rule
     val activityRule: ActivityScenarioRule<MainActivity>
             = ActivityScenarioRule(MainActivity::class.java)
+
+    @Before
+    fun setUp() {
+        // get context -- this is an instrumental test
+        // context from the running application
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        // init the db and dao variable
+        db = Room.inMemoryDatabaseBuilder(context, DBManager::class.java).build()
+        mealDao = db.mealDao()
+    }
 
     @Before
     fun overview_clicked() {
@@ -47,34 +61,28 @@ class ExampleInstrumentedTestDMM002 {
     }
 
     @Test
-    fun saveEntryToDatabase()
-    {
-        //Tests checks if schnitzel can be entered and load to DB
-        lateinit var db: DBManager
-        lateinit var mealDao: MealDao
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(context, DBManager::class.java).build()
-        mealDao = db.mealDao()
-
+    fun saveEntryToDatabase() = runBlocking {
         Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.form_edit)).perform(ViewActions.typeText("Schnitzel"))
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
 
-        val meal = Meal("Schnitzel")
+        Thread.sleep(500)
+
+        //val meal = Meal("Schnitzel")
         var flag = 0
 
-        val all_items = mealDao.getAll()
+        //This does not work, maybe wrong context
+        val allItems = mealDao.getAll()
 
-        for (i in all_items.indices)
+        for (i in allItems.indices)
         {
-            if (all_items[i].title == "Schnitzel")
+            if (allItems[i].title == "Schnitzel")
             {
-              flag = 1
+                flag = 1
             }
         }
 
         assertEquals(1,flag)
-
     }
 
     @Test

@@ -8,11 +8,11 @@ import androidx.room.Query
 @Dao
 interface MealDao {
     @Query("SELECT * from meal")
-    fun getAll(): List<Meal>
+    suspend fun getAll(): List<Meal>
 
     @Insert
-    fun insertAll(vararg meals: Meal)
+    suspend fun insertAll(vararg meals: Meal)
 
     @Delete
-    fun delete(meal: Meal)
+    suspend fun delete(meal: Meal)
 }
