@@ -1,5 +1,8 @@
 package com.team13.dealmymeal
 
+import android.content.Context
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
@@ -43,6 +46,36 @@ class ExampleInstrumentedTestDMM002 {
 
     }
 
+    @Test
+    fun saveEntryToDatabase()
+    {
+        //Tests checks if schnitzel can be entered and load to DB
+        lateinit var db: DBManager
+        lateinit var mealDao: MealDao
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        db = Room.inMemoryDatabaseBuilder(context, DBManager::class.java).build()
+        mealDao = db.mealDao()
+
+        Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.form_edit)).perform(ViewActions.typeText("Schnitzel"))
+        Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+
+        val meal = Meal("Schnitzel")
+        var flag = 0
+
+        val all_items = mealDao.getAll()
+
+        for (i in all_items.indices)
+        {
+            if (all_items[i].title == "Schnitzel")
+            {
+              flag = 1
+            }
+        }
+
+        assertEquals(1,flag)
+
+    }
 
     @Test
     fun form_checkBoxes() {
