@@ -36,6 +36,6 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Menu Items | DMM-005 | |done|
 | --- | --- | --- | --- |
 | Menu Item - Add entry | DMM-013 | |in progress |
-| Modify existing meal entries| DMM-003 | |in progress |
+| Add new meal to Database | DMM-017 | |in progress |
 | Meal Overview filtering| DMM-007 | |in progress |
 
