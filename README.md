@@ -30,11 +30,11 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Name | Associated User Story | Additional Information |current status|
 | --- | --- | --- | --- |
 | Start the App | DMM-012 | Set Up Environment | done |
-|Add to database (create the basic DB stuff)| DMM-001 | Set up Database | done |
+| Add to database (create the basic DB stuff)| DMM-001 | Set up Database | done |
+| Create a new meal entry form| DMM-002 | | done |
 | Meal Overview| DMM-006 | |done|
 | Menu Items | DMM-005 | |done|
 | --- | --- | --- | --- |
-| Create a new meal entry form| DMM-002 | |in progress |
 | Menu Item - Add entry | DMM-013 | |in progress |
 | Modify existing meal entries| DMM-003 | |in progress |
 | Meal Overview filtering| DMM-007 | |in progress |
