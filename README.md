@@ -25,6 +25,7 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | **Developer** | Marcus Oliver Pilgram |
 | **Developer** | Martina Pranjic |
 
+## Mockups DealMyMeal App
 
 ## Implemented Feature List
 | Name | Associated User Story | Additional Information |current status|
