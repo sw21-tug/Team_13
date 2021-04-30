@@ -1,7 +1,7 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.graphics.Color
-import androidx.recyclerview.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -11,19 +11,21 @@ import android.widget.Toast
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.team13.dealmymeal.Meal
 import com.team13.dealmymeal.R
-
-import com.team13.dealmymeal.dummy.DummyContent.DummyItem
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem].
- * 
+ *
  */
 class MealOverviewAdapter(
-    private var values: List<String>
-) : RecyclerView.Adapter<MealOverviewAdapter.ViewHolder>() {
+    private var valuesOriginal: MutableList<Meal>,
+) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR) {
 
-    var tracker: SelectionTracker<String>? = null
+    var tracker: SelectionTracker<Meal>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -42,18 +44,17 @@ class MealOverviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item
+        //val item = values[position]
+        //holder.idView.text = item.name
+
 
         tracker?.let {
-            holder.setItemSelected(values[position], it.isSelected(values[position]))
+            holder.setItemSelected(getItem(position), it.isSelected(getItem(position)))
         }
-    }
 
-    override fun getItemCount(): Int = values.size
-
-    fun addItems(items: List<String>) {
-        values += items
+        val current = getItem(position)
+        holder.bind(current.title)
+        Log.d("Adapter", current.title)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -63,39 +64,58 @@ class MealOverviewAdapter(
             return super.toString()
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
-            object : ItemDetailsLookup.ItemDetails<String>() {
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Meal> =
+            object : ItemDetailsLookup.ItemDetails<Meal>() {
                 override fun getPosition(): Int = bindingAdapterPosition
-                override fun getSelectionKey(): String? = values[bindingAdapterPosition]
+                override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
             }
 
-        fun setItemSelected(postItem: String, isSelected: Boolean = false) {
+        fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
             itemView.isSelected = isSelected
+        }
+
+        fun bind(text: String?) {
+            idView.text = text
         }
     }
 
     class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
-        ItemKeyProvider<String>(SCOPE_CACHED) {
-        override fun getKey(position: Int): String? {
-            return adapter.values[position]
+        ItemKeyProvider<Meal>(SCOPE_CACHED) {
+        override fun getKey(position: Int): Meal? {
+            return adapter.getItem(position)
         }
 
-        override fun getPosition(key: String): Int {
-            return adapter.values.indexOfFirst { it == key }
+        override fun getPosition(key: Meal): Int {
+            for (i in 0..adapter.itemCount)
+                if (adapter.getItem(i).title == key.title)
+                    return i
+            return -1//adapter.getI.indexOfFirst { it.name == key.title }
         }
     }
 
 
     //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<String>() {
-        override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
+        ItemDetailsLookup<Meal>() {
+        override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return (recyclerView.getChildViewHolder(view) as ViewHolder)
                     .getItemDetails()
             }
             return null
+        }
+    }
+
+    companion object {
+        private val MEAL_COMPARATOR = object : DiffUtil.ItemCallback<Meal>() {
+            override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
+                return oldItem === newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
+                return oldItem.title == newItem.title
+            }
         }
     }
 }

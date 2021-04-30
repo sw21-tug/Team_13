@@ -36,7 +36,7 @@ class RecyclerViewMatcher {
                 val recyclerViewAdapter = recyclerView.adapter as MealOverviewAdapter
                 if(recyclerViewAdapter == null)
                     throw Exception("lol2")
-                recyclerViewAdapter.addItems(DummyContent.ITEMS)
+                //recyclerViewAdapter.addItems(DummyContent.ITEMS)
             }
         }
     }

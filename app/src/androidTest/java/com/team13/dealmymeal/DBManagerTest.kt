@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import junit.framework.TestCase
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import org.junit.runner.RunWith
@@ -40,7 +41,7 @@ class DBManagerTest: TestCase() {
     fun writeAndReadLanguage() = runBlocking {
         val meal = Meal("Spaghetti")
         mealDao.insertAll(meal)
-        val languages = mealDao.getAll()
+        val languages = mealDao.getAll().toList()
         assertThat(languages.contains(meal)).isTrue()
     }
 }
