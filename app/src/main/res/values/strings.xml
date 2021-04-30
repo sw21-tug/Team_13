@@ -30,4 +30,6 @@
     <string name="vegetarian">Vegetarian</string>
     <string name="special">Special</string>
     <string name="add">Add</string>
+    <string name="changeLanguage">Language</string>
+    <string name="chooseLanguage">Choose Language:</string>
 </resources>
