@@ -15,14 +15,14 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="burgerbuttonmenu">BurgerButtonMenu</string>
     <string name="title_activity_test">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_addmeal">Add Meal</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_overview">Overview</string>
     <string name="title_activity_navigation_bar">MainActivity</string>
     <string name="delete">Delete</string>
     <string name="MenuButtonHomeFragment">MenuButtonHomeFragment</string>
     <string name="add_meal">Add Meal</string>
-    <string name="enter_menu">Enter menu..</string>
+    <string name="enter_menu">Enter the Name of your meal!</string>
     <string name="save">save</string>
     <string name="cancel">cancel</string>
     <string name="add_entry">Add Entry...</string>

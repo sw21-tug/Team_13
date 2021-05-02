@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_addMeal"
         android:name="com.team13.dealmymeal.ui.home.AddMealFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_addmeal"
         tools:layout="@layout/fragment_addmeal" />
 
     <fragment

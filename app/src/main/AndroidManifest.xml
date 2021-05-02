@@ -9,11 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DealMyMeal">
-
-        <activity
-            android:name=".BurgerMenu"
-            android:label="@string/title_activity_burger_menu"
-            android:theme="@style/Theme.DealMyMeal.NoActionBar"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

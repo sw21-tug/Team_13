@@ -31,41 +31,4 @@ class MainActivityTest{
         Thread.sleep(500)
     }
 
-    @Test
-    fun buttonExists()
-    {
-      onView(withId(R.id.btnmenu)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }
-
-
-    @Test
-    fun buttonClickable()
-    {
-        onView(withId(R.id.btnmenu)).perform(click())
-    }
-
-    @Test
-    fun menuOpen()
-    {
-        onView(withId(R.id.btnmenu)).perform(click())
-        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-    }
-
-    @Test
-    fun openViewBar()
-    {
-        onView(withId(R.id.btnmenu)).perform(click())
-        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-    }
-
-    @Test
-    fun closeViewBar()
-    {
-        onView(withId(R.id.btnmenu)).perform(click())
-        onView(withId(R.id.btnmenu)).perform(click())
-        onView(withId(R.id.nav_bar_id)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
-    }
-
-
 }
