@@ -109,9 +109,10 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                 //main(context, overviewAdapter!!).invoke()
             }
         }
-        mealViewModel.deleteAll()
-        mealViewModel.insert(Meal("Test1"))
-        mealViewModel.insert(Meal("Test2"))
+        /*mealViewModel.deleteAll()
+        mealViewModel.insert(Meal("Test1", listOf("Vegan"), 3.2f))
+        mealViewModel.insert(Meal("Test2", listOf("Meat", "Vegan"), 4.0f))
+        mealViewModel.insert(Meal("Test3", listOf("Vegetarian", "Special"), 1f))*/
         return view
     }
 

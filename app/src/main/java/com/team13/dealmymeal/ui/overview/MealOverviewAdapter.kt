@@ -1,21 +1,27 @@
 package com.team13.dealmymeal.ui.overview
 
+import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.team13.dealmymeal.Meal
 import com.team13.dealmymeal.R
+
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem].
@@ -53,12 +59,18 @@ class MealOverviewAdapter(
         }
 
         val current = getItem(position)
-        holder.bind(current.title)
+        holder.bind(current.title, position, current.categories , current.rating)
         Log.d("Adapter", current.title)
+
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_name)
+        val itemName: TextView = view.findViewById(R.id.item_name)
+
+        val background: ConstraintLayout = view.findViewById(R.id.item_frame)
+        val chips: ChipGroup = view.findViewById(R.id.chip_group)
+        val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
+        val context: Context = view.context
 
         override fun toString(): String {
             return super.toString()
@@ -74,8 +86,25 @@ class MealOverviewAdapter(
             itemView.isSelected = isSelected
         }
 
-        fun bind(text: String?) {
-            idView.text = text
+        fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
+            itemName.text = text
+            when (position % 2) {
+                0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
+                1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
+            }
+            if (categories != null) {
+                for (category in categories){
+                    val chip = Chip(context)
+                    chip.text = category
+                    chip.setChipBackgroundColorResource(R.color.green)
+                    chips.addView(chip)
+                }
+            }
+
+            if (rating != null) {
+                ratingBar.rating = rating
+            }
+
         }
     }
 
