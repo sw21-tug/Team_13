@@ -13,6 +13,9 @@ interface MealDao {
     @Insert
     suspend fun insertAll(vararg meals: Meal)
 
+    @Query("DELETE from meal WHERE title='asdfqwer1234'")
+    suspend fun deleteTestItems()
+
     @Delete
     suspend fun delete(meal: Meal)
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -11,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 
 import org.junit.Test
@@ -26,7 +28,7 @@ import org.junit.Rule
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTestDMM002 {
+class ExampleInstrumentedTestDMM002: TestCase() {
 
     private lateinit var db: DBManager
     private lateinit var mealDao: MealDao
@@ -36,12 +38,12 @@ class ExampleInstrumentedTestDMM002 {
             = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
-    fun setUp() {
+    public override fun setUp() {
         // get context -- this is an instrumental test
         // context from the running application
         val context = ApplicationProvider.getApplicationContext<Context>()
         // init the db and dao variable
-        db = Room.inMemoryDatabaseBuilder(context, DBManager::class.java).build()
+        db = Room.databaseBuilder(context, DBManager::class.java, "dmmdb").build()
         mealDao = db.mealDao()
     }
 
@@ -62,11 +64,13 @@ class ExampleInstrumentedTestDMM002 {
 
     @Test
     fun saveEntryToDatabase() = runBlocking {
+        var meal = Meal("asdfqwer1234", 0 ,0)
         Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_edit)).perform(ViewActions.typeText("Schnitzel"))
+        Espresso.onView(ViewMatchers.withId(R.id.form_edit))
+                .perform(ViewActions.typeText(meal.title))
+                .perform(ViewActions.closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
 
-        Thread.sleep(500)
 
         //val meal = Meal("Schnitzel")
         var flag = 0
@@ -74,15 +78,11 @@ class ExampleInstrumentedTestDMM002 {
         //This does not work, maybe wrong context
         val allItems = mealDao.getAll()
 
-        for (i in allItems.indices)
-        {
-            if (allItems[i].title == "Schnitzel")
-            {
-                flag = 1
-            }
-        }
+        allItems.contains(meal)
+        assertTrue(allItems.contains(meal))
 
-        assertEquals(1,flag)
+        //TODO solve with delete button later
+        mealDao.deleteTestItems()
     }
 
     @Test

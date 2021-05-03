@@ -72,6 +72,7 @@ class AddMealFragment : Fragment() {
             if (mealDao == null) {
                 Log.v(fragmentTag, "Meal could not be added")
             } else {
+                //TODO probably better not to use GlobalScope??
                 GlobalScope.async {
                     mealDao.insertAll(meal)
                 }
