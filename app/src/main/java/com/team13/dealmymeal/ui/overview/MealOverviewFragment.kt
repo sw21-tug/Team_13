@@ -3,6 +3,7 @@ package com.team13.dealmymeal.ui.overview
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Filterable
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,7 +23,7 @@ import com.team13.dealmymeal.MealApplication
 /**
  * A fragment representing a list of Items.
  */
-class MealOverviewFragment : Fragment(), ActionMode.Callback {
+class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQueryTextListener {
     private val mealViewModel: MealViewModel by viewModels {
         MealViewModelFactory((activity?.application as MealApplication).repository)
     }

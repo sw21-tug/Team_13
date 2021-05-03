@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Meal::class], version = 2)
+@Database(entities = [Meal::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun mealDao(): MealDao

@@ -1,6 +1,7 @@
 package com.team13.dealmymeal
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -39,9 +40,11 @@ class DBManagerTest: TestCase() {
     // is present in the db -- if the item is present then our test cases pass
     @Test
     fun writeAndReadLanguage() = runBlocking {
-        val meal = Meal("Spaghetti", 0, 0)
-        mealDao.insertAll(meal)
-        val allMeals = mealDao.getAll().toList()
+        val meal = Meal("Spaghetti", listOf("Special"), 0f)
+        mealDao.insert(meal)
+        //val allMeals = mealDao.getAll().toList()
+        val allMeals = mealDao.getAllTest()
         assertThat(allMeals.contains(meal)).isTrue()
+        mealDao.deleteAll()
     }
 }

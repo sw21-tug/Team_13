@@ -31,7 +31,7 @@ import com.team13.dealmymeal.R
  */
 class MealOverviewAdapter(
     private var valuesOriginal: MutableList<Meal>,
-) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR) {
+) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
     var tracker: SelectionTracker<Meal>? = null
 
@@ -117,10 +117,7 @@ class MealOverviewAdapter(
         }
 
         override fun getPosition(key: Meal): Int {
-            for (i in 0..adapter.itemCount)
-                if (adapter.getItem(i).title == key.title)
-                    return i
-            return -1//adapter.getI.indexOfFirst { it.name == key.title }
+            return adapter.currentList.indexOf(key.title)//adapter.getI.indexOfFirst { it.name == key.title }
         }
     }
 
@@ -141,13 +138,13 @@ class MealOverviewAdapter(
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                values = results.values as List<Meal>
-                notifyDataSetChanged()
+                submitList(results.values as List<Meal>)
             }
 
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                var filteredResults: List<Meal?>? = null
-                filteredResults = if (constraint.isEmpty()) {
+                if(currentList.size >= valuesOriginal.size)
+                    valuesOriginal = currentList
+                var filteredResults = if (constraint.isEmpty()) {
                     valuesOriginal
                 } else {
                     getFilteredResults(constraint.toString().toLowerCase())
@@ -159,10 +156,10 @@ class MealOverviewAdapter(
         }
     }
 
-    private fun getFilteredResults(constraint: String?): List<MealItem?> {
+    private fun getFilteredResults(constraint: String?): List<Meal?> {
         val results: MutableList<Meal?> = ArrayList()
         for (item in valuesOriginal) {
-            if (constraint?.let { item.name?.toLowerCase()?.contains(it) } == true) {
+            if (constraint?.let { item.title?.toLowerCase()?.contains(it) } == true) {
                 results.add(item)
             }
         }

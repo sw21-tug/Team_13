@@ -1,28 +1,29 @@
 package com.team13.dealmymeal
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealDao {
     @Query("SELECT * from meal")
-    suspend fun getAll(): Flow<List<Meal>>
+    fun getAll(): Flow<List<Meal>>
 
     @Insert
-    suspend fun insertAll(vararg meals: Meal)
+    fun insertAll(vararg meals: Meal)
 
     @Query("DELETE from meal WHERE title='asdfqwer1234'")
-    suspend fun deleteTestItems()
+    fun deleteTestItems()
 
     @Delete
-    suspend fun delete(meal: Meal)
+    fun delete(meal: Meal)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(meal: Meal)
 
     @Query("DELETE FROM meal")
     suspend fun deleteAll()
+
+    //This is a test function - DO NOT USE (except in tests)
+    @Query("SELECT * from meal")
+    suspend fun getAllTest(): List<Meal>
 }

@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.navigation.NavigationView
-import com.team13.dealmymeal.MainActivity
-import com.team13.dealmymeal.Meal
-import com.team13.dealmymeal.MealDao
-import com.team13.dealmymeal.R
+import com.team13.dealmymeal.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
 
 class AddMealFragment : Fragment() {
-
+    private val mealViewModel: MealViewModel by viewModels {
+        MealViewModelFactory((activity?.application as MealApplication).repository)
+    }
     private lateinit var addMealViewModel: AddMealViewModel
     private val fragmentTag = "AddMealFragment"
 
@@ -59,12 +59,22 @@ class AddMealFragment : Fragment() {
         val form_textview = root.findViewById<TextView>(R.id.form_showEntry)
         val save_button = root.findViewById<Button>(R.id.form_save)
         val form_editText = root.findViewById<EditText>(R.id.form_edit)
+        val form_ratingBar = root.findViewById<RatingBar>(R.id.form_ratingBar)
+        val form_checkMeat = root.findViewById<CheckBox>(R.id.check_meat)
+        val form_checkVeggie = root.findViewById<CheckBox>(R.id.check_veggie)
+        val form_checkSpecial = root.findViewById<CheckBox>(R.id.check_special)
         val text = form_editText.text
         save_button.setOnClickListener() {
 
-            val stars = 0
-            val type = 0
-            var meal = Meal(text.toString(), stars, type)
+            val stars = form_ratingBar.rating
+            val type = ArrayList<String>()
+            if (form_checkMeat.isChecked)
+                type.add("Meat")
+            if (form_checkVeggie.isChecked)
+                type.add("Veggie")
+            if (form_checkSpecial.isChecked)
+                type.add("Special")
+            var meal = Meal(text.toString(), type, stars)
 
             val db = (activity as MainActivity).db
             val mealDao = db?.mealDao()
@@ -73,9 +83,11 @@ class AddMealFragment : Fragment() {
                 Log.v(fragmentTag, "Meal could not be added")
             } else {
                 //TODO probably better not to use GlobalScope??
+                    /*
                 GlobalScope.async {
                     mealDao.insertAll(meal)
-                }
+                }*/
+                mealViewModel.insert(meal)
             }
 
             val toast: Toast =
