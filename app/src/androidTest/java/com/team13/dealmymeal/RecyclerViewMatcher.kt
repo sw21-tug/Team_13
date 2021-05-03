@@ -26,7 +26,7 @@ class RecyclerViewMatcher {
                 override fun perform(uiController: UiController, view: View) {
                     val recyclerView = view as RecyclerView
                     val recyclerViewAdapter = recyclerView.adapter as MealOverviewAdapter
-                    recyclerViewAdapter.addItems(DummyContent.generateDummyList(count))
+                    //recyclerViewAdapter.addItems(DummyContent.generateDummyList(count))
                 }
             }
         }

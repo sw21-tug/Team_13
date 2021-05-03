@@ -3,29 +3,36 @@ package com.team13.dealmymeal.ui.overview
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Filterable
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.team13.dealmymeal.MealItem
 import com.team13.dealmymeal.R
-import com.team13.dealmymeal.dummy.DummyContent
+import com.team13.dealmymeal.Meal
+import com.team13.dealmymeal.MealViewModel
+import com.team13.dealmymeal.MealViewModelFactory
+import com.team13.dealmymeal.MealApplication
 
 /**
  * A fragment representing a list of Items.
  */
-class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionMode.Callback {
+class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQueryTextListener {
+    private val mealViewModel: MealViewModel by viewModels {
+        MealViewModelFactory((activity?.application as MealApplication).repository)
+    }
 
     private var columnCount = 1
 
-    private var tracker: SelectionTracker<MealItem>? = null
+    private var tracker: SelectionTracker<Meal>? = null
 
-    private var selectedPostItems: MutableList<MealItem> = mutableListOf()
+    private var selectedPostItems: MutableList<Meal> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
 
@@ -52,15 +59,13 @@ class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionM
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                // TODO hier items von db
 
                 adapter =
                     MealOverviewAdapter(
                         ArrayList()
-                        //DummyContent.generateDummyList(15)
                     )
 
-                tracker = SelectionTracker.Builder<MealItem>(
+                tracker = SelectionTracker.Builder<Meal>(
                     "mySelection",
                     view,
                     MealOverviewAdapter.MyItemKeyProvider(
@@ -69,7 +74,7 @@ class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionM
                     MealOverviewAdapter.MyItemDetailsLookup(
                         view
                     ),
-                    StorageStrategy.createParcelableStorage(MealItem::class.java)
+                    StorageStrategy.createParcelableStorage(Meal::class.java)
                 ).withSelectionPredicate(
                     SelectionPredicates.createSelectAnything()
                 ).build()
@@ -77,7 +82,7 @@ class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionM
                 (adapter as MealOverviewAdapter).tracker = tracker
 
                 tracker?.addObserver(
-                    object : SelectionTracker.SelectionObserver<MealItem>() {
+                    object : SelectionTracker.SelectionObserver<Meal>() {
                         override fun onSelectionChanged() {
                             super.onSelectionChanged()
                             tracker?.let {
@@ -97,7 +102,17 @@ class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionM
                             }
                         }
                     })
-                overviewAdapter = adapter as MealOverviewAdapter;
+                overviewAdapter = adapter as MealOverviewAdapter
+
+                // Add an observer on the LiveData returned by getAll.
+                // The onChanged() method fires when the observed data changes and the activity is
+                // in the foreground.
+                mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
+                    // Update the cached copy of the words in the adapter.
+                    meals.let { overviewAdapter!!.submitList(it) }
+                }
+                //Log.d("MOF", "calling coroutine")
+                //main(context, overviewAdapter!!).invoke()
             }
         }
         return view
@@ -186,8 +201,4 @@ class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionM
                 }
             }
     }
-}
-
-private fun MenuItem.setOnMenuItemClickListener(function: (MenuItem) -> Unit) {
-
 }
