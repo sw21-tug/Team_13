@@ -8,6 +8,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -134,6 +136,37 @@ class MealOverviewAdapter(
             }
             return null
         }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun publishResults(constraint: CharSequence, results: FilterResults) {
+                values = results.values as List<Meal>
+                notifyDataSetChanged()
+            }
+
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                var filteredResults: List<Meal?>? = null
+                filteredResults = if (constraint.isEmpty()) {
+                    valuesOriginal
+                } else {
+                    getFilteredResults(constraint.toString().toLowerCase())
+                }
+                val results = FilterResults()
+                results.values = filteredResults
+                return results
+            }
+        }
+    }
+
+    private fun getFilteredResults(constraint: String?): List<MealItem?> {
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in valuesOriginal) {
+            if (constraint?.let { item.name?.toLowerCase()?.contains(it) } == true) {
+                results.add(item)
+            }
+        }
+        return results
     }
 
     companion object {

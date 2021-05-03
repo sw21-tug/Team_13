@@ -14,12 +14,14 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 
 
 class MainActivity : AppCompatActivity() {
 
-
+    var db: DBManager? = null
+    private val DATABASE_NAME = "dmmdb"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,11 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
+        //create database object
+        db = Room.databaseBuilder(
+                applicationContext,
+                DBManager::class.java, DATABASE_NAME
+        ).build()
     }
 
 
