@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "meal")
 data class Meal(
-    @ColumnInfo(name = "title") var title: String?
+    @ColumnInfo(name = "title") var title: String?,
+    @ColumnInfo(name = "stars") var stars: Int?,
+    @ColumnInfo(name = "type") var type: Int?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
