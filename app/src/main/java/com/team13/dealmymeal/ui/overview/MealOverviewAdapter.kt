@@ -1,29 +1,31 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.graphics.Color
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.widget.RecyclerView
+import com.team13.dealmymeal.MealItem
 import com.team13.dealmymeal.R
-
-import com.team13.dealmymeal.dummy.DummyContent.DummyItem
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem].
  * 
  */
 class MealOverviewAdapter(
-    private var values: List<String>
-) : RecyclerView.Adapter<MealOverviewAdapter.ViewHolder>() {
+    private var valuesOriginal: List<MealItem>,
+    private var values: List<MealItem> = valuesOriginal
+) : RecyclerView.Adapter<MealOverviewAdapter.ViewHolder>(), Filterable {
 
-    var tracker: SelectionTracker<String>? = null
+    var tracker: SelectionTracker<MealItem>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -43,7 +45,7 @@ class MealOverviewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item
+        holder.idView.text = item.name
 
         tracker?.let {
             holder.setItemSelected(values[position], it.isSelected(values[position]))
@@ -52,8 +54,10 @@ class MealOverviewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    fun addItems(items: List<String>) {
-        values += items
+    fun addItems(items: List<MealItem>) {
+        valuesOriginal += items
+        values = valuesOriginal
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -63,33 +67,33 @@ class MealOverviewAdapter(
             return super.toString()
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
-            object : ItemDetailsLookup.ItemDetails<String>() {
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<MealItem> =
+            object : ItemDetailsLookup.ItemDetails<MealItem>() {
                 override fun getPosition(): Int = bindingAdapterPosition
-                override fun getSelectionKey(): String? = values[bindingAdapterPosition]
+                override fun getSelectionKey(): MealItem? = values[bindingAdapterPosition]
             }
 
-        fun setItemSelected(postItem: String, isSelected: Boolean = false) {
+        fun setItemSelected(postItem: MealItem, isSelected: Boolean = false) {
             itemView.isSelected = isSelected
         }
     }
 
     class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
-        ItemKeyProvider<String>(SCOPE_CACHED) {
-        override fun getKey(position: Int): String? {
+        ItemKeyProvider<MealItem>(SCOPE_CACHED) {
+        override fun getKey(position: Int): MealItem? {
             return adapter.values[position]
         }
 
-        override fun getPosition(key: String): Int {
-            return adapter.values.indexOfFirst { it == key }
+        override fun getPosition(key: MealItem): Int {
+            return adapter.values.indexOfFirst { it.name == key.name }
         }
     }
 
 
     //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<String>() {
-        override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
+        ItemDetailsLookup<MealItem>() {
+        override fun getItemDetails(event: MotionEvent): ItemDetails<MealItem>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return (recyclerView.getChildViewHolder(view) as ViewHolder)
@@ -97,5 +101,36 @@ class MealOverviewAdapter(
             }
             return null
         }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun publishResults(constraint: CharSequence, results: FilterResults) {
+                values = results.values as List<MealItem>
+                notifyDataSetChanged()
+            }
+
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                var filteredResults: List<MealItem?>? = null
+                filteredResults = if (constraint.isEmpty()) {
+                    valuesOriginal
+                } else {
+                    getFilteredResults(constraint.toString().toLowerCase())
+                }
+                val results = FilterResults()
+                results.values = filteredResults
+                return results
+            }
+        }
+    }
+
+    private fun getFilteredResults(constraint: String?): List<MealItem?> {
+        val results: MutableList<MealItem?> = ArrayList()
+        for (item in valuesOriginal) {
+            if (constraint?.let { item.name?.toLowerCase()?.contains(it) } == true) {
+                results.add(item)
+            }
+        }
+        return results
     }
 }

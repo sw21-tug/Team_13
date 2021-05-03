@@ -1,28 +1,31 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.team13.dealmymeal.MealItem
 import com.team13.dealmymeal.R
 import com.team13.dealmymeal.dummy.DummyContent
 
 /**
  * A fragment representing a list of Items.
  */
-class MealOverviewFragment : Fragment(), ActionMode.Callback {
+class MealOverviewFragment : Fragment(), SearchView.OnQueryTextListener, ActionMode.Callback {
 
     private var columnCount = 1
 
-    private var tracker: SelectionTracker<String>? = null
+    private var tracker: SelectionTracker<MealItem>? = null
 
-    private var selectedPostItems: MutableList<String> = mutableListOf()
+    private var selectedPostItems: MutableList<MealItem> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
 
@@ -40,6 +43,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_meal_overview_list, container, false)
 
+        setHasOptionsMenu(true)
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -52,9 +57,10 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                 adapter =
                     MealOverviewAdapter(
                         ArrayList()
+                        //DummyContent.generateDummyList(15)
                     )
 
-                tracker = SelectionTracker.Builder<String>(
+                tracker = SelectionTracker.Builder<MealItem>(
                     "mySelection",
                     view,
                     MealOverviewAdapter.MyItemKeyProvider(
@@ -63,7 +69,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                     MealOverviewAdapter.MyItemDetailsLookup(
                         view
                     ),
-                    StorageStrategy.createStringStorage()
+                    StorageStrategy.createParcelableStorage(MealItem::class.java)
                 ).withSelectionPredicate(
                     SelectionPredicates.createSelectAnything()
                 ).build()
@@ -71,7 +77,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                 (adapter as MealOverviewAdapter).tracker = tracker
 
                 tracker?.addObserver(
-                    object : SelectionTracker.SelectionObserver<String>() {
+                    object : SelectionTracker.SelectionObserver<MealItem>() {
                         override fun onSelectionChanged() {
                             super.onSelectionChanged()
                             tracker?.let {
@@ -129,6 +135,42 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
         actionMode = null
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.meal_overview_search_menu, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+
+        /*
+        val filterItem = menu.findItem(R.id.action_filter)
+        filterItem.setOnMenuItemClickListener{
+            return@setOnMenuItemClickListener true
+        }*/
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_filter -> {
+                Log.d("MealOverview", "Filter")
+                // TODO add filter for rating & type (AlertDialog)
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        // Here is where we are going to implement the filter logic
+        overviewAdapter?.filter?.filter(query)
+        return false
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
 
     companion object {
 
@@ -144,4 +186,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback {
                 }
             }
     }
+}
+
+private fun MenuItem.setOnMenuItemClickListener(function: (MenuItem) -> Unit) {
+
 }
