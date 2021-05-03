@@ -40,8 +40,6 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | See all meals in the Meal Overview (from Database) | DMM-016 | | done |
 | Meal Overview filtering: Name| DMM-007 | | done |
 | --- | --- | --- | --- |
-
-| --- | --- | --- | --- |
 | Design according the Mockups | DMM-021 | |in progress |
 | Second language should be supported | DMM-019 | |in progress |
 | Modify existing meal entries | DMM-003 | | in progress |
