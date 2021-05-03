@@ -36,12 +36,14 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Meal Overview| DMM-006 | |done|
 | Menu Items | DMM-005 | |done|
 | Menu Item - Add entry | DMM-013 | | done |
+| Add new meal to Database | DMM-017 | | done |
 | --- | --- | --- | --- |
 | Meal Overview filtering| DMM-007 | |to be review |
+| See all meals in the Meal Overview (from Database) | DMM-016 | | to be review |
 | --- | --- | --- | --- |
-| Add new meal to Database | DMM-017 | |in progress |
 | Design according the Mockups | DMM-021 | |in progress |
 | Second language should be supported | DMM-019 | |in progress |
-| See all meals in the Meal Overview (from Database) | DMM-016 | |in progress |
+| Modify existing meal entries | DMM-003 | | in progress |
+
 
 
