@@ -48,37 +48,12 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-        val languageButton: Button = findViewById(R.id.changeLanguageButton)
-        languageButton.setOnClickListener() {
-            val languages = arrayOf("русский", "English")
-            val langSelectorBuilder = AlertDialog.Builder(this)
-            langSelectorBuilder.setTitle(R.string.chooseLanguage)
-            langSelectorBuilder.setSingleChoiceItems(languages, -1) { dialog, selection ->
-                when(selection) {
-                    0 -> {
-                        setLocale("ru")
-                    }
-                    1 -> {
-                        setLocale("en")
-                    }
-
-                }
-                recreate()
-                dialog.dismiss()
-            }
-            langSelectorBuilder.create().show()
-        }
-
 
     }
 
 
-    private fun setLocale(set_locale_string: String) {
-       /* val config: Configuration = resources.configuration
-        config.setLocale(Locale(locale))
-        resources.updateConfiguration(config, resources.displayMetrics)
+     public fun setLocale(set_locale_string: String) {
 
-        */
 
         val set_locale_list: LocaleList = LocaleList(Locale(set_locale_string))
         LocaleList.setDefault(set_locale_list)
