@@ -21,6 +21,9 @@
     <string name="title_activity_navigation_bar">MainActivity</string>
     <string name="delete">Delete</string>
     <string name="MenuButtonHomeFragment">MenuButtonHomeFragment</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Search...</string>
+    <string name="action_filter">Filter</string>
     <string name="add_meal">Add Meal</string>
     <string name="enter_menu">Enter the Name of your meal!</string>
     <string name="save">save</string>
@@ -30,4 +33,6 @@
     <string name="vegetarian">Vegetarian</string>
     <string name="special">Special</string>
     <string name="add">Add</string>
+    <string name="changeLanguage">Language</string>
+    <string name="chooseLanguage">Choose Language:</string>
 </resources>
