@@ -33,7 +33,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/item_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/ic_background_meal">
 
                     <TextView
