@@ -35,9 +35,9 @@ class DashboardFragment : Fragment() {
         val languageButton: Button = root.findViewById(R.id.changeLanguageButton)
         languageButton.setOnClickListener() {
             val languages = arrayOf("русский", "English")
-            val langSelectorBuilder = AlertDialog.Builder(context)
-            langSelectorBuilder.setTitle(R.string.chooseLanguage)
-            langSelectorBuilder.setSingleChoiceItems(languages, -1) { dialog, selection ->
+            val selectLanguageAlert = AlertDialog.Builder(context)
+            selectLanguageAlert.setTitle(R.string.chooseLanguage)
+            selectLanguageAlert.setSingleChoiceItems(languages, -1) { dialog, selection ->
                 when(selection) {
                     0 -> {
                         (activity as MainActivity?)!!.setLocale("ru")
@@ -50,7 +50,7 @@ class DashboardFragment : Fragment() {
                 (activity as MainActivity?)!!.recreate()
                 dialog.dismiss()
             }
-            langSelectorBuilder.create().show()
+            selectLanguageAlert.create().show()
 
         }
 
