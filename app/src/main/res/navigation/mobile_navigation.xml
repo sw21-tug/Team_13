@@ -25,4 +25,5 @@
         android:name="com.team13.dealmymeal.ui.overview.MealOverviewFragment"
         android:label="@string/title_overview"
         tools:layout="@layout/fragment_meal_overview_list" />
+
 </navigation>
