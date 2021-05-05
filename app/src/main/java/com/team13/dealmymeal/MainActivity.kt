@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val localeToSet: String = sharedPref.getString("pref_locale_string", "")!!
         setLocale(localeToSet)
-    }
 
+    }
 
 }
