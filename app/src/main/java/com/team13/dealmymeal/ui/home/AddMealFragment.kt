@@ -2,10 +2,7 @@ package com.team13.dealmymeal.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,20 +36,20 @@ class AddMealFragment : Fragment() {
         val save_button = root.findViewById<Button>(R.id.form_save)
         val form_editText = root.findViewById<EditText>(R.id.form_edit)
         val form_ratingBar = root.findViewById<RatingBar>(R.id.form_ratingBar)
-        val form_checkMeat = root.findViewById<CheckBox>(R.id.check_meat)
-        val form_checkVeggie = root.findViewById<CheckBox>(R.id.check_veggie)
-        val form_checkSpecial = root.findViewById<CheckBox>(R.id.check_special)
+        val form_checkMeat = root.findViewById<Switch>(R.id.check_meat)
+        val form_checkVeggie = root.findViewById<Switch>(R.id.check_veggie)
+        val form_checkSpecial = root.findViewById<Switch>(R.id.check_special)
         val text = form_editText.text
         save_button.setOnClickListener() {
 
             val stars = form_ratingBar.rating
             val type = ArrayList<String>()
             if (form_checkMeat.isChecked)
-                type.add("Meat")
+                type.add(resources.getString(R.string.meat))
             if (form_checkVeggie.isChecked)
-                type.add("Veggie")
+                type.add(resources.getString(R.string.vegetarian))
             if (form_checkSpecial.isChecked)
-                type.add("Special")
+                type.add(resources.getString(R.string.special))
             var meal = Meal(text.toString(), type, stars)
 
             val db = (activity as MainActivity).db
@@ -80,7 +77,6 @@ class AddMealFragment : Fragment() {
 //                val i = 0
 //            }
 
-            form_textview.text = text
 
         }
 

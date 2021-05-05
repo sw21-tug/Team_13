@@ -99,6 +99,7 @@ class MealOverviewAdapter(
                     val chip = Chip(context)
                     chip.text = category
                     chip.setChipBackgroundColorResource(R.color.green)
+                    chip.setTextColor(Color.WHITE)
                     chips.addView(chip)
                 }
             }

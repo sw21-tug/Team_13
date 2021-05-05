@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
     var db: DBManager? = null
     private val DATABASE_NAME = "dmmdb"
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    @SuppressLint("WrongViewCast")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadLocaleValue()
@@ -60,8 +63,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+     @RequiresApi(Build.VERSION_CODES.N)
      public fun setLocale(set_locale_string: String) {
-
 
         val set_locale_list: LocaleList = LocaleList(Locale(set_locale_string))
         LocaleList.setDefault(set_locale_list)
@@ -70,15 +73,17 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
         sharedPref.putString("pref_locale_string", set_locale_string)
         sharedPref.apply()
-
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun loadLocaleValue() {
         val sharedPref = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val localeToSet: String = sharedPref.getString("pref_locale_string", "")!!
         setLocale(localeToSet)
 
     }
+
+
 
 }
