@@ -25,12 +25,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.os.ConfigurationCompat
 import com.google.android.material.navigation.NavigationView
+import androidx.room.Room
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
-
+    var db: DBManager? = null
+    private val DATABASE_NAME = "dmmdb"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_addMeal, R.id.navigation_dashboard, R.id.navigation_overview))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
+        db = Room.databaseBuilder(
+                applicationContext,
+                DBManager::class.java, DATABASE_NAME
+        ).build()
 
 
     }
