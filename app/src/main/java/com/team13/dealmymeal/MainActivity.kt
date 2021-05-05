@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.navigation.NavigationView
@@ -20,7 +21,7 @@ import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity() {
 
 
-
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -29,12 +30,22 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_addMeal, R.id.navigation_dashboard, R.id.navigation_overview))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_addMeal, R.id.navigation_dashboard, R.id.navigation_overview
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        
 
+    }
+    
+    fun tappedGenerate(view: View) {
+        val generateBtn = findViewById<ImageView>(R.id.generateBtn)
+
+        generateBtn.setBackgroundResource(R.drawable.ic_generate_clicked)
     }
 
 

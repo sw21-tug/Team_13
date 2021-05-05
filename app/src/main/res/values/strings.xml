@@ -16,7 +16,7 @@
     <string name="burgerbuttonmenu">BurgerButtonMenu</string>
     <string name="title_activity_test">MainActivity</string>
     <string name="title_addmeal">Add Meal</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Generate</string>
     <string name="title_overview">Overview</string>
     <string name="title_activity_navigation_bar">MainActivity</string>
     <string name="delete">Delete</string>
