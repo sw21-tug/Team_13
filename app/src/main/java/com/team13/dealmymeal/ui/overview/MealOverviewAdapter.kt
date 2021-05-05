@@ -94,6 +94,8 @@ class MealOverviewAdapter(
                 0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
                 1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
             }
+            chips.removeAllViews()
+
             if (categories != null) {
                 for (category in categories){
                     val chip = Chip(context)
@@ -110,15 +112,17 @@ class MealOverviewAdapter(
         }
     }
 
-    class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
+    class MyItemKeyProvider(private val recyclerView: RecyclerView) :
         ItemKeyProvider<Meal>(SCOPE_CACHED) {
         override fun getKey(position: Int): Meal? {
-            return adapter.getItem(position)
+            return (recyclerView.adapter as MealOverviewAdapter).getItem(position)
         }
 
         override fun getPosition(key: Meal): Int {
-            return adapter.currentList.indexOf(key.title)//adapter.getI.indexOfFirst { it.name == key.title }
+            return (recyclerView.adapter as MealOverviewAdapter).currentList.indexOf(key.title)
         }
+
+
     }
 
 

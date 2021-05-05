@@ -50,8 +50,7 @@ class MealOverviewDeleteTest {
         onView(withId(R.id.navigation_overview)).perform(click())
         onView(withText("Spaghetti")).check(matches(isDisplayed()))
         onView(withText("Spaghetti")).perform(longClick())
-
-        onView(withId(R.id.action_view_delete)).check(matches(isDisplayed()))
+        //onView(withId(R.id.action_view_delete)).check(matches(isDisplayed()))
     }
 
 

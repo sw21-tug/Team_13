@@ -15,7 +15,7 @@ interface MealDao {
     fun deleteTestItems()
 
     @Delete
-    fun delete(meal: Meal)
+    suspend fun delete(meal: Meal)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(meal: Meal)

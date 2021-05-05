@@ -1,5 +1,6 @@
 package com.team13.dealmymeal.ui.overview
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -69,7 +70,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                     "mySelection",
                     view,
                     MealOverviewAdapter.MyItemKeyProvider(
-                        adapter as MealOverviewAdapter
+                        view
                     ),
                     MealOverviewAdapter.MyItemDetailsLookup(
                         view
@@ -89,16 +90,18 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                                 selectedPostItems = it.selection.toMutableList()
 
                                 // TODO enable this when implementing delete
-                                /*
+
                                 if (selectedPostItems.isEmpty()) {
                                     actionMode?.finish()
                                 } else {
                                     if (actionMode == null) actionMode = parent.startActionModeForChild(view, this@MealOverviewFragment)
                                     actionMode?.title =
                                         "${selectedPostItems.size}"
-                                }*/
+                                }
 
                                 // TODO delete
+
+
                             }
                         }
                     })
@@ -121,11 +124,20 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_view_delete -> {
-                Toast.makeText(
-                    context,
-                    selectedPostItems.toString(),
-                    Toast.LENGTH_LONG
-                ).show()
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage(R.string.delete_message)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.yes) { dialog, id ->
+                            // Delete selected note from database
+                            for (meal in selectedPostItems)
+                                mealViewModel.delete(meal)
+                        }
+                        .setNegativeButton(R.string.no) { dialog, id ->
+                            // Dismiss the dialog
+                            dialog.dismiss()
+                        }
+                val alert = builder.create()
+                alert.show()
             }
         }
         return true
