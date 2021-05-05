@@ -37,15 +37,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        
-
-    }
-    
-    fun tappedGenerate(view: View) {
-        val generateBtn = findViewById<ImageView>(R.id.generateBtn)
-
-        generateBtn.setBackgroundResource(R.drawable.ic_generate_clicked)
     }
 
 

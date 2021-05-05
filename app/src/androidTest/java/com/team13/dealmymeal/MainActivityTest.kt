@@ -30,5 +30,4 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.fragment_addMeal)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Thread.sleep(500)
     }
-
 }
