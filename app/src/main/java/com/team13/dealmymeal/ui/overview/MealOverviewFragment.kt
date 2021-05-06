@@ -5,10 +5,14 @@ import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -33,6 +37,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     private var selectedPostItems: MutableList<Meal> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter = MealOverviewAdapter(ArrayList(), this)
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +116,12 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
@@ -200,10 +211,16 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     override fun onItemClick(position: Int) {
         System.out.println(position)
         val clickedMeal = overviewAdapter.currentList[position]
+
+
+
+        val bundle = bundleOf("Meal" to clickedMeal)
+        navController.navigate(R.id.action_navigation_overview_to_editMealFragment, bundle)
+
+
+
+
         overviewAdapter.notifyItemChanged(position)
-        val fragment = EditMealFragment()
-        //activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.navigation_overview , fragment)?.addToBackStack(null)?.commit()
-        childFragmentManager.beginTransaction().replace(R.id.fragment_editMeal , fragment).addToBackStack(null).commit()
     }
 
 }

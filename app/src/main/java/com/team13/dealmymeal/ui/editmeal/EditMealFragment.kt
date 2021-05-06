@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.navigation.NavigationView
 import com.team13.dealmymeal.*
+import kotlinx.android.synthetic.main.fragment_editmeal.view.*
 
 
 class EditMealFragment : Fragment() {
@@ -24,6 +25,7 @@ class EditMealFragment : Fragment() {
     }
     private lateinit var EditMealViewModel: AddMealViewModel
     private val fragmentTag = "EditMealFragment"
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -49,6 +51,7 @@ class EditMealFragment : Fragment() {
             }
 
         }
+
 
 
 
@@ -107,6 +110,26 @@ class EditMealFragment : Fragment() {
         }
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val meal = arguments?.getParcelable<Meal>("Meal")
+        if (meal != null) {
+            view.form_edit.setText(meal.title)
+            view.form_ratingBar.setRating(meal.rating?.toFloat()!!)
+            val isMeat = meal.categories!!.contains("Meat")
+            val isSpecial = meal.categories!!.contains("Special")
+            val isVeggie = meal.categories!!.contains("Veggie")
+
+            view.check_meat.isChecked = isMeat
+            view.check_veggie.isChecked = isSpecial
+            view.check_special.isChecked = isVeggie
+        }
+
+
+
     }
 
 }

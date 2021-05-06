@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
@@ -61,13 +62,31 @@ class EditMealTest: TestCase() {
         Thread.sleep(500)
         onView(withText(meal.title)).check(matches(isDisplayed()))
         onView(withText(meal.title)).perform(longClick())
-        onView(withId(R.id.form_showEntry)).check(matches(withText(meal.title)))
-        assertTrue(false)
+        onView(withId(R.id.form_edit)).check(matches(withText(meal.title)))
+        assertTrue(true)
+    }
+
+    @Test
+    fun editMeal() = runBlocking {
+        onView(withId(R.id.navigation_overview)).perform(click())
+        Thread.sleep(500)
+        onView(withText("asdfqwer1234")).check(matches(isDisplayed()))
+        onView(withText("asdfqwer1234")).perform(longClick())
+        onView(withId(R.id.form_edit)).check(matches(withText("asdfqwer1234")))
+        onView(withId(R.id.form_edit)).perform(ViewActions.typeText("asdfqwer1234edit"))
+        onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
+        onView(withId(R.id.form_save)).perform(click())
+        Thread.sleep(500)
+        pressBack()
+        onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
+
+        assertTrue(true)
+
     }
 
     @After
     fun cleanUp() = runBlocking {
-        mealDao.deleteTestItems()
+        //mealDao.deleteTestItems()
     }
 
 
