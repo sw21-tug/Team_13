@@ -39,9 +39,9 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Add new meal to Database | DMM-017 | | done |
 | See all meals in the Meal Overview (from Database) | DMM-016 | | done |
 | Meal Overview filtering: Name| DMM-007 | | done |
+| Design according the Mockups | DMM-021 | |done |
+| Second language should be supported | DMM-019 | |done |
 | --- | --- | --- | --- |
-| Design according the Mockups | DMM-021 | |in progress |
-| Second language should be supported | DMM-019 | |in progress |
 | Modify existing meal entries | DMM-003 | | in progress |
 
 
