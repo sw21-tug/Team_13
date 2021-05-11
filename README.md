@@ -33,15 +33,15 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | --- | --- | --- | --- |
 | Start the App | DMM-012 | Set Up Environment | done |
 | Add to database (create the basic DB stuff)| DMM-001 | Set up Database | done |
-| Create a new meal entry form| DMM-002 | | done |
-| Meal Overview| DMM-006 | |done|
-| Menu Items | DMM-005 | |done|
-| Menu Item - Add entry | DMM-013 | | done |
-| Add new meal to Database | DMM-017 | | done |
-| See all meals in the Meal Overview (from Database) | DMM-016 | | done |
-| Meal Overview filtering: Name| DMM-007 | | done |
-| Design according the Mockups | DMM-021 | |done |
-| Second language should be supported | DMM-019 | |done |
+| Create a new meal entry form| DMM-002 | Release 1 | done |
+| Meal Overview| DMM-006 | Release 1 |done|
+| Menu Items | DMM-005 | Release 1 |done|
+| Menu Item - Add entry | DMM-013 | Release 1 | done |
+| Add new meal to Database | DMM-017 | Release 1 | done |
+| See all meals in the Meal Overview (from Database) | DMM-016 | Release 1 | done |
+| Meal Overview filtering: Name| DMM-007 | Release 1 | done |
+| Design according the Mockups | DMM-021 | Release 1 |done |
+| Second language should be supported | DMM-019 | Release 1 |done |
 | --- | --- | --- | --- |
 | Modify existing meal entries | DMM-003 | Release 2 | in progress |
 | Meal Overview filtering: Rating | DMM-020 | Release 2| in progress |
