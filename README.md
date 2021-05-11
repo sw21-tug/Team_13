@@ -43,9 +43,9 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Design according the Mockups | DMM-021 | |done |
 | Second language should be supported | DMM-019 | |done |
 | --- | --- | --- | --- |
-| Modify existing meal entries | DMM-003 | | in progress |
-| Meal Overview filtering: Rating | DMM-020 | | in progress |
-| Delete a meal entry | DMM-022 | | in progress |
+| Modify existing meal entries | DMM-003 | Release 2 | in progress |
+| Meal Overview filtering: Rating | DMM-020 | Release 2| in progress |
+| Delete a meal entry | DMM-022 | Release 2| in progress |
 | --- | --- | --- | --- |
 
 
