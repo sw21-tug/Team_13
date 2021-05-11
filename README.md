@@ -26,7 +26,7 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | **Developer** | Martina Pranjic |
 
 ## Mockups DealMyMeal App
-<img src="https://user-images.githubusercontent.com/7067559/117869785-87072700-b29b-11eb-8849-49580d24c5df.png" width="20%">
+<img src="https://user-images.githubusercontent.com/7067559/117869785-87072700-b29b-11eb-8849-49580d24c5df.png" width="20%" float: right;>
 <img src="https://user-images.githubusercontent.com/7067559/117869786-879fbd80-b29b-11eb-99d5-ab7dd3ccc873.png" width="20%">
 <img src="https://user-images.githubusercontent.com/7067559/117869788-88385400-b29b-11eb-9aeb-90b065fcda24.png" width="20%">
 <img src="https://user-images.githubusercontent.com/7067559/117869789-88385400-b29b-11eb-94cd-c96c778bcfb2.png" width="20%">
