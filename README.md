@@ -26,17 +26,7 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | **Developer** | Martina Pranjic |
 
 ## Mockups DealMyMeal App
-<img src="https://user-images.githubusercontent.com/7067559/117869785-87072700-b29b-11eb-8849-49580d24c5df.png" width="20%" float: "right">
-<img src="https://user-images.githubusercontent.com/7067559/117869786-879fbd80-b29b-11eb-99d5-ab7dd3ccc873.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869788-88385400-b29b-11eb-9aeb-90b065fcda24.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869789-88385400-b29b-11eb-94cd-c96c778bcfb2.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869790-88d0ea80-b29b-11eb-97e1-7f35d3a4f83a.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869793-88d0ea80-b29b-11eb-905c-e95d4314aaa7.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869795-89698100-b29b-11eb-8155-224823e97e02.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869798-89698100-b29b-11eb-82a9-ae0705d3ad02.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869799-8a021780-b29b-11eb-888d-ea98715cdefd.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869801-8a021780-b29b-11eb-9136-e718813a4b1e.png" width="20%">
-<img src="https://user-images.githubusercontent.com/7067559/117869802-8a9aae00-b29b-11eb-81d9-c574fb067177.png" width="20%">
+<img src="https://user-images.githubusercontent.com/7067559/117869785-87072700-b29b-11eb-8849-49580d24c5df.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869786-879fbd80-b29b-11eb-99d5-ab7dd3ccc873.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869788-88385400-b29b-11eb-9aeb-90b065fcda24.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869789-88385400-b29b-11eb-94cd-c96c778bcfb2.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869790-88d0ea80-b29b-11eb-97e1-7f35d3a4f83a.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869793-88d0ea80-b29b-11eb-905c-e95d4314aaa7.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869795-89698100-b29b-11eb-8155-224823e97e02.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869798-89698100-b29b-11eb-82a9-ae0705d3ad02.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869799-8a021780-b29b-11eb-888d-ea98715cdefd.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869801-8a021780-b29b-11eb-9136-e718813a4b1e.png" width="20%"><img src="https://user-images.githubusercontent.com/7067559/117869802-8a9aae00-b29b-11eb-81d9-c574fb067177.png" width="20%">
 
 ## Implemented Feature List
 | Name | Associated User Story | Additional Information |current status|
