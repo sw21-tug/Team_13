@@ -21,5 +21,13 @@ class MealOverviewFilterCategoryTestTest {
         Espresso.onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
         Thread.sleep(500)
     }
+    @Test
+    fun filterBtnCheck()
+    {
+        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.category_filter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
 
 }
