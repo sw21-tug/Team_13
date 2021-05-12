@@ -12,6 +12,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:title="@string/action_filter"
         android:icon="@drawable/ic_filter"
         app:showAsAction="always"
-        android:visible="false"/>
+        android:visible="true"/>
 
 </menu>

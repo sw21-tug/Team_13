@@ -24,5 +24,15 @@
         android:id="@+id/navigation_overview"
         android:name="com.team13.dealmymeal.ui.overview.MealOverviewFragment"
         android:label="@string/title_overview"
-        tools:layout="@layout/fragment_meal_overview_list" />
+        tools:layout="@layout/fragment_meal_overview_list" >
+        <action
+            android:id="@+id/action_navigation_overview_to_category_filter"
+            app:destination="@id/category_filter" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/category_filter"
+        android:name="com.team13.dealmymeal.category_filter"
+        android:label="fragment_category_filter"
+        tools:layout="@layout/fragment_category_filter" />
 </navigation>
