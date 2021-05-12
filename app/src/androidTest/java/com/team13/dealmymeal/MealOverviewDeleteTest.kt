@@ -53,5 +53,14 @@ class MealOverviewDeleteTest {
         //onView(withId(R.id.action_view_delete)).check(matches(isDisplayed()))
     }
 
+    @Test
+    fun selectSingleAndCheckSelection() {
+        Thread.sleep(3000)
+        onView(withId(R.id.navigation_overview)).perform(click())
+        onView(withText("Spaghetti")).check(matches(isDisplayed()))
+        onView(withText("Spaghetti")).check(matches(hasTextColor(R.color.green)))
+        //onView(withId(R.id.action_view_delete)).check(matches(isDisplayed()))
+    }
+
 
 }

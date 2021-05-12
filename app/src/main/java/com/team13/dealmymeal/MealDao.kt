@@ -17,6 +17,9 @@ interface MealDao {
     @Delete
     suspend fun delete(meal: Meal)
 
+    @Query("DELETE from meal WHERE id= :id")
+    suspend fun deleteById(id: Long)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(meal: Meal)
 

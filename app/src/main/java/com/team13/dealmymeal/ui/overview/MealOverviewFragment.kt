@@ -31,9 +31,9 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
     private var columnCount = 1
 
-    private var tracker: SelectionTracker<Meal>? = null
+    private var tracker: SelectionTracker<Long>? = null
 
-    private var selectedPostItems: MutableList<Meal> = mutableListOf()
+    private var selectedPostItems: MutableList<Long> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
 
@@ -66,7 +66,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         ArrayList()
                     )
 
-                tracker = SelectionTracker.Builder<Meal>(
+                tracker = SelectionTracker.Builder<Long>(
                     "mySelection",
                     view,
                     MealOverviewAdapter.MyItemKeyProvider(
@@ -75,7 +75,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                     MealOverviewAdapter.MyItemDetailsLookup(
                         view
                     ),
-                    StorageStrategy.createParcelableStorage(Meal::class.java)
+                    StorageStrategy.createLongStorage()//createParcelableStorage(Meal::class.java)
                 ).withSelectionPredicate(
                     SelectionPredicates.createSelectAnything()
                 ).build()
@@ -83,7 +83,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                 (adapter as MealOverviewAdapter).tracker = tracker
 
                 tracker?.addObserver(
-                    object : SelectionTracker.SelectionObserver<Meal>() {
+                    object : SelectionTracker.SelectionObserver<Long>() {
                         override fun onSelectionChanged() {
                             super.onSelectionChanged()
                             tracker?.let {
@@ -129,8 +129,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         .setCancelable(false)
                         .setPositiveButton(R.string.yes) { dialog, id ->
                             // Delete selected note from database
-                            for (meal in selectedPostItems)
-                                mealViewModel.delete(meal)
+                            for (id in selectedPostItems)
+                                mealViewModel.deleteById(id)
                         }
                         .setNegativeButton(R.string.no) { dialog, id ->
                             // Dismiss the dialog

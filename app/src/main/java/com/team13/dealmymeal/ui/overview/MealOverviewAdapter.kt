@@ -7,11 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
@@ -30,10 +26,10 @@ import com.team13.dealmymeal.R
  *
  */
 class MealOverviewAdapter(
-    private var valuesOriginal: MutableList<Meal>,
+        private var valuesOriginal: MutableList<Meal>,
 ) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
-    var tracker: SelectionTracker<Meal>? = null
+    var tracker: SelectionTracker<Long>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -57,13 +53,17 @@ class MealOverviewAdapter(
 
 
         tracker?.let {
-            holder.setItemSelected(getItem(position), it.isSelected(getItem(position)))
+            holder.setItemSelected(getItem(position), it.isSelected(getItemId(position)))
         }
 
         val current = getItem(position)
-        holder.bind(current.title, position, current.categories , current.rating)
+        holder.bind(current.title, position, current.categories, current.rating)
         Log.d("Adapter", current.title)
 
+    }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position).id
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -78,10 +78,10 @@ class MealOverviewAdapter(
             return super.toString()
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Meal> =
-            object : ItemDetailsLookup.ItemDetails<Meal>() {
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
+            object : ItemDetailsLookup.ItemDetails<Long>() {
                 override fun getPosition(): Int = bindingAdapterPosition
-                override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
+                override fun getSelectionKey(): Long? = getItemId(bindingAdapterPosition)
             }
 
         fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
@@ -113,13 +113,15 @@ class MealOverviewAdapter(
     }
 
     class MyItemKeyProvider(private val recyclerView: RecyclerView) :
-        ItemKeyProvider<Meal>(SCOPE_CACHED) {
-        override fun getKey(position: Int): Meal? {
-            return (recyclerView.adapter as MealOverviewAdapter).getItem(position)
+        ItemKeyProvider<Long>(SCOPE_CACHED) {
+        override fun getKey(position: Int): Long? {
+            return (recyclerView.adapter as MealOverviewAdapter).getItemId(position)
         }
 
-        override fun getPosition(key: Meal): Int {
-            return (recyclerView.adapter as MealOverviewAdapter).currentList.indexOf(key.title)
+        override fun getPosition(key: Long): Int {
+            val viewHolder: RecyclerView.ViewHolder? = recyclerView.findViewHolderForItemId(key)
+            return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
+            //return (recyclerView.adapter as MealOverviewAdapter).currentList.indexOf(key.title)
         }
 
 
@@ -128,8 +130,8 @@ class MealOverviewAdapter(
 
     //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<Meal>() {
-        override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
+        ItemDetailsLookup<Long>() {
+        override fun getItemDetails(event: MotionEvent): ItemDetails<Long>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return (recyclerView.getChildViewHolder(view) as ViewHolder)
