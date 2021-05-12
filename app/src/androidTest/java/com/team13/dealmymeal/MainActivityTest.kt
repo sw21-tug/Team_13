@@ -20,6 +20,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.regex.Pattern.matches
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest{
@@ -105,5 +106,18 @@ class MainActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.navigation_dashboard)).perform(ViewActions.click())
         onView(withId(R.id.changeLanguageButton)).perform(click())
         onData(anything()).atPosition(1).perform(click())
+    }
+
+    @Test
+    fun filteringStarDisplayed() {
+        onView(withId(R.id.navigation_overview)).perform(click())
+        onView(withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun filteringStarClickable()
+    {
+        Espresso.onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
+        onView(withId(R.id.action_filter_star)).perform(click())
     }
 }
