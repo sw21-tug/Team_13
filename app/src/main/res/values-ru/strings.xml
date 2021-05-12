@@ -22,6 +22,10 @@
     <string name="title_activity_navigation_bar">Основная деятельность</string>
     <string name="delete">Удалить</string>
     <string name="MenuButtonHomeFragment">Фрагмент главного меню кнопки меню</string>
+    <string name="action_search">Поиск</string>
+    <string name="search_hint">Поиск...</string>
+    <string name="action_filter">Фильтр</string>
+    <string name="action_filter_star">Фильтр суровый</string>
     <string name="add_meal">Добавить еду</string>
     <string name="enter_menu">Войти в меню..</string>
     <string name="save">спасти</string>
