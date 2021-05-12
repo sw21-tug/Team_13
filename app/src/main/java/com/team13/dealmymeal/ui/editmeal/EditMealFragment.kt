@@ -107,10 +107,11 @@ class EditMealFragment : Fragment() {
                     type.add("Special")
 
                 meal.title = view.form_edit.text.toString()
-                meal.rating = view.rating_bar.rating
+                meal.rating = view.form_ratingBar.rating
                 meal.categories = type
 
                 mealViewModel.update(meal)
+                activity?.supportFragmentManager?.popBackStack()
             }
         }
 

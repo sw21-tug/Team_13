@@ -73,15 +73,14 @@ class EditMealTest: TestCase() {
         onView(withText("asdfqwer1234")).check(matches(isDisplayed()))
         onView(withText("asdfqwer1234")).perform(longClick())
         onView(withId(R.id.form_edit)).check(matches(withText("asdfqwer1234")))
-        onView(withId(R.id.form_edit)).perform(ViewActions.typeText("asdfqwer1234edit"))
+        onView(withId(R.id.form_edit)).perform(ViewActions.typeText("edit"))
         onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
-        pressBack()
         onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
 
         assertTrue(true)
-
+        mealDao.deleteTestItems()
     }
 
     @After
