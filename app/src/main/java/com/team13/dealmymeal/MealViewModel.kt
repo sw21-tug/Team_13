@@ -24,6 +24,10 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
     fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
     }
+
+    fun update(meal: Meal) = viewModelScope.launch {
+        repository.updateMeal(meal)
+    }
 }
 
 class MealViewModelFactory(private val repository: MealRepository) : ViewModelProvider.Factory {

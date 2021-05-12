@@ -16,7 +16,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.navigation.NavigationView
 import com.team13.dealmymeal.*
+import kotlinx.android.synthetic.main.fragment_addmeal.view.*
 import kotlinx.android.synthetic.main.fragment_editmeal.view.*
+import kotlinx.android.synthetic.main.fragment_editmeal.view.check_meat
+import kotlinx.android.synthetic.main.fragment_editmeal.view.check_special
+import kotlinx.android.synthetic.main.fragment_editmeal.view.check_veggie
+import kotlinx.android.synthetic.main.fragment_editmeal.view.form_edit
+import kotlinx.android.synthetic.main.fragment_editmeal.view.form_ratingBar
+import kotlinx.android.synthetic.main.fragment_editmeal.view.form_save
+import kotlinx.android.synthetic.main.fragment_meal_overview.view.*
 
 
 class EditMealFragment : Fragment() {
@@ -68,46 +76,8 @@ class EditMealFragment : Fragment() {
         val form_checkVeggie = root.findViewById<CheckBox>(R.id.check_veggie)
         val form_checkSpecial = root.findViewById<CheckBox>(R.id.check_special)
         val text = form_editText.text
-        save_button.setOnClickListener() {
 
-            val stars = form_ratingBar.rating
-            val type = ArrayList<String>()
-            if (form_checkMeat.isChecked)
-                type.add("Meat")
-            if (form_checkVeggie.isChecked)
-                type.add("Veggie")
-            if (form_checkSpecial.isChecked)
-                type.add("Special")
-            var meal = Meal(text.toString(), type, stars)
 
-            val db = (activity as MainActivity).db
-            val mealDao = db?.mealDao()
-
-            if (mealDao == null) {
-                Log.v(fragmentTag, "Meal could not be added")
-            } else {
-                //TODO probably better not to use GlobalScope??
-                /*
-            GlobalScope.async {
-                mealDao.insertAll(meal)
-            }*/
-                mealViewModel.insert(meal)
-            }
-
-            val toast: Toast =
-                    Toast.makeText(context, "Meal " + text + " added!", Toast.LENGTH_LONG)
-            toast.setGravity(Gravity.TOP, 0, 250)
-            toast.show()
-
-//            GlobalScope.async {
-//                val test = mealDao?.getAll()
-//                println(test)
-//                val i = 0
-//            }
-
-            form_textview.text = text
-
-        }
 
         return root
     }
@@ -124,11 +94,25 @@ class EditMealFragment : Fragment() {
             val isVeggie = meal.categories!!.contains("Veggie")
 
             view.check_meat.isChecked = isMeat
-            view.check_veggie.isChecked = isSpecial
-            view.check_special.isChecked = isVeggie
+            view.check_veggie.isChecked = isVeggie
+            view.check_special.isChecked = isSpecial
+
+            view.form_save.setOnClickListener {
+                val type = ArrayList<String>()
+                if (view.check_meat.isChecked)
+                    type.add("Meat")
+                if (view.check_veggie.isChecked)
+                    type.add("Veggie")
+                if (view.check_special.isChecked)
+                    type.add("Special")
+
+                meal.title = view.form_edit.text.toString()
+                meal.rating = view.rating_bar.rating
+                meal.categories = type
+
+                mealViewModel.update(meal)
+            }
         }
-
-
 
     }
 

@@ -23,6 +23,9 @@ interface MealDao {
     @Query("DELETE FROM meal")
     suspend fun deleteAll()
 
+    @Query("UPDATE meal SET title=:title, rating=:rating, categories=:categories WHERE id=:id")
+    suspend fun updateMeal(id: Long, title: String, rating: Float, categories: List<String?>)
+
     //This is a test function - DO NOT USE (except in tests)
     @Query("SELECT * from meal")
     suspend fun getAllTest(): List<Meal>

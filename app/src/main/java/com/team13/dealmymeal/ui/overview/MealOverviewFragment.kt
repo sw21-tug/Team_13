@@ -209,7 +209,6 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     }
 
     override fun onItemClick(position: Int) {
-        System.out.println(position)
         val clickedMeal = overviewAdapter.currentList[position]
 
 
