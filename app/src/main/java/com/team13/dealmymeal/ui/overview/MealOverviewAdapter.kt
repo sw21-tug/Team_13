@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
@@ -70,9 +71,11 @@ class MealOverviewAdapter(
         val itemName: TextView = view.findViewById(R.id.item_name)
 
         val background: ConstraintLayout = view.findViewById(R.id.item_frame)
+        val cardBackground: CardView = view.findViewById(R.id.card_background)
         val chips: ChipGroup = view.findViewById(R.id.chip_group)
         val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
+
 
         override fun toString(): String {
             return super.toString()
@@ -85,7 +88,7 @@ class MealOverviewAdapter(
             }
 
         fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
-            itemView.isSelected = isSelected
+            cardBackground.isSelected = isSelected
         }
 
         fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
