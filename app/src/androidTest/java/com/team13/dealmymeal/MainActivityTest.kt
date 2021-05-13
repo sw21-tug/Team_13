@@ -40,16 +40,16 @@ class MainActivityTest{
     fun changeLanguageButtonClickable()
     {
         Espresso.onView(ViewMatchers.withId(R.id.navigation_dashboard)).perform(ViewActions.click())
-        onView(withId(R.id.changeLanguageButton)).perform(click())
+        onView(withId(R.id.language)).perform(click())
     }
 
     @Test
     fun languageAlertDialog()
     {
         Espresso.onView(ViewMatchers.withId(R.id.navigation_dashboard)).perform(ViewActions.click())
-        onView(withId(R.id.changeLanguageButton)).perform(click());
+        onView(withId(R.id.language)).perform(click());
         onData(anything()).atPosition(1).perform(click());
-        onView(withId(R.id.changeLanguageButton)).perform(click());
+        onView(withId(R.id.language)).perform(click());
         onData(anything()).atPosition(0).perform(click());
     }
 
@@ -57,17 +57,17 @@ class MainActivityTest{
     fun languageCheck()
     {
         Espresso.onView(ViewMatchers.withId(R.id.navigation_dashboard)).perform(ViewActions.click())
-        onView(withId(R.id.changeLanguageButton)).perform(click())
+        onView(withId(R.id.language)).perform(click())
         onData(anything()).atPosition(1).perform(click())
         Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
         Espresso.onView(withText("save")).check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.navigation_dashboard)).perform(ViewActions.click())
-        onView(withId(R.id.changeLanguageButton)).perform(click())
+        onView(withId(R.id.language)).perform(click())
         onData(anything()).atPosition(0).perform(click())
         Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
         Espresso.onView(withText("спасти")).check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.navigation_dashboard)).perform(ViewActions.click())
-        onView(withId(R.id.changeLanguageButton)).perform(click())
+        onView(withId(R.id.language)).perform(click())
         onData(anything()).atPosition(1).perform(click())
     }
 }

@@ -27,7 +27,9 @@
         tools:layout="@layout/fragment_meal_overview_list" >
         <action
             android:id="@+id/action_navigation_overview_to_editMealFragment"
-            app:destination="@id/editMealFragment" />
+            app:destination="@id/editMealFragment"
+            app:popUpTo="@id/navigation_overview"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/editMealFragment"
