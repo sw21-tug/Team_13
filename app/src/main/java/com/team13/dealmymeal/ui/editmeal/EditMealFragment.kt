@@ -45,20 +45,7 @@ class EditMealFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_editmeal, container, false)
 
 
-        val btn = root.findViewById<ImageButton>(R.id.btnmenu)
         val menu = root.findViewById<NavigationView>(R.id.nav_bar_id)
-        btn.setOnClickListener()
-        {
-            if(menu.visibility == View.VISIBLE)
-            {
-                menu.visibility = View.INVISIBLE
-            }
-            else
-            {
-                menu.visibility = View.VISIBLE
-            }
-
-        }
 
 
 

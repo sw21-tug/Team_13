@@ -9,25 +9,13 @@
     android:id="@+id/fragment_editMeal"
     >
 
-
-    <ImageButton
-        android:id="@+id/btnmenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/MenuButtonHomeFragment"
-        android:src="@drawable/ic_burger_menu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingBottom="10dp"/>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_bar_id"
         android:layout_width="294dp"
         android:layout_height="500dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnmenu" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 
