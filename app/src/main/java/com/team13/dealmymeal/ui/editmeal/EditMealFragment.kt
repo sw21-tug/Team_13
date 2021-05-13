@@ -45,7 +45,7 @@ class EditMealFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_editmeal, container, false)
 
 
-        val menu = root.findViewById<NavigationView>(R.id.nav_bar_id)
+        //val menu = root.findViewById<NavigationView>(R.id.nav_bar_id)
 
 
 
@@ -53,17 +53,6 @@ class EditMealFragment : Fragment() {
 
         AppCompatActivity()
         //val view = inflater.inflate(R.layout.fragment_addmeal, container, true)
-
-
-        val form_textview = root.findViewById<TextView>(R.id.form_showEntry)
-        val save_button = root.findViewById<Button>(R.id.form_save)
-        val form_editText = root.findViewById<EditText>(R.id.form_edit)
-        val form_ratingBar = root.findViewById<RatingBar>(R.id.form_ratingBar)
-        val form_checkMeat = root.findViewById<CheckBox>(R.id.check_meat)
-        val form_checkVeggie = root.findViewById<CheckBox>(R.id.check_veggie)
-        val form_checkSpecial = root.findViewById<CheckBox>(R.id.check_special)
-        val text = form_editText.text
-
 
 
         return root
