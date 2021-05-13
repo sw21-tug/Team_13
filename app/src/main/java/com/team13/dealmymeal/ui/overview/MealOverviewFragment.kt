@@ -211,13 +211,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     override fun onItemClick(position: Int) {
         val clickedMeal = overviewAdapter.currentList[position]
 
-
-
         val bundle = bundleOf("Meal" to clickedMeal)
         navController.navigate(R.id.action_navigation_overview_to_editMealFragment, bundle)
-
-
-
 
         overviewAdapter.notifyItemChanged(position)
     }

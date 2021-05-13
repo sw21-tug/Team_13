@@ -43,13 +43,7 @@ class EditMealFragment : Fragment() {
         EditMealViewModel =
                 ViewModelProvider(this).get(AddMealViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_editmeal, container, false)
-
-
         //val menu = root.findViewById<NavigationView>(R.id.nav_bar_id)
-
-
-
-
 
         AppCompatActivity()
         //val view = inflater.inflate(R.layout.fragment_addmeal, container, true)
@@ -87,7 +81,7 @@ class EditMealFragment : Fragment() {
                 meal.categories = type
 
                 mealViewModel.update(meal)
-                activity?.supportFragmentManager?.popBackStack()
+                activity?.onBackPressed()
             }
         }
 
