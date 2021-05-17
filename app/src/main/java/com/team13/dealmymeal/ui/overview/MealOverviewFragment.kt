@@ -1,9 +1,10 @@
 package com.team13.dealmymeal.ui.overview
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Filterable
+import android.widget.RatingBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,11 +15,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.team13.dealmymeal.R
-import com.team13.dealmymeal.Meal
-import com.team13.dealmymeal.MealViewModel
-import com.team13.dealmymeal.MealViewModelFactory
-import com.team13.dealmymeal.MealApplication
+import com.team13.dealmymeal.*
 
 /**
  * A fragment representing a list of Items.
@@ -157,21 +154,25 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
 
-        /*
-        val filterItem = menu.findItem(R.id.action_filter)
-        filterItem.setOnMenuItemClickListener{
-            return@setOnMenuItemClickListener true
-        }*/
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         return when (item.itemId) {
-            R.id.action_filter -> {
+            R.id.action_filter_star -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
+                val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
+                val selectStarAlert = AlertDialog.Builder(context)
+                selectStarAlert.setTitle(R.string.chooseRating)
+                selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
+                    dialog.dismiss()
+                }
+                selectStarAlert.create().show()
                 true
             }
+
             else -> false
         }
     }
