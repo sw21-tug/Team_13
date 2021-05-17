@@ -11,9 +11,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
@@ -31,7 +31,7 @@ import com.team13.dealmymeal.R
  *
  */
 class MealOverviewAdapter(
-    private var valuesOriginal: MutableList<Meal>,
+        private var valuesOriginal: MutableList<Meal>,
 ) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
     var tracker: SelectionTracker<Meal>? = null
@@ -57,23 +57,31 @@ class MealOverviewAdapter(
         //holder.idView.text = item.name
 
 
+
         tracker?.let {
-            holder.setItemSelected(getItem(position), it.isSelected(getItem(position)))
+            holder.setItemSelected(getItemId(position), it.isSelected(getItem(position)))
+
+
         }
 
         val current = getItem(position)
-        holder.bind(current.title, position, current.categories , current.rating)
-        Log.d("Adapter", current.title)
+        holder.bind(current.title, position, current.categories, current.rating)
 
+    }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position).id
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val itemName: TextView = view.findViewById(R.id.item_name)
 
         val background: ConstraintLayout = view.findViewById(R.id.item_frame)
+        val cardBackground: CardView = view.findViewById(R.id.card_background)
         val chips: ChipGroup = view.findViewById(R.id.chip_group)
         val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
+
 
         override fun toString(): String {
             return super.toString()
@@ -85,8 +93,16 @@ class MealOverviewAdapter(
                 override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
             }
 
-        fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
-            itemView.isSelected = isSelected
+        fun setItemSelected(postItem: Long, isSelected: Boolean = false) {
+            cardBackground.isSelected = isSelected
+            if (isSelected) {
+                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_selected))
+            }
+            else {
+                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_normal))
+
+            }
+
         }
 
         fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
@@ -128,7 +144,7 @@ class MealOverviewAdapter(
         }
 
         override fun getPosition(key: Meal): Int {
-            return adapter.currentList.indexOf(key.title)//adapter.getI.indexOfFirst { it.name == key.title }
+            return adapter.currentList.indexOf(key)//adapter.getI.indexOfFirst { it.name == key.title }
         }
     }
 
