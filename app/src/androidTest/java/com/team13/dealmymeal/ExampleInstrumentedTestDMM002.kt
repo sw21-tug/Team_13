@@ -123,8 +123,6 @@ class ExampleInstrumentedTestDMM002: TestCase() {
         Espresso.onView(ViewMatchers.withId(R.id.form_edit)).perform(ViewActions.typeText("test"))
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_showEntry)).check(ViewAssertions.matches(ViewMatchers.withText("test")))
-
     }
 
 
