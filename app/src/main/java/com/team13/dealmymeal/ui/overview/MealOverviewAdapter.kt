@@ -1,17 +1,18 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
@@ -90,10 +91,18 @@ class MealOverviewAdapter(
 
         fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
             itemName.text = text
-            when (position % 2) {
-                0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
-                1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
-            }
+
+            if((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
+                when (position % 2) {
+                    0 -> background.setBackgroundResource(R.drawable.ic_background_meal_dark)
+                    1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green_dark)
+                }
+            else
+                when (position % 2) {
+                    0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
+                    1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
+                }
+
             if (categories != null) {
                 for (category in categories){
                     val chip = Chip(context)
@@ -109,6 +118,7 @@ class MealOverviewAdapter(
             }
 
         }
+
     }
 
     class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
