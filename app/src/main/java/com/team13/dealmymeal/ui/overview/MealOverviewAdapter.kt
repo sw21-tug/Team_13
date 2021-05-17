@@ -94,13 +94,13 @@ class MealOverviewAdapter(
 
             if((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
                 when (position % 2) {
-                    0 -> background.setBackgroundResource(R.drawable.ic_background_meal_dark)
-                    1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green_dark)
+                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangedark)
+                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreendark)
                 }
             else
                 when (position % 2) {
-                    0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
-                    1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
+                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangelight)
+                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreenlight)
                 }
 
             if (categories != null) {

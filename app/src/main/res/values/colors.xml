@@ -13,4 +13,5 @@
     <color name="edit_light">#F0F4F8</color>
     <color name="edit_dark">#313132</color>
     <color name="gray">#313132</color>
+    <color name="light_gray">#748A9D</color>
 </resources>
