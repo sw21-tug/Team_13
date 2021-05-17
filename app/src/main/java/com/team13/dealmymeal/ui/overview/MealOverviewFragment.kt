@@ -31,9 +31,9 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
     private var columnCount = 1
 
-    private var tracker: SelectionTracker<Long>? = null
+    private var tracker: SelectionTracker<Meal>? = null
 
-    private var selectedPostItems: MutableList<Long> = mutableListOf()
+    private var selectedPostItems: MutableList<Meal> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
 
@@ -66,28 +66,28 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         ArrayList()
                     )
 
-                tracker = SelectionTracker.Builder<Long>(
+                tracker = SelectionTracker.Builder<Meal>(
                     "mySelection",
                     view,
                     MealOverviewAdapter.MyItemKeyProvider(
-                        view
+                        adapter as MealOverviewAdapter
                     ),
                     MealOverviewAdapter.MyItemDetailsLookup(
                         view
                     ),
-                    StorageStrategy.createLongStorage()//createParcelableStorage(Meal::class.java)
+                    StorageStrategy.createParcelableStorage(Meal::class.java)//createParcelableStorage(Meal::class.java)
                 ).withSelectionPredicate(
                     SelectionPredicates.createSelectAnything()
                 ).build()
 
-                (adapter as MealOverviewAdapter).tracker = tracker
 
                 tracker?.addObserver(
-                    object : SelectionTracker.SelectionObserver<Long>() {
+                    object : SelectionTracker.SelectionObserver<Meal>() {
                         override fun onSelectionChanged() {
                             super.onSelectionChanged()
                             tracker?.let {
                                 selectedPostItems = it.selection.toMutableList()
+
 
                                 // TODO enable this when implementing delete
 
@@ -97,6 +97,13 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                                     if (actionMode == null) actionMode = parent.startActionModeForChild(view, this@MealOverviewFragment)
                                     actionMode?.title =
                                         "${selectedPostItems.size}"
+                                    for (item in selectedPostItems) {
+                                       // (view as RecyclerView).findViewHolderForItemId(item).
+                                      //  ((view as RecyclerView).findViewHolderForItemId(item) as MealOverviewAdapter.ViewHolder?)?.setItemSelected(item, true)
+
+                                    }
+                                   // (adapter as MealOverviewAdapter).notifyDataSetChanged()
+
                                 }
 
                                 // TODO delete
@@ -105,8 +112,9 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                             }
                         }
                     })
-                overviewAdapter = adapter as MealOverviewAdapter
 
+                overviewAdapter = adapter as MealOverviewAdapter
+                overviewAdapter!!.tracker = tracker
                 // Add an observer on the LiveData returned by getAll.
                 // The onChanged() method fires when the observed data changes and the activity is
                 // in the foreground.
@@ -129,8 +137,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         .setCancelable(false)
                         .setPositiveButton(R.string.yes) { dialog, id ->
                             // Delete selected note from database
-                            for (id in selectedPostItems)
-                                mealViewModel.deleteById(id)
+                            for (meal in selectedPostItems)
+                                mealViewModel.delete(meal)
                         }
                         .setNegativeButton(R.string.no) { dialog, id ->
                             // Dismiss the dialog

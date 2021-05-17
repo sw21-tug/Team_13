@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
@@ -30,7 +31,7 @@ class MealOverviewAdapter(
         private var valuesOriginal: MutableList<Meal>,
 ) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
-    var tracker: SelectionTracker<Long>? = null
+    var tracker: SelectionTracker<Meal>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -53,13 +54,15 @@ class MealOverviewAdapter(
         //holder.idView.text = item.name
 
 
+
         tracker?.let {
-            holder.setItemSelected(getItem(position), it.isSelected(getItemId(position)))
+            holder.setItemSelected(getItemId(position), it.isSelected(getItem(position)))
+
+
         }
 
         val current = getItem(position)
         holder.bind(current.title, position, current.categories, current.rating)
-        Log.d("Adapter", current.title)
 
     }
 
@@ -81,14 +84,22 @@ class MealOverviewAdapter(
             return super.toString()
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-            object : ItemDetailsLookup.ItemDetails<Long>() {
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Meal> =
+            object : ItemDetailsLookup.ItemDetails<Meal>() {
                 override fun getPosition(): Int = bindingAdapterPosition
-                override fun getSelectionKey(): Long? = getItemId(bindingAdapterPosition)
+                override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
             }
 
-        fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
+        fun setItemSelected(postItem: Long, isSelected: Boolean = false) {
             cardBackground.isSelected = isSelected
+            if (isSelected) {
+                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_selected))
+            }
+            else {
+                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_normal))
+
+            }
+
         }
 
         fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
@@ -115,26 +126,22 @@ class MealOverviewAdapter(
         }
     }
 
-    class MyItemKeyProvider(private val recyclerView: RecyclerView) :
-        ItemKeyProvider<Long>(SCOPE_CACHED) {
-        override fun getKey(position: Int): Long? {
-            return (recyclerView.adapter as MealOverviewAdapter).getItemId(position)
+    class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
+        ItemKeyProvider<Meal>(SCOPE_CACHED) {
+        override fun getKey(position: Int): Meal? {
+            return adapter.getItem(position)
         }
 
-        override fun getPosition(key: Long): Int {
-            val viewHolder: RecyclerView.ViewHolder? = recyclerView.findViewHolderForItemId(key)
-            return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
-            //return (recyclerView.adapter as MealOverviewAdapter).currentList.indexOf(key.title)
+        override fun getPosition(key: Meal): Int {
+            return adapter.currentList.indexOf(key)//adapter.getI.indexOfFirst { it.name == key.title }
         }
-
-
     }
 
 
     //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<Long>() {
-        override fun getItemDetails(event: MotionEvent): ItemDetails<Long>? {
+        ItemDetailsLookup<Meal>() {
+        override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return (recyclerView.getChildViewHolder(view) as ViewHolder)
