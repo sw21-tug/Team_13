@@ -38,6 +38,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
 
+
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,7 +175,6 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             R.id.action_filter -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
-                navController.navigate(R.id.action_navigation_overview_to_category_filter)
 
 
                 true

@@ -26,7 +26,7 @@ class MealOverviewFilterCategoryTestTest {
     {
         Espresso.onView(ViewMatchers.withId(R.id.action_filter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.category_filter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        //Espresso.onView(ViewMatchers.withId(R.id.category_filter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
 
