@@ -164,6 +164,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         filterItem.setOnMenuItemClickListener{
             return@setOnMenuItemClickListener true
         }*/
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -172,11 +174,37 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             R.id.action_filter -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
-                val categories = arrayOf("meat", "special","veggie")
+                val categories = arrayOf("meat", "special","vegetarian")
                 val selectCategoryAlert = AlertDialog.Builder(context)
                 selectCategoryAlert.setTitle(R.string.chooseCategory)
                 selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
+/*
+                    val searchItem = item.
+                    val searchView = searchItem.actionView as SearchView
+                    searchView.setOnQueryTextListener(this)
 
+                    when(selection) {
+                        0 -> {
+                            val searchItem = categories[selection]
+                            val searchView = searchItem.actionView as SearchView
+                            searchView.setOnQueryTextListener(this)
+
+                        }
+                        1 -> {
+                            val searchItem = item.actionView
+                            val searchView = searchItem as SearchView
+                            searchView.setOnQueryTextListener(this)
+                        }
+                        2 -> {
+                            val searchItem = item.actionView
+                            val searchView = searchItem as SearchView
+                            searchView.setOnQueryTextListener(this)
+                        }
+
+
+                    }
+                */
+                    (activity as MainActivity?)!!.recreate()
                     dialog.dismiss()
                 }
                 selectCategoryAlert.create().show()
