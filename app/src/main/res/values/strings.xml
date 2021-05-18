@@ -39,6 +39,12 @@
     <string name="meal_category">Category</string>
     <string name="meal_rating">Rating</string>
     <string name="welcome_text">Add meals to your list \n here to generate your daily meal!</string>
+    <string name="chooseMeat">Meat</string>
+    <string name="chooseSpecial">Special</string>
+    <string name="chooseVeggie">Veggie</string>
+    <string name="chooseCategory">Choose your category: </string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

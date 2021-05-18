@@ -39,6 +39,10 @@
     <string name="action_search">поиск</string>
     <string name="search_hint">поиск...</string>
     <string name="action_filter">Фильтр</string>
+    <string name="chooseMeat">Мясо</string>
+    <string name="chooseSpecial">Специальный</string>
+    <string name="chooseVeggie">Вегетарианский</string>
+    <string name="chooseCategory">выберите категорию: </string>
     <string name="welcome_text">Добавьте блюда в свой список \n чтобы получать ежедневные блюда!</string>
 
 </resources>

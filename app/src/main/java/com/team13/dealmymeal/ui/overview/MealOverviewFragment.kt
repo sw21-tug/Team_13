@@ -1,5 +1,6 @@
 package com.team13.dealmymeal.ui.overview
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,11 +17,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.team13.dealmymeal.R
-import com.team13.dealmymeal.Meal
-import com.team13.dealmymeal.MealViewModel
-import com.team13.dealmymeal.MealViewModelFactory
-import com.team13.dealmymeal.MealApplication
+import com.team13.dealmymeal.*
 
 /**
  * A fragment representing a list of Items.
@@ -175,7 +172,14 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             R.id.action_filter -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
+                val categories = arrayOf("meat", "special","veggie")
+                val selectCategoryAlert = AlertDialog.Builder(context)
+                selectCategoryAlert.setTitle(R.string.chooseCategory)
+                selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
 
+                    dialog.dismiss()
+                }
+                selectCategoryAlert.create().show()
 
                 true
             }
