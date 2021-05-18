@@ -1,8 +1,11 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -104,11 +107,17 @@ class MealOverviewAdapter(
 
         fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
             itemName.text = text
-            when (position % 2) {
-                0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
-                1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
-            }
-            chips.removeAllViews()
+
+            if((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
+                when (position % 2) {
+                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangedark)
+                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreendark)
+                }
+            else
+                when (position % 2) {
+                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangelight)
+                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreenlight)
+                }
 
             if (categories != null) {
                 for (category in categories){
@@ -125,6 +134,7 @@ class MealOverviewAdapter(
             }
 
         }
+
     }
 
     class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
