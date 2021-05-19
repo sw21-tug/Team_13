@@ -178,7 +178,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
                         overviewAdapter?.filterRating(stars2[selection])
                         item.isChecked  = true
-                        item.setIcon(R.drawable.ic_filter_star)
+                        item.setIcon(R.drawable.ic_filter_star_filled)
                         dialog.dismiss()
                     }
                     selectStarAlert.create().show()
