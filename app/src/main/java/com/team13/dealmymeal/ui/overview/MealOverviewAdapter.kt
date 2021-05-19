@@ -20,6 +20,7 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.team13.dealmymeal.data.Meal
@@ -59,7 +60,7 @@ class MealOverviewAdapter(
 
 
         tracker?.let {
-            holder.setItemSelected(getItem(position), it.isSelected(getItem(position)))
+            holder.setItemSelected(it.isSelected(getItem(position)))
         }
 
         val current = getItem(position)
@@ -72,7 +73,7 @@ class MealOverviewAdapter(
         val itemName: TextView = view.findViewById(R.id.item_name)
 
         val background: ConstraintLayout = view.findViewById(R.id.item_frame)
-        val cardBackground: CardView = view.findViewById(R.id.card_background)
+        val cardBackground: MaterialCardView = view.findViewById(R.id.card_background)
         val chips: ChipGroup = view.findViewById(R.id.chip_group)
         val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
@@ -100,16 +101,8 @@ class MealOverviewAdapter(
                 override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
             }
 
-        fun setItemSelected(postItem: Long, isSelected: Boolean = false) {
+        fun setItemSelected(isSelected: Boolean = false) {
             cardBackground.isSelected = isSelected
-            if (isSelected) {
-                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_selected))
-            }
-            else {
-                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_normal))
-
-            }
-
         }
 
         fun bind(text: String?, position: Int, categories: List<Int>?, rating: Float?) {

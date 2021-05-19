@@ -21,6 +21,9 @@
     <string name="title_overview">Обзор</string>
     <string name="title_activity_navigation_bar">Основная деятельность</string>
     <string name="delete">Удалить</string>
+    <string name="delete_message">Вы уверены, что хотите удалить свой выбор?</string>
+    <string name="yes">да</string>
+    <string name="no">нет</string>
     <string name="MenuButtonHomeFragment">Фрагмент главного меню кнопки меню</string>
     <string name="meal_name">Название еды</string>
     <string name="meal_category">Категория</string>

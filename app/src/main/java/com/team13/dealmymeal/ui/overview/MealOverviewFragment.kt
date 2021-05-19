@@ -71,7 +71,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
                 adapter =
                     MealOverviewAdapter(
-                        ArrayList(), this
+                        ArrayList(), this@MealOverviewFragment
                     )
 
                 tracker = SelectionTracker.Builder<Meal>(
