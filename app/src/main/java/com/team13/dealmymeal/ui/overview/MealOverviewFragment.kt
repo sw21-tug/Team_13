@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -20,6 +21,10 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Meal
+import com.team13.dealmymeal.data.MealViewModel
+import com.team13.dealmymeal.data.MealViewModelFactory
 import com.team13.dealmymeal.*
 import com.team13.dealmymeal.ui.editmeal.EditMealFragment
 
@@ -37,7 +42,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
     private var selectedPostItems: MutableList<Meal> = mutableListOf()
     private var actionMode: ActionMode? = null
-    private var overviewAdapter: MealOverviewAdapter = MealOverviewAdapter(ArrayList(), this)
+    private var overviewAdapter: MealOverviewAdapter? = null
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +54,8 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_meal_overview_list, container, false)
 
@@ -64,10 +69,12 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                     else -> GridLayoutManager(context, columnCount)
                 }
 
-                adapter = overviewAdapter
+                adapter =
+                    MealOverviewAdapter(
+                        ArrayList(), this@MealOverviewFragment
+                    )
 
                 tracker = SelectionTracker.Builder<Meal>(
-
                     "mySelection",
                     view,
                     MealOverviewAdapter.MyItemKeyProvider(
@@ -76,22 +83,17 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                     MealOverviewAdapter.MyItemDetailsLookup(
                         view
                     ),
-                    StorageStrategy.createParcelableStorage(Meal::class.java)//createParcelableStorage(Meal::class.java)
+                    StorageStrategy.createParcelableStorage(Meal::class.java)
                 ).withSelectionPredicate(
-                        SelectionPredicates.createSelectAnything()
+                    SelectionPredicates.createSelectAnything()
                 ).build()
 
-
                 tracker?.addObserver(
-
                     object : SelectionTracker.SelectionObserver<Meal>() {
                         override fun onSelectionChanged() {
                             super.onSelectionChanged()
                             tracker?.let {
                                 selectedPostItems = it.selection.toMutableList()
-
-
-                                // TODO enable this when implementing delete
 
                                 if (selectedPostItems.isEmpty()) {
                                     actionMode?.finish()
@@ -99,22 +101,10 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                                     if (actionMode == null) actionMode = parent.startActionModeForChild(view, this@MealOverviewFragment)
                                     actionMode?.title =
                                         "${selectedPostItems.size}"
-                                    for (item in selectedPostItems) {
-                                       // (view as RecyclerView).findViewHolderForItemId(item).
-                                      //  ((view as RecyclerView).findViewHolderForItemId(item) as MealOverviewAdapter.ViewHolder?)?.setItemSelected(item, true)
-
-                                    }
-                                   // (adapter as MealOverviewAdapter).notifyDataSetChanged()
-
                                 }
-
-                                // TODO delete
-
-
                             }
                         }
                     })
-
 
                 overviewAdapter = adapter as MealOverviewAdapter
                 overviewAdapter!!.tracker = tracker
@@ -187,12 +177,6 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
-
-        /*
-        val filterItem = menu.findItem(R.id.action_filter)
-        filterItem.setOnMenuItemClickListener{
-            return@setOnMenuItemClickListener true
-        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -200,6 +184,27 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         return when (item.itemId) {
             R.id.action_filter -> {
                 Log.d("MealOverview", "Filter")
+
+                if (!item.isChecked)
+                {
+                    val categories = resources.getStringArray(R.array.categories)
+                    val selectCategoryAlert = AlertDialog.Builder(context)
+                    selectCategoryAlert.setTitle(R.string.chooseCategory)
+                    selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
+
+                        overviewAdapter?.filterCategory(selection)
+                        item.isChecked  = true
+                        item.setIcon(R.drawable.ic_baseline_close)
+                        dialog.dismiss()
+                    }
+                    selectCategoryAlert.create().show()
+
+                }else{
+
+                    overviewAdapter?.resetFilter()
+                    item.isChecked = false
+                    item.setIcon(R.drawable.ic_filter)
+                }
                 // TODO add filter for rating & type (AlertDialog)
                 true
             }
@@ -226,20 +231,20 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-                MealOverviewFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_COLUMN_COUNT, columnCount)
-                    }
+            MealOverviewFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_COLUMN_COUNT, columnCount)
                 }
+            }
     }
 
     override fun onItemClick(position: Int) {
-        val clickedMeal = overviewAdapter.currentList[position]
+        val clickedMeal = overviewAdapter!!.currentList[position]
 
         val bundle = bundleOf("Meal" to clickedMeal)
         navController.navigate(R.id.action_navigation_overview_to_editMealFragment, bundle)
 
-        overviewAdapter.notifyItemChanged(position)
+        overviewAdapter?.notifyItemChanged(position)
     }
 
 }

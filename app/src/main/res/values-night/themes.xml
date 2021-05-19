@@ -15,5 +15,6 @@
         <item name="dashboard_bg">@drawable/ic_background_dark</item>
         <item name="add_meal_edit_bg">@color/edit_dark</item>
         <item name="meal_item_txt">@color/dark_gray</item>
+        <item name="overview_item_bg">@color/ic_card_bg_d</item>
     </style>
 </resources>

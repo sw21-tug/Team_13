@@ -76,4 +76,5 @@ class MealOverviewSearchTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.team13.dealmymeal", appContext.packageName)
     }
+
 }
