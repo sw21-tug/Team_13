@@ -149,7 +149,7 @@ class AddMealTest: TestCase() {
         var count =  mealDao.getCountTitle("asdfqwer1234")
         assertEquals(1, count)
 
-        //TODO delete Test items
+        //TODO delete Test items from database
     }
 
 }
