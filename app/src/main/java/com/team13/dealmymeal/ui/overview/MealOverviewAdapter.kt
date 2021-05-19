@@ -30,8 +30,7 @@ import com.team13.dealmymeal.R
  *
  */
 class MealOverviewAdapter(
-    private var valuesOriginal: MutableList<Meal>,
-) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
+    private var valuesOriginal: MutableList<Meal>) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
     var tracker: SelectionTracker<Meal>? = null
 
@@ -118,10 +117,9 @@ class MealOverviewAdapter(
         }
 
         override fun getPosition(key: Meal): Int {
-            return adapter.currentList.indexOf(key.title)//adapter.getI.indexOfFirst { it.name == key.title }
+            return adapter.currentList.indexOf(key)//adapter.getI.indexOfFirst { it.name == key.title }
         }
     }
-
 
     //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
@@ -165,6 +163,22 @@ class MealOverviewAdapter(
             }
         }
         return results
+    }
+
+    fun filterCategory(category: String) {
+        resetFilter()
+        valuesOriginal = currentList
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in valuesOriginal) {
+            if (item.categories?.contains(category) == true) {
+                results.add(item)
+            }
+        }
+        submitList(results)
+    }
+
+    fun resetFilter() {
+        submitList(valuesOriginal)
     }
 
     companion object {
