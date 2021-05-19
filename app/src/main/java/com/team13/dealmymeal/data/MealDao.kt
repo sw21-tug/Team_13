@@ -1,4 +1,4 @@
-package com.team13.dealmymeal
+package com.team13.dealmymeal.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

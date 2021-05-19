@@ -45,4 +45,10 @@
     <string name="chooseCategory">выберите категорию: </string>
     <string name="welcome_text">Добавьте блюда в свой список \n чтобы получать ежедневные блюда!</string>
 
+    <string-array name="categories">
+        <item>Мясо</item>
+        <item>Вегетарианский</item>
+        <item>Специальный</item>
+    </string-array>
+
 </resources>

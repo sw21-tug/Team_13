@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.navigation.NavigationView
 import com.team13.dealmymeal.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import com.team13.dealmymeal.data.Meal
+import com.team13.dealmymeal.data.MealViewModel
+import com.team13.dealmymeal.data.MealViewModelFactory
 
 
 class AddMealFragment : Fragment() {
@@ -43,13 +43,13 @@ class AddMealFragment : Fragment() {
         save_button.setOnClickListener() {
 
             val stars = form_ratingBar.rating
-            val type = ArrayList<String>()
+            val type = ArrayList<Int>()
             if (form_checkMeat.isChecked)
-                type.add(resources.getString(R.string.meat))
+                type.add(0)
             if (form_checkVeggie.isChecked)
-                type.add(resources.getString(R.string.vegetarian))
+                type.add(1)
             if (form_checkSpecial.isChecked)
-                type.add(resources.getString(R.string.special))
+                type.add(2)
             var meal = Meal(text.toString(), type, stars)
 
             val db = (activity as MainActivity).db

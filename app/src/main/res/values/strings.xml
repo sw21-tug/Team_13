@@ -44,6 +44,12 @@
     <string name="chooseVeggie">Veggie</string>
     <string name="chooseCategory">Choose your category: </string>
 
+    <string-array name="categories">
+        <item>Meat</item>
+        <item>Vegetarian</item>
+        <item>Special</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

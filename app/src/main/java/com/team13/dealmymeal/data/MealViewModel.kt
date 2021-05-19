@@ -1,4 +1,4 @@
-package com.team13.dealmymeal
+package com.team13.dealmymeal.data
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch

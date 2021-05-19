@@ -4,10 +4,8 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Filterable
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -19,6 +17,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Meal
+import com.team13.dealmymeal.data.MealViewModel
+import com.team13.dealmymeal.data.MealViewModelFactory
 
 /**
  * A fragment representing a list of Items.
@@ -175,14 +176,14 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             R.id.action_filter -> {
                 Log.d("MealOverview", "Filter")
 
-                if (item.isChecked == false)
+                if (!item.isChecked)
                 {
-                    val categories = arrayOf(getString(R.string.meat), getString(R.string.special),getString(R.string.vegetarian))
+                    val categories = resources.getStringArray(R.array.categories)
                     val selectCategoryAlert = AlertDialog.Builder(context)
                     selectCategoryAlert.setTitle(R.string.chooseCategory)
                     selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
 
-                        overviewAdapter?.filterCategory(categories[selection])
+                        overviewAdapter?.filterCategory(selection)
                         item.isChecked  = true
                         item.setIcon(R.drawable.ic_baseline_close)
                         dialog.dismiss()

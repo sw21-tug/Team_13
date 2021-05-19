@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.team13.dealmymeal.Meal
+import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.R
 
 
@@ -87,16 +87,18 @@ class MealOverviewAdapter(
             itemView.isSelected = isSelected
         }
 
-        fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
+        fun bind(text: String?, position: Int, categories: List<Int>?, rating: Float?) {
             itemName.text = text
             when (position % 2) {
                 0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
                 1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
             }
+
+            chips.removeAllViews()
             if (categories != null) {
                 for (category in categories){
                     val chip = Chip(context)
-                    chip.text = category
+                    chip.text = context.resources.getStringArray(R.array.categories)[category]
                     chip.setChipBackgroundColorResource(R.color.green)
                     chip.setTextColor(Color.WHITE)
                     chips.addView(chip)
@@ -165,7 +167,7 @@ class MealOverviewAdapter(
         return results
     }
 
-    fun filterCategory(category: String) {
+    fun filterCategory(category: Int) {
         resetFilter()
         valuesOriginal = currentList
         val results: MutableList<Meal?> = ArrayList()
