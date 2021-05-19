@@ -29,18 +29,18 @@ class MealOverviewFilterRatingTest {
     private lateinit var mealDao: MealDao
 
     @Before
-    public fun setUp() {
+    public fun setUp() = runBlocking() {
         // get context -- this is an instrumental test
         // context from the running application
         val context = ApplicationProvider.getApplicationContext<Context>()
         // init the db and dao variable
         db = Room.databaseBuilder(context, DBManager::class.java, "dmm.db").build()
         mealDao = db.mealDao()
+        mealDao.deleteAll()
     }
 
     @Test
-    fun filterBtnCheck()
-    {
+    fun filterBtnCheck() {
         Espresso.onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
         Thread.sleep(500)
         Espresso.onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -55,25 +55,49 @@ class MealOverviewFilterRatingTest {
     }
 
     @Test
-    fun filterRatingCheck()
-    {
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_edit))
+    fun filterRatingCheck()  = runBlocking {
+        onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.form_edit))
             .perform(ViewActions.typeText("Nudeln"))
             .perform(ViewActions.closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.withId(R.id.form_ratingBar)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.form_ratingBar)).perform(ViewActions.click())
         Thread.sleep(500)
-        Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
         Thread.sleep(500)
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
         Thread.sleep(500)
-        Espresso.onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
         Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
+        onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(withText("Nudeln")).check(matches(isDisplayed()))
-        mealDao.deleteTestItems()
+        mealDao.deleteAll()
     }
 
+
+    @Test
+    fun filterResetRatingCheck()  = runBlocking {
+        onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.form_edit))
+            .perform(ViewActions.typeText("Nudeln"))
+            .perform(ViewActions.closeSoftKeyboard())
+        onView(ViewMatchers.withId(R.id.form_ratingBar)).perform(ViewActions.click())
+        Thread.sleep(500)
+        onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+        Thread.sleep(500)
+        onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
+        Thread.sleep(500)
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
+        Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText("Nudeln")).check(matches(isDisplayed()))
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
+        Espresso.onData(CoreMatchers.anything()).atPosition(1).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
+        Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText("Nudeln")).check(matches(isDisplayed()))
+        mealDao.deleteAll()
+    }
 
 }
