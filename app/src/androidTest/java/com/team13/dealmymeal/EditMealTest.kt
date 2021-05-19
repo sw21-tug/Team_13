@@ -59,11 +59,19 @@ class EditMealTest: TestCase() {
         onView(withText(meal.title)).check(matches(isDisplayed()))
         onView(withText(meal.title)).perform(click())
         onView(withId(R.id.form_edit)).check(matches(withText(meal.title)))
+        mealDao.deleteWithTitle("asdfqwer1234")
         assertTrue(true)
     }
 
     @Test
     fun editMeal() = runBlocking {
+        val meal = Meal("asdfqwer1234", listOf() ,0f)
+        onView(withId(R.id.navigation_addMeal)).perform(click())
+        onView(withId(R.id.form_edit))
+            .perform(ViewActions.typeText(meal.title))
+            .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.form_save)).perform(click())
+        Thread.sleep(500)
         onView(withId(R.id.navigation_overview)).perform(click())
         Thread.sleep(500)
         onView(withText("asdfqwer1234")).check(matches(isDisplayed()))
@@ -76,12 +84,19 @@ class EditMealTest: TestCase() {
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
         onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
+        mealDao.deleteWithTitle("asdfqwer1234edit")
         assertTrue(true)
-        mealDao.deleteTestItems()
     }
 
     @Test
     fun addEmptyMeal() = runBlocking {
+        val meal = Meal("asdfqwer1234edit", listOf() ,0f)
+        onView(withId(R.id.navigation_addMeal)).perform(click())
+        onView(withId(R.id.form_edit))
+            .perform(ViewActions.typeText(meal.title))
+            .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.form_save)).perform(click())
+        Thread.sleep(500)
         onView(withId(R.id.navigation_overview)).perform(click())
         Thread.sleep(500)
         onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
@@ -93,6 +108,7 @@ class EditMealTest: TestCase() {
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
         onView(withId(R.id.form_edit)).check(matches(isDisplayed()))
+        mealDao.deleteWithTitle("asdfqwer1234edit")
         assertTrue(true)
     }
 

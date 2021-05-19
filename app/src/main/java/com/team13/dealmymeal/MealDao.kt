@@ -29,4 +29,8 @@ interface MealDao {
     //This is a test function - DO NOT USE (except in tests)
     @Query("SELECT * from meal")
     suspend fun getAllTest(): List<Meal>
+
+    @Query("DELETE from meal WHERE title=:title")
+    suspend fun deleteWithTitle(title:String)
+
 }
