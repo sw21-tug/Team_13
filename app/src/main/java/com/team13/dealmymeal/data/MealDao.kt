@@ -15,7 +15,10 @@ interface MealDao {
     fun deleteTestItems()
 
     @Delete
-    fun delete(meal: Meal)
+    suspend fun delete(meal: Meal)
+
+    @Query("DELETE from meal WHERE id= :id")
+    suspend fun deleteById(id: Long)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(meal: Meal)
@@ -23,7 +26,14 @@ interface MealDao {
     @Query("DELETE FROM meal")
     suspend fun deleteAll()
 
+    @Query("UPDATE meal SET title=:title, rating=:rating, categories=:categories WHERE id=:id")
+    suspend fun updateMeal(id: Long, title: String, rating: Float, categories: List<String?>)
+
     //This is a test function - DO NOT USE (except in tests)
     @Query("SELECT * from meal")
     suspend fun getAllTest(): List<Meal>
+
+    @Query("DELETE from meal WHERE title=:title")
+    suspend fun deleteWithTitle(title:String)
+
 }

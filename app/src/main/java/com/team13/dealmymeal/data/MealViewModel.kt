@@ -21,8 +21,16 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
         repository.delete(meal)
     }
 
+    fun deleteById(id: Long) = viewModelScope.launch {
+        repository.deleteById(id)
+    }
+
     fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
+    }
+
+    fun update(meal: Meal) = viewModelScope.launch {
+        repository.updateMeal(meal)
     }
 }
 

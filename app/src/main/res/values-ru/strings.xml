@@ -44,6 +44,7 @@
     <string name="chooseVeggie">Вегетарианский</string>
     <string name="chooseCategory">выберите категорию: </string>
     <string name="welcome_text">Добавьте блюда в свой список \n чтобы получать ежедневные блюда!</string>
+    <string name="toastEmptyMeal">Название блюда не может быть пустым!</string>
 
     <string-array name="categories">
         <item>Мясо</item>
