@@ -30,7 +30,7 @@ import org.junit.Rule
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTestDMM002: TestCase() {
+class AddMealTest: TestCase() {
 
     private lateinit var db: DBManager
     private lateinit var mealDao: MealDao
@@ -125,5 +125,26 @@ class ExampleInstrumentedTestDMM002: TestCase() {
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
     }
 
+    @Test
+    fun add_duplicates() = runBlocking{
+        var meal = Meal("asdfqwer1234", listOf() ,0f)
+        Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.form_edit))
+            .perform(ViewActions.typeText(meal.title))
+            .perform(ViewActions.closeSoftKeyboard())
+        Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+
+        var meal2 = Meal("asdfqwer1234", listOf() ,0f)
+        Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.form_edit))
+            .perform(ViewActions.typeText(meal2.title))
+            .perform(ViewActions.closeSoftKeyboard())
+        Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+
+        var count =  mealDao.getCountTitle("asdfqwer1234")
+        assertEquals(1, count)
+
+        //TODO delete Test items
+    }
 
 }
