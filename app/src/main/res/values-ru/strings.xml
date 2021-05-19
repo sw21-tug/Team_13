@@ -42,5 +42,7 @@
     <string name="action_filter_star">Фильтр</string>
     <string name="welcome_text">Добавьте блюда в свой список \n чтобы получать ежедневные блюда!</string>
     <string name="chooseRating">Фильтр по рейтингу:</string>
+    <string name="toastEmptyMeal">Название блюда не может быть пустым!</string>
+
 
 </resources>

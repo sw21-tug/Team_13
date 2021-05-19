@@ -27,7 +27,27 @@ class MealRepository(private val mealDao: MealDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun deleteById(id: Long) {
+        mealDao.deleteById(id)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun deleteAll() {
         mealDao.deleteAll()
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateMeal(meal: Meal) {
+        mealDao.updateMeal(meal.id, meal.title!!, meal.rating!!, meal.categories!!)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteWithName(title: String) {
+        mealDao.deleteWithTitle(title)
+    }
+
+
 }

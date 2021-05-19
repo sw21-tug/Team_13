@@ -1,18 +1,19 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
@@ -31,14 +32,17 @@ import kotlin.math.roundToInt
  *
  */
 class MealOverviewAdapter(
-    private var valuesOriginal: MutableList<Meal>,
+        private var valuesOriginal: MutableList<Meal>,
+
+        private val listener: OnItemClickListener
+
 ) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
     var tracker: SelectionTracker<Meal>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_meal_overview, parent, false)
+                .inflate(R.layout.fragment_meal_overview, parent, false)
 
         view.setOnClickListener {
             //TODO edit
@@ -57,44 +61,80 @@ class MealOverviewAdapter(
         //holder.idView.text = item.name
 
 
+
         tracker?.let {
-            holder.setItemSelected(getItem(position), it.isSelected(getItem(position)))
+            holder.setItemSelected(getItemId(position), it.isSelected(getItem(position)))
+
+
         }
 
         val current = getItem(position)
-        holder.bind(current.title, position, current.categories , current.rating)
-        Log.d("Adapter", current.title)
+        holder.bind(current.title, position, current.categories, current.rating)
 
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    override fun getItemId(position: Int): Long {
+        return getItem(position).id
+    }
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val itemName: TextView = view.findViewById(R.id.item_name)
 
         val background: ConstraintLayout = view.findViewById(R.id.item_frame)
+        val cardBackground: CardView = view.findViewById(R.id.card_background)
         val chips: ChipGroup = view.findViewById(R.id.chip_group)
         val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
+
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
 
         override fun toString(): String {
             return super.toString()
         }
 
+        override fun onClick(v: View?) {
+            val position = bindingAdapterPosition //adapterposition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Meal> =
-            object : ItemDetailsLookup.ItemDetails<Meal>() {
-                override fun getPosition(): Int = bindingAdapterPosition
-                override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
+                object : ItemDetailsLookup.ItemDetails<Meal>() {
+                    override fun getPosition(): Int = bindingAdapterPosition
+                    override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
+                }
+
+        fun setItemSelected(postItem: Long, isSelected: Boolean = false) {
+            cardBackground.isSelected = isSelected
+            if (isSelected) {
+                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_selected))
+            }
+            else {
+                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_normal))
+
             }
 
-        fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
-            itemView.isSelected = isSelected
         }
 
         fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
             itemName.text = text
-            when (position % 2) {
-                0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
-                1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
-            }
+
+            if((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
+                when (position % 2) {
+                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangedark)
+                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreendark)
+                }
+            else
+                when (position % 2) {
+                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangelight)
+                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreenlight)
+                }
+
             if (categories != null) {
                 for (category in categories){
                     val chip = Chip(context)
@@ -110,28 +150,29 @@ class MealOverviewAdapter(
             }
 
         }
+
     }
 
     class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
-        ItemKeyProvider<Meal>(SCOPE_CACHED) {
+            ItemKeyProvider<Meal>(SCOPE_CACHED) {
         override fun getKey(position: Int): Meal? {
             return adapter.getItem(position)
         }
 
         override fun getPosition(key: Meal): Int {
-            return adapter.currentList.indexOf(key.title)//adapter.getI.indexOfFirst { it.name == key.title }
+            return adapter.currentList.indexOf(key)//adapter.getI.indexOfFirst { it.name == key.title }
         }
     }
 
 
     //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<Meal>() {
+            ItemDetailsLookup<Meal>() {
         override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return (recyclerView.getChildViewHolder(view) as ViewHolder)
-                    .getItemDetails()
+                        .getItemDetails()
             }
             return null
         }
@@ -169,6 +210,7 @@ class MealOverviewAdapter(
         return results
     }
 
+
     fun filterRating(category: Float) {
         resetFilter()
         valuesOriginal = currentList
@@ -189,6 +231,12 @@ class MealOverviewAdapter(
     }
 
 
+
+
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 
 
     companion object {
