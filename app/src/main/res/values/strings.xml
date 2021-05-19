@@ -42,4 +42,5 @@
     <string name="meal_category">Category</string>
     <string name="meal_rating">Rating</string>
     <string name="welcome_text">Add meals to your list \n here to generate your daily meal!</string>
+    <string name="toast_add_duplicate_error">This meal already exists</string>
 </resources>

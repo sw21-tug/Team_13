@@ -61,10 +61,12 @@ class AddMealFragment : Fragment() {
                         Toast.makeText(context, "Meal " + text + " added!", Toast.LENGTH_LONG)
                 toast.setGravity(Gravity.TOP, 0, 250)
                 toast.show()
+            } else {
+                val toast: Toast =
+                        Toast.makeText(context, getString(R.string.toast_add_duplicate_error), Toast.LENGTH_LONG)
+                toast.setGravity(Gravity.TOP, 0, 250)
+                toast.show()
             }
-
-
-
         }
 
         return root

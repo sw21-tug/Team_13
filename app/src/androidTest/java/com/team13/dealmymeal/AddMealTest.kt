@@ -5,10 +5,14 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -66,12 +70,13 @@ class AddMealTest: TestCase() {
 
     @Test
     fun saveEntryToDatabase() = runBlocking {
-        var meal = Meal("asdfqwer1234", listOf() ,0f)
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_addMeal)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.form_edit))
+        val meal = Meal("asdfqwer1234", listOf() ,0f)
+        onView(withId(R.id.navigation_addMeal)).perform(click())
+        onView(withId(R.id.form_edit))
                 .perform(ViewActions.typeText(meal.title))
                 .perform(ViewActions.closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
+        onView(withId(R.id.form_save)).perform(click())
+        Thread.sleep(500)
 
 
         //val meal = Meal("Schnitzel")
