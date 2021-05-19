@@ -36,4 +36,10 @@ class MealRepository(private val mealDao: MealDao) {
     suspend fun deleteAll() {
         mealDao.deleteAll()
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getCountMeals(title: String) {
+        mealDao.getCountTitle(title)
+    }
 }
