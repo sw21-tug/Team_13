@@ -16,13 +16,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
-import org.junit.After
+import org.junit.*
 
-import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Before
-import org.junit.Rule
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -61,7 +57,7 @@ class EditMealTest: TestCase() {
         onView(withId(R.id.navigation_overview)).perform(click())
         Thread.sleep(500)
         onView(withText(meal.title)).check(matches(isDisplayed()))
-        onView(withText(meal.title)).perform(longClick())
+        onView(withText(meal.title)).perform(click())
         onView(withId(R.id.form_edit)).check(matches(withText(meal.title)))
         assertTrue(true)
     }
@@ -71,17 +67,33 @@ class EditMealTest: TestCase() {
         onView(withId(R.id.navigation_overview)).perform(click())
         Thread.sleep(500)
         onView(withText("asdfqwer1234")).check(matches(isDisplayed()))
-        onView(withText("asdfqwer1234")).perform(longClick())
+        onView(withText("asdfqwer1234")).perform(click())
         onView(withId(R.id.form_edit)).check(matches(withText("asdfqwer1234")))
         onView(withId(R.id.form_edit))
-                .perform(ViewActions.replaceText("edit"))
+                .perform(ViewActions.replaceText("asdfqwer1234edit"))
                 .perform(ViewActions.closeSoftKeyboard())
-        onView(withText("edit")).check(matches(isDisplayed()))
+        onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
-        onView(withText("edit")).check(matches(isDisplayed()))
+        onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
         assertTrue(true)
         mealDao.deleteTestItems()
+    }
+
+    @Test
+    fun addEmptyMeal() = runBlocking {
+        onView(withId(R.id.navigation_overview)).perform(click())
+        Thread.sleep(500)
+        onView(withText("asdfqwer1234edit")).check(matches(isDisplayed()))
+        onView(withText("asdfqwer1234edit")).perform(click())
+        onView(withId(R.id.form_edit)).check(matches(withText("asdfqwer1234edit")))
+        onView(withId(R.id.form_edit))
+                .perform(ViewActions.replaceText(""))
+                .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.form_save)).perform(click())
+        Thread.sleep(500)
+        onView(withId(R.id.form_edit)).check(matches(isDisplayed()))
+        assertTrue(true)
     }
 
     @After
