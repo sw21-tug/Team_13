@@ -90,14 +90,22 @@ class MealOverviewFilterRatingTest {
         Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(withText("Nudeln")).check(matches(isDisplayed()))
-        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.doubleClick());
         Espresso.onData(CoreMatchers.anything()).atPosition(1).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.doubleClick());
         Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(withText("Nudeln")).check(matches(isDisplayed()))
         mealDao.deleteAll()
+    }
+
+    @Test
+    fun changeIconOnClick (){
+        onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.action_filter_star)).perform(ViewActions.click())
+        Espresso.onData(CoreMatchers.anything()).atPosition(1).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.action_filter_star)).check(matches(ViewMatchers.withId(R.drawable.ic_filter_star)))
     }
 
 }

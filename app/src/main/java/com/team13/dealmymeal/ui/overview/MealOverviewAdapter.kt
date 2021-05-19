@@ -182,8 +182,13 @@ class MealOverviewAdapter(
     }
 
     fun resetFilter() {
+        if(currentList.size >= valuesOriginal.size)
+            valuesOriginal = currentList
+
         submitList(valuesOriginal)
     }
+
+
 
 
     companion object {

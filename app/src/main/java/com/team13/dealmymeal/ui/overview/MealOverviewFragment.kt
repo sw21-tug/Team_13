@@ -168,21 +168,27 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             R.id.action_filter_star -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
+                if (item.isChecked == false)
+                {
+                    val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
+                    val stars2 = arrayOf(1.0f,2.0f,3.0f,4.0f)
+                    val selectStarAlert = AlertDialog.Builder(context)
+                    selectStarAlert.setTitle(R.string.chooseRating)
+                    selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
 
-                val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
-                val stars2 = arrayOf(1.0f,2.0f,3.0f,4.0f)
-                val selectStarAlert = AlertDialog.Builder(context)
-                selectStarAlert.setTitle(R.string.chooseRating)
-                selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
-                    //overviewAdapter?.resetFilter()
-                    Log.d("Overview", stars[selection])
+                        overviewAdapter?.filterRating(stars2[selection])
+                        item.isChecked  = true
+                        item.setIcon(R.drawable.ic_filter_star)
+                        dialog.dismiss()
+                    }
+                    selectStarAlert.create().show()
 
-                    overviewAdapter?.filterRating(stars2[selection])
+                }else{
 
-                    dialog.dismiss()
+                    overviewAdapter?.resetFilter()
+                    item.isChecked = false
+                    item.setIcon(R.drawable.ic_filter_star)
                 }
-                selectStarAlert.create().show()
-
                 true
             }
 
