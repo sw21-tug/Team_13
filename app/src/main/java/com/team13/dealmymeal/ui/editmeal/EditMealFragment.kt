@@ -78,11 +78,21 @@ class EditMealFragment : Fragment() {
                     type.add("Special")
 
                 meal.title = view.form_edit.text.toString()
+
                 meal.rating = view.form_ratingBar.rating
                 meal.categories = type
 
-                mealViewModel.update(meal)
-                activity?.onBackPressed()
+
+                if (meal.title != "") {
+                    mealViewModel.update(meal)
+                    activity?.onBackPressed()
+                }
+                else {
+                    val toast: Toast =
+                        Toast.makeText(context, getString(R.string.toastEmptyMeal), Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.TOP, 0, 250)
+                    toast.show()
+                }
             }
         }
 
