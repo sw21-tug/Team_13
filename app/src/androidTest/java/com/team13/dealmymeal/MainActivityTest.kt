@@ -72,16 +72,5 @@ class MainActivityTest{
         onData(anything()).atPosition(1).perform(click())
     }
 
-    @Test
-    fun filteringStarDisplayed() {
-        onView(withId(R.id.navigation_overview)).perform(click())
-        onView(withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }
 
-    @Test
-    fun filteringStarClickable()
-    {
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_overview)).perform(ViewActions.click())
-        onView(withId(R.id.action_filter_star)).perform(click())
-    }
 }

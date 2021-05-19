@@ -170,9 +170,15 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                 // TODO add filter for rating & type (AlertDialog)
 
                 val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
+                val stars2 = arrayOf(1.0f,2.0f,3.0f,4.0f)
                 val selectStarAlert = AlertDialog.Builder(context)
                 selectStarAlert.setTitle(R.string.chooseRating)
                 selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
+                    //overviewAdapter?.resetFilter()
+                    Log.d("Overview", stars[selection])
+
+                    overviewAdapter?.filterRating(stars2[selection])
+
                     dialog.dismiss()
                 }
                 selectStarAlert.create().show()

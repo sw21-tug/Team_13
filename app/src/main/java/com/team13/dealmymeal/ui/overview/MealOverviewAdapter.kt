@@ -23,6 +23,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.team13.dealmymeal.Meal
 import com.team13.dealmymeal.R
+import kotlin.math.roundToInt
 
 
 /**
@@ -157,6 +158,7 @@ class MealOverviewAdapter(
         }
     }
 
+
     private fun getFilteredResults(constraint: String?): List<Meal?> {
         val results: MutableList<Meal?> = ArrayList()
         for (item in valuesOriginal) {
@@ -166,6 +168,23 @@ class MealOverviewAdapter(
         }
         return results
     }
+
+    fun filterRating(category: Float) {
+        resetFilter()
+        valuesOriginal = currentList
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in valuesOriginal) {
+
+            if (item.rating!!.roundToInt() == category.roundToInt())
+                results.add(item)
+        }
+        submitList(results)
+    }
+
+    fun resetFilter() {
+        submitList(valuesOriginal)
+    }
+
 
     companion object {
         private val MEAL_COMPARATOR = object : DiffUtil.ItemCallback<Meal>() {
