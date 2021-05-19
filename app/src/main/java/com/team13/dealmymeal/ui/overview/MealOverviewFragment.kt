@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.Filterable
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -173,17 +174,28 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         return when (item.itemId) {
             R.id.action_filter -> {
                 Log.d("MealOverview", "Filter")
-                // TODO add filter for rating & type (AlertDialog)
-                val categories = arrayOf(getString(R.string.meat), getString(R.string.special),getString(R.string.vegetarian))
-                val selectCategoryAlert = AlertDialog.Builder(context)
-                selectCategoryAlert.setTitle(R.string.chooseCategory)
-                selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
 
+                if (item.isChecked == false)
+                {
+                    val categories = arrayOf(getString(R.string.meat), getString(R.string.special),getString(R.string.vegetarian))
+                    val selectCategoryAlert = AlertDialog.Builder(context)
+                    selectCategoryAlert.setTitle(R.string.chooseCategory)
+                    selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
 
-                    overviewAdapter?.filterCategory(categories[selection])
-                    dialog.dismiss()
+                        overviewAdapter?.filterCategory(categories[selection])
+                        item.isChecked  = true
+                        item.setIcon(R.drawable.ic_baseline_close)
+                        dialog.dismiss()
+                    }
+                    selectCategoryAlert.create().show()
+
+                }else{
+
+                    overviewAdapter?.resetFilter()
+                    item.isChecked = false
+                    item.setIcon(R.drawable.ic_filter)
                 }
-                selectCategoryAlert.create().show()
+                // TODO add filter for rating & type (AlertDialog)
 
                 true
             }
