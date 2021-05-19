@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Filterable
+import android.widget.RatingBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -159,58 +159,27 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
 
-        /*
-        val filterItem = menu.findItem(R.id.action_filter)
-        filterItem.setOnMenuItemClickListener{
-            return@setOnMenuItemClickListener true
-        }*/
-
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         return when (item.itemId) {
-            R.id.action_filter -> {
+            R.id.action_filter_star -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
-                val categories = arrayOf("meat", "special","vegetarian")
-                val selectCategoryAlert = AlertDialog.Builder(context)
-                selectCategoryAlert.setTitle(R.string.chooseCategory)
-                selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
-/*
-                    val searchItem = item.
-                    val searchView = searchItem.actionView as SearchView
-                    searchView.setOnQueryTextListener(this)
 
-                    when(selection) {
-                        0 -> {
-                            val searchItem = categories[selection]
-                            val searchView = searchItem.actionView as SearchView
-                            searchView.setOnQueryTextListener(this)
-
-                        }
-                        1 -> {
-                            val searchItem = item.actionView
-                            val searchView = searchItem as SearchView
-                            searchView.setOnQueryTextListener(this)
-                        }
-                        2 -> {
-                            val searchItem = item.actionView
-                            val searchView = searchItem as SearchView
-                            searchView.setOnQueryTextListener(this)
-                        }
-
-
-                    }
-                */
-                    (activity as MainActivity?)!!.recreate()
+                val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
+                val selectStarAlert = AlertDialog.Builder(context)
+                selectStarAlert.setTitle(R.string.chooseRating)
+                selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
                     dialog.dismiss()
                 }
-                selectCategoryAlert.create().show()
+                selectStarAlert.create().show()
 
                 true
             }
+
             else -> false
         }
     }
