@@ -1,6 +1,6 @@
 package com.team13.dealmymeal.ui.editmeal
 
-import com.team13.dealmymeal.ui.home.AddMealViewModel
+import com.team13.dealmymeal.ui.addmeal.AddMealViewModel
 
 
 import android.os.Bundle
