@@ -17,6 +17,7 @@
         <item name="dashboard_bg">@drawable/ic_background2</item>
         <item name="add_meal_edit_bg">@color/edit_light</item>
         <item name="meal_item_txt">@color/light_gray</item>
+        <item name="overview_item_bg">@color/ic_card_bg_l</item>
         <!-- Customize your theme here. -->
     </style>
 

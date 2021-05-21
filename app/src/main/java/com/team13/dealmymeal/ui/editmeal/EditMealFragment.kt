@@ -17,6 +17,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.navigation.NavigationView
 import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Meal
+import com.team13.dealmymeal.data.MealViewModel
+import com.team13.dealmymeal.data.MealViewModelFactory
 import kotlinx.android.synthetic.main.fragment_addmeal.view.*
 import kotlinx.android.synthetic.main.fragment_editmeal.view.*
 import kotlinx.android.synthetic.main.fragment_editmeal.view.check_meat
@@ -69,13 +72,13 @@ class EditMealFragment : Fragment() {
             view.check_special.isChecked = isSpecial
 
             view.form_save.setOnClickListener {
-                val type = ArrayList<String>()
+                val type = ArrayList<Int>()
                 if (view.check_meat.isChecked)
-                    type.add("Meat")
+                    type.add(0)
                 if (view.check_veggie.isChecked)
-                    type.add("Veggie")
+                    type.add(1)
                 if (view.check_special.isChecked)
-                    type.add("Special")
+                    type.add(2)
 
                 meal.title = view.form_edit.text.toString()
 

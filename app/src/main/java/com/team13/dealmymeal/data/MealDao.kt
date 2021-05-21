@@ -1,4 +1,4 @@
-package com.team13.dealmymeal
+package com.team13.dealmymeal.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +27,7 @@ interface MealDao {
     suspend fun deleteAll()
 
     @Query("UPDATE meal SET title=:title, rating=:rating, categories=:categories WHERE id=:id")
-    suspend fun updateMeal(id: Long, title: String, rating: Float, categories: List<String?>)
+    suspend fun updateMeal(id: Long, title: String, rating: Float, categories: List<Int?>)
 
     //This is a test function - DO NOT USE (except in tests)
     @Query("SELECT * from meal")

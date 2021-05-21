@@ -1,4 +1,4 @@
-package com.team13.dealmymeal
+package com.team13.dealmymeal.data
 
 import androidx.room.TypeConverter
 import kotlinx.serialization.decodeFromString
@@ -7,8 +7,8 @@ import kotlinx.serialization.json.Json
 
 class Converters {
     @TypeConverter
-    fun fromList(value : List<String>) = Json.encodeToString(value)
+    fun fromList(value : List<Int>) = Json.encodeToString(value)
 
     @TypeConverter
-    fun toList(value: String) = Json.decodeFromString<List<String>>(value)
+    fun toList(value: String) = Json.decodeFromString<List<Int>>(value)
 }
