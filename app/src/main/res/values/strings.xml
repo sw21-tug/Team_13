@@ -56,5 +56,4 @@
     </string-array>
 
     <string name="chooseRating">Filter by Rating:</string>
-    <string name="toastEmptyMeal">Meal Name can´t be empty!</string>
 </resources>
