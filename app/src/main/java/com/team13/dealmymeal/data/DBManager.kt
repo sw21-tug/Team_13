@@ -1,7 +1,6 @@
-package com.team13.dealmymeal
+package com.team13.dealmymeal.data
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -11,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Meal::class], version = 3)
+@Database(entities = [Meal::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun mealDao(): MealDao

@@ -20,10 +20,12 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.team13.dealmymeal.Meal
+import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.R
+import kotlin.math.roundToInt
 
 
 /**
@@ -32,9 +34,7 @@ import com.team13.dealmymeal.R
  */
 class MealOverviewAdapter(
         private var valuesOriginal: MutableList<Meal>,
-
         private val listener: OnItemClickListener
-
 ) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
     var tracker: SelectionTracker<Meal>? = null
@@ -60,27 +60,21 @@ class MealOverviewAdapter(
         //holder.idView.text = item.name
 
 
-
         tracker?.let {
-            holder.setItemSelected(getItemId(position), it.isSelected(getItem(position)))
-
-
+            holder.setItemSelected(it.isSelected(getItem(position)))
         }
 
         val current = getItem(position)
-        holder.bind(current.title, position, current.categories, current.rating)
+        holder.bind(current.title, position, current.categories , current.rating)
+        Log.d("Adapter", current.title)
 
-    }
-
-    override fun getItemId(position: Int): Long {
-        return getItem(position).id
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val itemName: TextView = view.findViewById(R.id.item_name)
 
         val background: ConstraintLayout = view.findViewById(R.id.item_frame)
-        val cardBackground: CardView = view.findViewById(R.id.card_background)
+        val cardBackground: MaterialCardView = view.findViewById(R.id.card_background)
         val chips: ChipGroup = view.findViewById(R.id.chip_group)
         val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
@@ -103,24 +97,16 @@ class MealOverviewAdapter(
         }
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Meal> =
-                object : ItemDetailsLookup.ItemDetails<Meal>() {
-                    override fun getPosition(): Int = bindingAdapterPosition
-                    override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
-                }
+            object : ItemDetailsLookup.ItemDetails<Meal>() {
+                override fun getPosition(): Int = bindingAdapterPosition
+                override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
+            }
 
-        fun setItemSelected(postItem: Long, isSelected: Boolean = false) {
+        fun setItemSelected(isSelected: Boolean = false) {
             cardBackground.isSelected = isSelected
-            if (isSelected) {
-                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_selected))
-            }
-            else {
-                cardBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_normal))
-
-            }
-
         }
 
-        fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
+        fun bind(text: String?, position: Int, categories: List<Int>?, rating: Float?) {
             itemName.text = text
 
             if((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
@@ -134,10 +120,11 @@ class MealOverviewAdapter(
                     1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreenlight)
                 }
 
+            chips.removeAllViews()
             if (categories != null) {
                 for (category in categories){
                     val chip = Chip(context)
-                    chip.text = category
+                    chip.text = context.resources.getStringArray(R.array.categories)[category]
                     chip.setChipBackgroundColorResource(R.color.green)
                     chip.setTextColor(Color.WHITE)
                     chips.addView(chip)
@@ -149,11 +136,10 @@ class MealOverviewAdapter(
             }
 
         }
-
     }
 
     class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
-            ItemKeyProvider<Meal>(SCOPE_CACHED) {
+        ItemKeyProvider<Meal>(SCOPE_CACHED) {
         override fun getKey(position: Int): Meal? {
             return adapter.getItem(position)
         }
@@ -163,15 +149,13 @@ class MealOverviewAdapter(
         }
     }
 
-
-    //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-            ItemDetailsLookup<Meal>() {
+        ItemDetailsLookup<Meal>() {
         override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return (recyclerView.getChildViewHolder(view) as ViewHolder)
-                        .getItemDetails()
+                    .getItemDetails()
             }
             return null
         }
@@ -206,6 +190,37 @@ class MealOverviewAdapter(
             }
         }
         return results
+    }
+
+    fun filterCategory(category: Int) {
+        resetFilter()
+        valuesOriginal = currentList
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in valuesOriginal) {
+            if (item.categories?.contains(category) == true) {
+                results.add(item)
+            }
+        }
+        submitList(results)
+    }
+
+    fun filterRating(category: Float) {
+        resetFilter()
+        valuesOriginal = currentList
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in valuesOriginal) {
+
+            if (item.rating!!.roundToInt() == category.roundToInt())
+                results.add(item)
+        }
+        submitList(results)
+    }
+
+    fun resetFilter() {
+        if(currentList.size >= valuesOriginal.size)
+            valuesOriginal = currentList
+
+        submitList(valuesOriginal)
     }
 
     interface OnItemClickListener {
