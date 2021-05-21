@@ -25,6 +25,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.R
+import kotlin.math.roundToInt
 
 
 /**
@@ -148,8 +149,6 @@ class MealOverviewAdapter(
         }
     }
 
-
-    //TODO is this needed? -->listener
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
         ItemDetailsLookup<Meal>() {
         override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
@@ -193,10 +192,6 @@ class MealOverviewAdapter(
         return results
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
     fun filterCategory(category: Int) {
         resetFilter()
         valuesOriginal = currentList
@@ -209,11 +204,27 @@ class MealOverviewAdapter(
         submitList(results)
     }
 
+    fun filterRating(category: Float) {
+        resetFilter()
+        valuesOriginal = currentList
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in valuesOriginal) {
+
+            if (item.rating!!.roundToInt() == category.roundToInt())
+                results.add(item)
+        }
+        submitList(results)
+    }
+
     fun resetFilter() {
         if(currentList.size >= valuesOriginal.size)
             valuesOriginal = currentList
 
         submitList(valuesOriginal)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     companion object {

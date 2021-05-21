@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.RatingBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -206,6 +207,32 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                     item.setIcon(R.drawable.ic_filter)
                 }
                 // TODO add filter for rating & type (AlertDialog)
+                true
+            }
+            R.id.action_filter_star -> {
+                Log.d("MealOverview", "Filter")
+                // TODO add filter for rating & type (AlertDialog)
+                if (item.isChecked == false)
+                {
+                    val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
+                    val stars2 = arrayOf(1.0f,2.0f,3.0f,4.0f)
+                    val selectStarAlert = AlertDialog.Builder(context)
+                    selectStarAlert.setTitle(R.string.chooseRating)
+                    selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
+
+                        overviewAdapter?.filterRating(stars2[selection])
+                        item.isChecked  = true
+                        item.setIcon(R.drawable.ic_filter_star_filled)
+                        dialog.dismiss()
+                    }
+                    selectStarAlert.create().show()
+
+                }else{
+
+                    overviewAdapter?.resetFilter()
+                    item.isChecked = false
+                    item.setIcon(R.drawable.ic_filter_star)
+                }
                 true
             }
             else -> false

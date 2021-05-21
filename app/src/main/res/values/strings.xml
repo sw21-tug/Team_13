@@ -27,6 +27,7 @@
     <string name="action_search">Search</string>
     <string name="search_hint">Search...</string>
     <string name="action_filter">Filter</string>
+    <string name="action_filter_star">Filter</string>
     <string name="add_meal">Add Meal</string>
     <string name="enter_menu">Enter the Name of your meal!</string>
     <string name="save">save</string>
@@ -54,5 +55,5 @@
         <item>Special</item>
     </string-array>
 
-
+    <string name="chooseRating">Filter by Rating:</string>
 </resources>
