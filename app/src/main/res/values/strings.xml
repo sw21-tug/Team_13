@@ -17,6 +17,7 @@
     <string name="title_addmeal">Add Meal</string>
     <string name="title_dashboard">Generate</string>
     <string name="title_overview">Overview</string>
+    <string name="title_edit">Edit Meal</string>
     <string name="title_activity_navigation_bar">MainActivity</string>
     <string name="delete">Delete</string>
     <string name="delete_message">Are you sure you want to delete your selection?</string>
