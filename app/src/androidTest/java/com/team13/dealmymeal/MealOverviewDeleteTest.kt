@@ -17,6 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.google.common.truth.Truth
+import com.team13.dealmymeal.data.Meal
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
