@@ -59,11 +59,18 @@ class AddMealFragment : Fragment() {
             }
 
             if(count == 0){
-                mealViewModel.insert(meal)
-                val toast: Toast =
-                        Toast.makeText(context, "Meal " + text + " added!", Toast.LENGTH_LONG)
-                toast.setGravity(Gravity.TOP, 0, 250)
-                toast.show()
+                if (meal.title != "") {
+                    mealViewModel.insert(meal)
+                    val toast: Toast =
+                        Toast.makeText(context, getString(R.string.mealAdded, meal.title), Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.TOP, 0, 250)
+                    toast.show()
+                } else {
+                    val toast: Toast =
+                        Toast.makeText(context, getString(R.string.toastEmptyMeal), Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.TOP, 0, 250)
+                    toast.show()
+                }
             } else {
                 val toast: Toast =
                         Toast.makeText(context, getString(R.string.toast_add_duplicate_error), Toast.LENGTH_LONG)
