@@ -41,7 +41,7 @@ class DBManagerTest: TestCase() {
     // is present in the db -- if the item is present then our test cases pass
     @Test
     fun writeAndReadLanguage() = runBlocking {
-        val meal = Meal("Spaghetti", listOf("Special"), 0f)
+        val meal = Meal("Spaghetti", listOf(0), 0f)
         mealDao.insert(meal)
         //val allMeals = mealDao.getAll().toList()
         val allMeals = mealDao.getAllTest()

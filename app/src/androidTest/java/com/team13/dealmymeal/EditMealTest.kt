@@ -14,6 +14,9 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.team13.dealmymeal.data.DBManager
+import com.team13.dealmymeal.data.Meal
+import com.team13.dealmymeal.data.MealDao
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.*

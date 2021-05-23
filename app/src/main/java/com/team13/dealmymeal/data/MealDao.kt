@@ -33,7 +33,12 @@ interface MealDao {
     @Query("SELECT * from meal")
     suspend fun getAllTest(): List<Meal>
 
+
+    @Query("SELECT COUNT(id) FROM meal WHERE title=:title")
+    suspend fun getCountTitle(title: String): Int
+
     @Query("DELETE from meal WHERE title=:title")
     suspend fun deleteWithTitle(title:String)
+
 
 }

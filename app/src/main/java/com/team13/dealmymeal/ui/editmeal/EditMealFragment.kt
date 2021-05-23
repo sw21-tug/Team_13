@@ -1,6 +1,6 @@
 package com.team13.dealmymeal.ui.editmeal
 
-import com.team13.dealmymeal.ui.home.AddMealViewModel
+import com.team13.dealmymeal.ui.addmeal.AddMealViewModel
 
 
 import android.os.Bundle
@@ -63,9 +63,9 @@ class EditMealFragment : Fragment() {
         if (meal != null) {
             view.form_edit.setText(meal.title)
             view.form_ratingBar.setRating(meal.rating?.toFloat()!!)
-            val isMeat = meal.categories!!.contains("Meat")
-            val isSpecial = meal.categories!!.contains("Special")
-            val isVeggie = meal.categories!!.contains("Veggie")
+            val isMeat = meal.categories!!.contains(0)
+            val isSpecial = meal.categories!!.contains(1)
+            val isVeggie = meal.categories!!.contains(2)
 
             view.check_meat.isChecked = isMeat
             view.check_veggie.isChecked = isVeggie

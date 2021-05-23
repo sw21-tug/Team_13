@@ -10,6 +10,10 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
     // - Repository is completely separated from the UI through the ViewModel.
     val allMeals: LiveData<List<Meal>> = repository.allMeals.asLiveData()
 
+    suspend fun getCount(title: String): Int{
+        return repository.getCountMeals(title)
+    }
+
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */

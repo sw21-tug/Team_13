@@ -1,6 +1,7 @@
 package com.team13.dealmymeal.data
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -39,6 +40,11 @@ class MealRepository(private val mealDao: MealDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+
+    suspend fun getCountMeals(title: String): Int {
+        return mealDao.getCountTitle(title)
+    }
+
     suspend fun updateMeal(meal: Meal) {
         mealDao.updateMeal(meal.id, meal.title!!, meal.rating!!, meal.categories!!)
     }
@@ -48,6 +54,7 @@ class MealRepository(private val mealDao: MealDao) {
     suspend fun deleteWithName(title: String) {
         mealDao.deleteWithTitle(title)
     }
+
 
 
 }
