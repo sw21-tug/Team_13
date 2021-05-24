@@ -36,4 +36,11 @@ class PlanGeneratorTest {
             PlanGenerator.generatePlan(3, 2, 2, 2, 2)
         }
     }
+
+    @Test
+    fun planNotPossibleToLessSpecial() {
+        assertThrows(NotEnoughMealsException::class.java) {
+            PlanGenerator.generatePlan(5, 1, 2, 2, 3)
+        }
+    }
 }
