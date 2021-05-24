@@ -58,4 +58,6 @@
         <item>Специальный</item>
     </string-array>
 
+    <string name="mealAdded">Еда %1$s добавлена!</string>
+
 </resources>

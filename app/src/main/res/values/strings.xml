@@ -57,4 +57,5 @@
     </string-array>
 
     <string name="chooseRating">Filter by Rating:</string>
+    <string name="mealAdded">Meal %1$s added!</string>
 </resources>
