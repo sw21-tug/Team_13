@@ -43,4 +43,11 @@ class PlanGeneratorTest {
             PlanGenerator.generatePlan(5, 1, 2, 2, 3)
         }
     }
+
+    @Test
+    fun planNotPossibleToLessMeat() {
+        assertThrows(NotEnoughMealsException::class.java) {
+            PlanGenerator.generatePlan(5, 1, 5, 2, 2)
+        }
+    }
 }
