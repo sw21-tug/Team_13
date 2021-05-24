@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
@@ -46,11 +47,11 @@ class AddMealFragment : Fragment() {
             val stars = form_ratingBar.rating
             val type = ArrayList<Int>()
             if (form_checkMeat.isChecked)
-                type.add(0)
+                type.add(Category.MEAT.category)
             if (form_checkVeggie.isChecked)
-                type.add(1)
+                type.add(Category.VEGETARIAN.category)
             if (form_checkSpecial.isChecked)
-                type.add(2)
+                type.add(Category.SPECIAL.category)
             val meal = Meal(text.toString(), type, stars)
 
             var count: Int
