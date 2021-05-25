@@ -3,7 +3,6 @@ package com.team13.dealmymeal.ui.addmeal
 import android.os.Bundle
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ class AddMealFragment : Fragment() {
         MealViewModelFactory((activity?.application as MealApplication).repository)
     }
     private lateinit var addMealViewModel: AddMealViewModel
-    private val fragmentTag = "AddMealFragment"
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,7 +36,7 @@ class AddMealFragment : Fragment() {
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
         val switchSpecial = root.findViewById<SwitchMaterial>(R.id.check_special)
         val text = editTitle.text
-        btnSave.setOnClickListener() {
+        btnSave.setOnClickListener {
 
             val stars = ratingBar.rating
             val type = ArrayList<Int>()

@@ -8,7 +8,6 @@ import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.selection.SelectionPredicates
@@ -31,21 +30,11 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     }
 
     private var columnCount = 1
-
     private var tracker: SelectionTracker<Meal>? = null
-
     private var selectedPostItems: MutableList<Meal> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
     private lateinit var navController: NavController
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +57,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         ArrayList(), this@MealOverviewFragment
                     )
 
-                tracker = SelectionTracker.Builder<Meal>(
+                tracker = SelectionTracker.Builder(
                     "mySelection",
                     view,
                     MealOverviewAdapter.MealItemKeyProvider(
@@ -105,10 +94,10 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                 // Add an observer on the LiveData returned by getAll.
                 // The onChanged() method fires when the observed data changes and the activity is
                 // in the foreground.
-                mealViewModel.allMeals.observe(viewLifecycleOwner, Observer { meals ->
+                mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
                     // Update the cached copy of the words in the adapter.
                     meals.let { overviewAdapter!!.submitList(it) }
-                })
+                }
                 //Log.d("MOF", "calling coroutine")
                 //main(context, overviewAdapter!!).invoke()
             }
@@ -243,20 +232,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     }
 
 
-    companion object {
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            MealOverviewFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
-    }
 
     override fun onItemClick(position: Int) {
         val clickedMeal = overviewAdapter!!.currentList[position]

@@ -25,7 +25,7 @@ import kotlin.math.roundToInt
 
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
+ * [ListAdapter] that can display a [Meal].
  *
  */
 class MealOverviewAdapter(
@@ -52,11 +52,11 @@ class MealOverviewAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val txtTitle: TextView = view.findViewById(R.id.item_name)
-        val imgBackgroundMeal: ImageView = view.findViewById(R.id.item_frame)
-        val cardMeal: MaterialCardView = view.findViewById(R.id.card_background)
-        val chips: ChipGroup = view.findViewById(R.id.chip_group)
-        val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
+        private val txtTitle: TextView = view.findViewById(R.id.item_name)
+        private val imgBackgroundMeal: ImageView = view.findViewById(R.id.item_frame)
+        private val cardMeal: MaterialCardView = view.findViewById(R.id.card_background)
+        private val chips: ChipGroup = view.findViewById(R.id.chip_group)
+        private val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
 
         init {
@@ -68,7 +68,7 @@ class MealOverviewAdapter(
         }
 
         override fun onClick(v: View?) {
-            val position = bindingAdapterPosition //adapterposition
+            val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(position)
             }
@@ -139,7 +139,7 @@ class MealOverviewAdapter(
             override fun performFiltering(constraint: CharSequence): FilterResults {
                 if(currentList.size >= valuesOriginal.size)
                     valuesOriginal = currentList
-                var filteredResults = if (constraint.isEmpty()) {
+                val filteredResults = if (constraint.isEmpty()) {
                     valuesOriginal
                 } else {
                     getFilteredResults(constraint.toString().toLowerCase(Locale.getDefault()))
