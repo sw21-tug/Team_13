@@ -4,6 +4,7 @@ import com.team13.dealmymeal.core.NotEnoughMealsException
 import com.team13.dealmymeal.core.PlanGenerator
 import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
+import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.Assert.*
@@ -49,5 +50,22 @@ class PlanGeneratorTest {
         assertThrows(NotEnoughMealsException::class.java) {
             PlanGenerator.generatePlan(mealList, 5, 1, 5, 2, 2)
         }
+    }
+
+    @Test
+    fun generatePlan() {
+        val expectedcountMeat = 3
+        val expectedcountVeggie = 3
+        val expectedcountSpecial = 2
+        val plan = PlanGenerator.generatePlan(mealList, 3, 2, expectedcountMeat, expectedcountVeggie, expectedcountSpecial)
+
+        val countMeat = plan.count { it.categories!!.contains(Category.MEAT.category) }
+        val countVeggie = plan.count { it.categories!!.contains(Category.VEGGIE.category) }
+        val countSpecial = plan.count { it.categories!!.contains(Category.SPECIAL.category) }
+
+        assertEquals(expectedcountMeat, countMeat)
+        assertEquals(expectedcountVeggie, countVeggie)
+        assertEquals(expectedcountSpecial, countSpecial)
+
     }
 }
