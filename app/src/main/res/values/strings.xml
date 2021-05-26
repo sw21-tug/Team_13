@@ -58,4 +58,6 @@
 
     <string name="chooseRating">Filter by Rating:</string>
     <string name="mealAdded">Meal %1$s added!</string>
+    <string name="days">Days</string>
+    <string name="meals_per_day">Meals per day</string>
 </resources>
