@@ -41,10 +41,45 @@ class AddMealFragment : Fragment() {
         val form_checkVeggie = root.findViewById<Switch>(R.id.check_veggie)
         val form_checkSpecial = root.findViewById<Switch>(R.id.check_special)
         val text = form_editText.text
+
+
+        save_button.isEnabled = false
+        save_button.getBackground().setAlpha(51);
+
+
+        form_checkMeat.setOnCheckedChangeListener { _, isChecked ->
+               if (form_checkMeat.isChecked)
+               {
+                   save_button.isEnabled = true
+                   save_button.getBackground().setAlpha(200);
+                   form_checkVeggie.setEnabled(false)
+               }else
+               {
+                   save_button.isEnabled = false
+                   save_button.getBackground().setAlpha(51);
+                   form_checkVeggie.setEnabled(true)
+               }
+        }
+
+        form_checkVeggie.setOnCheckedChangeListener { _, isChecked ->
+            if (form_checkVeggie.isChecked)
+            {
+                save_button.isEnabled = true
+                 save_button.getBackground().setAlpha(200);
+                form_checkMeat.setEnabled(false)
+            }else
+            {
+                save_button.isEnabled = false
+                save_button.getBackground().setAlpha(51);
+                form_checkMeat.setEnabled(true)
+            }
+        }
+
         save_button.setOnClickListener() {
 
             val stars = form_ratingBar.rating
             val type = ArrayList<Int>()
+
             if (form_checkMeat.isChecked)
                 type.add(0)
             if (form_checkVeggie.isChecked)
