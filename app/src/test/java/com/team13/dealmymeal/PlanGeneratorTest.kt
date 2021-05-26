@@ -57,7 +57,9 @@ class PlanGeneratorTest {
         val expectedcountMeat = 3
         val expectedcountVeggie = 3
         val expectedcountSpecial = 2
-        val plan = PlanGenerator.generatePlan(mealList, 3, 2, expectedcountMeat, expectedcountVeggie, expectedcountSpecial)
+        val days = 3
+        val mealsPerDay = 2
+        val plan = PlanGenerator.generatePlan(mealList, days, mealsPerDay, expectedcountMeat, expectedcountVeggie, expectedcountSpecial)
 
         val countMeat = plan.count { it.categories!!.contains(Category.MEAT.category) }
         val countVeggie = plan.count { it.categories!!.contains(Category.VEGGIE.category) }
@@ -68,4 +70,24 @@ class PlanGeneratorTest {
         assertEquals(expectedcountSpecial, countSpecial)
 
     }
+
+    @Test
+    fun generatePlanRandom() {
+        val expectedcountMeat = 1
+        val expectedcountVeggie = 1
+        val expectedcountSpecial = 1
+        val days = 3
+        val mealsPerDay = 1
+        val plan = PlanGenerator.generatePlan(mealList, days, mealsPerDay, expectedcountMeat, expectedcountVeggie, expectedcountSpecial)
+
+        val countMeat = plan.count { it.categories!!.contains(Category.MEAT.category) }
+        val countVeggie = plan.count { it.categories!!.contains(Category.VEGGIE.category) }
+        val countSpecial = plan.count { it.categories!!.contains(Category.SPECIAL.category) }
+
+        assertTrue(expectedcountMeat <= countMeat)
+        assertTrue(expectedcountVeggie <= countVeggie)
+        assertTrue(expectedcountSpecial <= countSpecial)
+
+    }
+
 }
