@@ -42,10 +42,17 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | Meal Overview filtering: Name| DMM-007 | Release 1 | done |
 | Design according the Mockups | DMM-021 | Release 1 |done |
 | Second language should be supported | DMM-019 | Release 1 |done |
+| Modify existing meal entries | DMM-003 | Release 2 | done |
+| Meal Overview filtering: Rating | DMM-020 | Release 2| done |
+| Meal Overview filtering: Category | DMM-018 | Release 2| done |
+| Delete a meal entry | DMM-022 | Release 2| done |
+| DealMyMeal - Dark Mode | DMM-004 | Release 2| done |
+| DealMyMeal - App Icon | DMM-023 | Release 2| done |
+| Duplicates | DMM-025 | Release 2| done |
+| Add meal without name shouldn't be possible | DMM-024 | Release 2| done |
+| Code Clean Up | DMM-014 | Release 2| done |
 | --- | --- | --- | --- |
-| Modify existing meal entries | DMM-003 | Release 2 | in progress |
-| Meal Overview filtering: Rating | DMM-020 | Release 2| in progress |
-| Delete a meal entry | DMM-022 | Release 2| in progress |
+
 | --- | --- | --- | --- |
 
 
