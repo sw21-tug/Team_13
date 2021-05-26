@@ -42,6 +42,7 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | 9 | Meal Overview filtering: Name| DMM-007 | Release 1 | done |
 | 10 | Design according the Mockups | DMM-021 | Release 1 |done |
 | 11 | Second language should be supported | DMM-019 | Release 1 |done |
+| --- | --- | Start of Release 2 | --- | --- |
 | 12 | Modify existing meal entries | DMM-003 | Release 2 | done |
 | 13 | Meal Overview filtering: Rating | DMM-020 | Release 2| done |
 | 14 | Meal Overview filtering: Category | DMM-018 | Release 2| done |
@@ -59,4 +60,6 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | 24 | Resize the App for small screens | DMM-015 | Release 2 | to be review |
 | 25 | Categorization rule: Vegetarian or Meat | DMM-027 | Release 2 | to be review |
 | --- | --- | --- | --- | --- |
-
+| 26 | Refactoring Code | DMM-026 | Release 2 | Sprint Backlog |
+| 27 | History for Meal Plan | DMM-010 | Release 2 | Sprint Backlog |
+| --- | --- | --- | --- | --- |
