@@ -1,4 +1,4 @@
-git# Team_13
+# Team_13
 
 ## Vison
 DealMyMeal - App <br/>
