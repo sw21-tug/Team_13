@@ -17,37 +17,37 @@ class PlanGeneratorTest {
         val meal1 = Meal("MealMeat1", listOf(Category.MEAT.category), 1.0f)
         val meal2 = Meal("MealMeat2", listOf(Category.MEAT.category), 2.0f)
         val meal3 = Meal("MealMeatSpecial", listOf(Category.MEAT.category, Category.SPECIAL.category), 3.0f)
-        val meal4 = Meal("MealVegetarian1", listOf(Category.VEGETARIAN.category), 4.0f)
-        val meal5 = Meal("MealVegetarian2", listOf(Category.VEGETARIAN.category), 5.0f)
-        val meal6 = Meal("MealVegetarianSpecial", listOf(Category.VEGETARIAN.category, Category.SPECIAL.category), 5.0f)
+        val meal4 = Meal("MealVegetarian1", listOf(Category.VEGGIE.category), 4.0f)
+        val meal5 = Meal("MealVegetarian2", listOf(Category.VEGGIE.category), 5.0f)
+        val meal6 = Meal("MealVegetarianSpecial", listOf(Category.VEGGIE.category, Category.SPECIAL.category), 5.0f)
         mealList = listOf(meal1, meal2, meal3, meal4, meal5, meal6)
     }
 
     @Test
     fun planNotPossibleToManyDays() {
         assertThrows(NotEnoughMealsException::class.java) {
-            PlanGenerator.generatePlan(7, 1, 2, 2, 2)
+            PlanGenerator.generatePlan(mealList,7, 1, 2, 2, 2)
         }
     }
 
     @Test
     fun planNotPossibleToManyMealsPerDay() {
         assertThrows(NotEnoughMealsException::class.java) {
-            PlanGenerator.generatePlan(3, 2, 2, 2, 2)
+            PlanGenerator.generatePlan(mealList, 4, 2, 2, 2, 2)
         }
     }
 
     @Test
     fun planNotPossibleToLessSpecial() {
         assertThrows(NotEnoughMealsException::class.java) {
-            PlanGenerator.generatePlan(5, 1, 2, 2, 3)
+            PlanGenerator.generatePlan(mealList, 5, 1, 2, 2, 3)
         }
     }
 
     @Test
     fun planNotPossibleToLessMeat() {
         assertThrows(NotEnoughMealsException::class.java) {
-            PlanGenerator.generatePlan(5, 1, 5, 2, 2)
+            PlanGenerator.generatePlan(mealList, 5, 1, 5, 2, 2)
         }
     }
 }
