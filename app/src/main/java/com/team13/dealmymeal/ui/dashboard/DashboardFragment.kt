@@ -23,7 +23,7 @@ class DashboardFragment : Fragment() {
 
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+        return inflater.inflate(R.layout.fragment_generate_plan, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

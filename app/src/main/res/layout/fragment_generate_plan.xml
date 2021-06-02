@@ -4,14 +4,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent" >
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderRatio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="16dp"
+        android:value="50"
+        android:valueFrom="0"
+        android:valueTo="100"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:trackColorActive="@color/veggie"
+        app:trackColorInactive="@color/meat" />
 
     <Button
-        android:id="@+id/form_save"
-        android:layout_width="315dp"
-        android:layout_height="60dp"
+        android:id="@+id/buttonGenerate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
@@ -19,23 +34,26 @@
         android:text="@string/save"
         android:textColor="@color/white"
         android:textSize="14sp"
+        app:cornerRadius="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/rangeSlider"
-        android:layout_width="wrap_content"
+        android:id="@+id/sliderRating"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginEnd="128dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
         android:valueFrom="0.0"
-        android:valueTo="100.0"
-        app:layout_constraintBottom_toTopOf="@+id/form_save"
+        android:valueTo="4"
+        app:values="@array/initial_slider_values"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGenerate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:stepSize="1.0"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -43,116 +61,105 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/meal_rating"
-        app:layout_constraintBottom_toTopOf="@+id/rangeSlider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.team13.dealmymeal.utile.HorizontalNumberPicker
-        android:id="@+id/np_vegetarian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        android:textColor="#748A9D"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/sliderRating"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textview_veggie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/vegetarian"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/np_vegetarian"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.team13.dealmymeal.utile.HorizontalNumberPicker
-        android:id="@+id/np_special"
+        android:id="@+id/labelCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/np_vegetarian"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textview_special"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/special"
-        app:layout_constraintBottom_toTopOf="@+id/textview_veggie"
-        app:layout_constraintEnd_toStartOf="@+id/np_special"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.team13.dealmymeal.utile.HorizontalNumberPicker
-        android:id="@+id/np_meat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/np_special"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textview_meat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/meat"
-        app:layout_constraintBottom_toTopOf="@+id/textview_special"
-        app:layout_constraintEnd_toStartOf="@+id/np_meat"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView_categories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/meal_category"
-        app:layout_constraintBottom_toTopOf="@+id/np_meat"
+        android:textColor="#748A9D"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/labelRatioSlider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.team13.dealmymeal.utile.HorizontalNumberPicker
-        android:id="@+id/np_mealdays"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textview_special"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:gravity="end|center_vertical"
+            android:text="@string/special" />
+
+        <com.team13.dealmymeal.util.HorizontalNumberPicker
+            android:id="@+id/np_special"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/labelRatioSlider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:labelFor="@id/sliderRatio"
+        android:text="Veggie/Meat Ratio"
+        app:layout_constraintBottom_toTopOf="@+id/sliderRatio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RatingBar
+        android:id="@+id/numberOfMeals"
+        style="@style/CustomRatingBarMeals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:numStars="3"
+        android:rating="1"
+        android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@+id/labelCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/labelNoOfMeals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/np_days"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textview_mealdays"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/days"
-        app:layout_constraintBottom_toTopOf="@+id/textview_days"
-        app:layout_constraintEnd_toStartOf="@+id/np_mealdays"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.team13.dealmymeal.utile.HorizontalNumberPicker
-        android:id="@+id/np_days"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView_categories"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textview_days"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
         android:text="@string/meals_per_day"
-        app:layout_constraintBottom_toTopOf="@+id/textview_meat"
-        app:layout_constraintEnd_toStartOf="@+id/np_days"
+        app:layout_constraintBottom_toTopOf="@+id/numberOfMeals"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/ratingBar2"
+        style="@style/CustomRatingBarDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:numStars="7"
+        android:rating="1"
+        android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@+id/labelNoOfMeals"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/labelDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/days"
+        app:layout_constraintBottom_toTopOf="@+id/ratingBar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

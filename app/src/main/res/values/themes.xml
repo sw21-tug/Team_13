@@ -30,4 +30,16 @@
 
     <style name="Theme.DealMyMeal.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.DealMyMeal.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomRatingBarMeals" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_custom_rating_meals</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">50dip</item>
+    </style>
+
+    <style name="CustomRatingBarDays" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_custom_rating_days</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">50dip</item>
+    </style>
 </resources>

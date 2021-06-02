@@ -1,4 +1,4 @@
-package com.team13.dealmymeal.utile
+package com.team13.dealmymeal.util
 
 import android.content.Context
 import android.util.AttributeSet
