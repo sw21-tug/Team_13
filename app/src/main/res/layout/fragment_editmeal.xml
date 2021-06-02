@@ -5,8 +5,7 @@
     android:id="@+id/fragment_addMeal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.editmeal.EditMealFragment"
-    />
+    tools:context=".ui.editmeal.EditMealFragment" >
 
     <EditText
         android:id="@+id/form_edit"
@@ -30,7 +29,6 @@
         android:id="@+id/form_save"
         android:layout_width="315dp"
         android:layout_height="60dp"
-
         android:layout_marginTop="2dp"
         android:backgroundTint="#41D359"
         android:text="@string/save"
@@ -38,6 +36,7 @@
         android:textSize="14sp"
         app:cornerRadius="36dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/form_ratingBar" />
 
@@ -48,13 +47,14 @@
         android:layout_marginTop="2dp"
         android:numStars="4"
         android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@+id/form_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelRating" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check_meat"
-        android:layout_width="0dp"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/meat"
@@ -66,7 +66,7 @@
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check_veggie"
-        android:layout_width="0dp"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/vegetarian"
@@ -78,7 +78,7 @@
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check_special"
-        android:layout_width="0dp"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/special"
