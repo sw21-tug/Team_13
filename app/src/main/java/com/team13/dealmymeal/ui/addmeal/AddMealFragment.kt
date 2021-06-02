@@ -1,13 +1,12 @@
 package com.team13.dealmymeal.ui.addmeal
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.team13.dealmymeal.*
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
@@ -20,7 +19,6 @@ class AddMealFragment : Fragment() {
         MealViewModelFactory((activity?.application as MealApplication).repository)
     }
     private lateinit var addMealViewModel: AddMealViewModel
-    private val fragmentTag = "AddMealFragment"
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -31,25 +29,22 @@ class AddMealFragment : Fragment() {
                 ViewModelProvider(this).get(AddMealViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_addmeal, container, false)
 
-        AppCompatActivity()
-        //val view = inflater.inflate(R.layout.fragment_addmeal, container, true)
+        val btnSave = root.findViewById<Button>(R.id.form_save)
+        val editTitle = root.findViewById<EditText>(R.id.form_edit)
+        val ratingBar = root.findViewById<RatingBar>(R.id.form_ratingBar)
+        val switchMeat = root.findViewById<SwitchMaterial>(R.id.check_meat)
+        val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
+        val switchSpecial = root.findViewById<SwitchMaterial>(R.id.check_special)
+        val text = editTitle.text
+        btnSave.setOnClickListener {
 
-        val save_button = root.findViewById<Button>(R.id.form_save)
-        val form_editText = root.findViewById<EditText>(R.id.form_edit)
-        val form_ratingBar = root.findViewById<RatingBar>(R.id.form_ratingBar)
-        val form_checkMeat = root.findViewById<Switch>(R.id.check_meat)
-        val form_checkVeggie = root.findViewById<Switch>(R.id.check_veggie)
-        val form_checkSpecial = root.findViewById<Switch>(R.id.check_special)
-        val text = form_editText.text
-        save_button.setOnClickListener() {
-
-            val stars = form_ratingBar.rating
+            val stars = ratingBar.rating
             val type = ArrayList<Int>()
-            if (form_checkMeat.isChecked)
+            if (switchMeat.isChecked)
                 type.add(0)
-            if (form_checkVeggie.isChecked)
+            if (switchVeggie.isChecked)
                 type.add(1)
-            if (form_checkSpecial.isChecked)
+            if (switchSpecial.isChecked)
                 type.add(2)
             val meal = Meal(text.toString(), type, stars)
 

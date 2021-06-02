@@ -1,19 +1,13 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.Color
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
@@ -25,11 +19,13 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.R
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
+ * [ListAdapter] that can display a [Meal].
  *
  */
 class MealOverviewAdapter(
@@ -43,54 +39,36 @@ class MealOverviewAdapter(
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_meal_overview, parent, false)
 
-        view.setOnClickListener {
-            //TODO edit
-            //TODO check if we are in selection -> abort
-            if(tracker?.hasSelection() == false) {
-                Toast.makeText(parent.context, "Edit", Toast.LENGTH_SHORT).show()
-                view.findViewById<TextView>(R.id.item_name).setTextColor(Color.RED)
-            }
-        }
-
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //val item = values[position]
-        //holder.idView.text = item.name
-
-
         tracker?.let {
             holder.setItemSelected(it.isSelected(getItem(position)))
         }
 
         val current = getItem(position)
-        holder.bind(current.title, position, current.categories , current.rating)
-        Log.d("Adapter", current.title)
-
+        holder.bind(current, position)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val itemName: TextView = view.findViewById(R.id.item_name)
-
-        val background: ConstraintLayout = view.findViewById(R.id.item_frame)
-        val cardBackground: MaterialCardView = view.findViewById(R.id.card_background)
-        val chips: ChipGroup = view.findViewById(R.id.chip_group)
-        val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
+        private val txtTitle: TextView = view.findViewById(R.id.item_name)
+        private val imgBackgroundMeal: ImageView = view.findViewById(R.id.item_frame)
+        private val cardMeal: MaterialCardView = view.findViewById(R.id.card_background)
+        private val chips: ChipGroup = view.findViewById(R.id.chip_group)
+        private val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val context: Context = view.context
-
 
         init {
             itemView.setOnClickListener(this)
         }
-
 
         override fun toString(): String {
             return super.toString()
         }
 
         override fun onClick(v: View?) {
-            val position = bindingAdapterPosition //adapterposition
+            val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(position)
             }
@@ -103,42 +81,33 @@ class MealOverviewAdapter(
             }
 
         fun setItemSelected(isSelected: Boolean = false) {
-            cardBackground.isSelected = isSelected
+            cardMeal.isSelected = isSelected
         }
 
-        fun bind(text: String?, position: Int, categories: List<Int>?, rating: Float?) {
-            itemName.text = text
+        fun bind(meal: Meal, position: Int) {
+            txtTitle.text = meal.title
 
-            if((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
-                when (position % 2) {
-                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangedark)
-                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreendark)
-                }
-            else
-                when (position % 2) {
-                    0 -> background.setBackgroundResource(R.drawable.ic_backgroundorangelight)
-                    1 -> background.setBackgroundResource(R.drawable.ic_backgroundgreenlight)
-                }
+            val typedValue = TypedValue()
+            when (position % 2) {
+                0 -> context.theme.resolveAttribute(R.attr.overview_item_1, typedValue, true)
+                1 -> context.theme.resolveAttribute(R.attr.overview_item_2, typedValue, true)
+            }
+            imgBackgroundMeal.setImageResource(typedValue.resourceId)
 
             chips.removeAllViews()
-            if (categories != null) {
-                for (category in categories){
-                    val chip = Chip(context)
-                    chip.text = context.resources.getStringArray(R.array.categories)[category]
-                    chip.setChipBackgroundColorResource(R.color.green)
-                    chip.setTextColor(Color.WHITE)
-                    chips.addView(chip)
-                }
+            for (category in meal.categories!!){
+                val chip = Chip(context)
+                chip.text = context.resources.getStringArray(R.array.categories)[category]
+                chip.setChipBackgroundColorResource(R.color.green)
+                chip.setTextColor(Color.WHITE)
+                chips.addView(chip)
             }
 
-            if (rating != null) {
-                ratingBar.rating = rating
-            }
-
+            ratingBar.rating = meal.rating!!
         }
     }
 
-    class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
+    class MealItemKeyProvider(private val adapter: MealOverviewAdapter) :
         ItemKeyProvider<Meal>(SCOPE_CACHED) {
         override fun getKey(position: Int): Meal? {
             return adapter.getItem(position)
@@ -149,7 +118,7 @@ class MealOverviewAdapter(
         }
     }
 
-    class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
+    class MealItemDetailsLookup(private val recyclerView: RecyclerView) :
         ItemDetailsLookup<Meal>() {
         override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
@@ -164,16 +133,16 @@ class MealOverviewAdapter(
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                submitList(results.values as List<Meal>)
+                submitList(results.values as MutableList<Meal>?)
             }
 
             override fun performFiltering(constraint: CharSequence): FilterResults {
                 if(currentList.size >= valuesOriginal.size)
                     valuesOriginal = currentList
-                var filteredResults = if (constraint.isEmpty()) {
+                val filteredResults = if (constraint.isEmpty()) {
                     valuesOriginal
                 } else {
-                    getFilteredResults(constraint.toString().toLowerCase())
+                    getFilteredResults(constraint.toString().toLowerCase(Locale.getDefault()))
                 }
                 val results = FilterResults()
                 results.values = filteredResults
@@ -185,7 +154,7 @@ class MealOverviewAdapter(
     private fun getFilteredResults(constraint: String?): List<Meal?> {
         val results: MutableList<Meal?> = ArrayList()
         for (item in valuesOriginal) {
-            if (constraint?.let { item.title?.toLowerCase()?.contains(it) } == true) {
+            if (constraint?.let { item.title?.toLowerCase(Locale.getDefault())?.contains(it) } == true) {
                 results.add(item)
             }
         }
@@ -234,7 +203,7 @@ class MealOverviewAdapter(
             }
 
             override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem == newItem
             }
         }
     }

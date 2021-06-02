@@ -28,9 +28,13 @@ class MealOverviewFilterCategoryTestTest {
         Espresso.onView(ViewMatchers.withId(R.id.action_filter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
         Espresso.onData(CoreMatchers.anything()).atPosition(0).perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
         Espresso.onData(CoreMatchers.anything()).atPosition(1).perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.action_filter)).perform(ViewActions.click())
         Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
     }
 
