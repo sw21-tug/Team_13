@@ -47,6 +47,9 @@ class PlanGenerator {
             return allPossiblePlans
         }
 
+        /**
+         * generates a random plan based on the parameters
+         */
         fun generatePlan(allMeals: List<Meal>, meat: Int, veggie: Int, special: Int): Plan {
             assert(meat + veggie >= special)
 
