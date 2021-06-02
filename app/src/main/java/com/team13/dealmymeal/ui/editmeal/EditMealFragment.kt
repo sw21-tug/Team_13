@@ -38,11 +38,8 @@ class EditMealFragment : Fragment() {
 
         val btnSave = root.findViewById<Button>(R.id.form_save)
         val editTitle = root.findViewById<EditText>(R.id.form_edit)
-        val ratingBar = root.findViewById<RatingBar>(R.id.form_ratingBar)
         val switchMeat = root.findViewById<SwitchMaterial>(R.id.check_meat)
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
-        val switchSpecial = root.findViewById<SwitchMaterial>(R.id.check_special)
-        val text = editTitle.text
         btnSave.isEnabled = false
         btnSave.getBackground().setAlpha(51);
         switchMeat.setOnCheckedChangeListener {_, isChecked ->
@@ -85,7 +82,6 @@ class EditMealFragment : Fragment() {
         val switchMeat = view.findViewById<SwitchMaterial>(R.id.check_meat)
         val switchVeggie = view.findViewById<SwitchMaterial>(R.id.check_veggie)
         val switchSpecial = view.findViewById<SwitchMaterial>(R.id.check_special)
-        val text = editTitle.text
         val meal = arguments?.getParcelable<Meal>("Meal")
         if (meal != null) {
             editTitle.setText(meal.title)
