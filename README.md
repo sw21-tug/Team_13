@@ -52,13 +52,13 @@ For example: plan for 7 days, starting by Monday, 2 days per week with meat meal
 | 18 | Duplicates | DMM-025 | Release 2| done |
 | 19 | Add meal without name shouldn't be possible | DMM-024 | Release 2| done |
 | 20 | Code Clean Up | DMM-014 | Release 2| done |
+| 21 | Meal Dealer Functionality | DMM-009 | Release 2| done |
+| 22 | Resize the App for small screens | DMM-015 | Release 2 | to be review |
+| 23 | Categorization rule: Vegetarian or Meat | DMM-027 | Release 2 | to be review |
 | --- | --- | --- | --- | --- |
-| 21 | Meal Dealer Functionality | DMM-009 | Release 2| in progress |
-| 22 | DealMyMeal - Generate Plan Form | DMM-008 | Release 2| in progress |
-| 23 | Meal Plan Output | DMM-011 | Release 2| in progress |
+| 24 | DealMyMeal - Generate Plan Form | DMM-008 | Release 2| in progress |
+| 25 | Meal Plan Output | DMM-011 | Release 2| in progress |
 | --- | --- | --- | --- | --- |
-| 24 | Resize the App for small screens | DMM-015 | Release 2 | to be review |
-| 25 | Categorization rule: Vegetarian or Meat | DMM-027 | Release 2 | to be review |
 | --- | --- | --- | --- | --- |
 | 26 | Refactoring Code | DMM-026 | Release 2 | Sprint Backlog |
 | 27 | History for Meal Plan | DMM-010 | Release 2 | Sprint Backlog |
