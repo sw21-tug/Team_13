@@ -13,15 +13,18 @@
         android:layout_width="315dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
-        android:autofillHints=""
-        android:background="?attr/add_meal_edit_bg"
+        android:background="@drawable/ic_edit_bg_round"
         android:hint="@string/enter_menu"
+        android:importantForAutofill="no"
         android:inputType="text"
+        android:maxLength="30"
+        android:padding="16dp"
+        android:singleLine="true"
         android:textAlignment="center"
         android:textColor="#A6BCD0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/labelName" />
 
     <Button
         android:id="@+id/form_save"
@@ -33,7 +36,6 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         app:cornerRadius="36dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/form_ratingBar" />
@@ -48,11 +50,11 @@
         app:layout_constraintBottom_toTopOf="@+id/form_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/labelRating" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check_meat"
-        android:layout_width="255dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/meat"
@@ -60,11 +62,11 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/labelCategry" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check_veggie"
-        android:layout_width="255dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/vegetarian"
@@ -74,9 +76,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_special" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check_special"
-        android:layout_width="255dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/special"
@@ -87,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/check_meat" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/labelName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -101,7 +103,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/labelCategry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -113,7 +115,7 @@
         app:layout_constraintTop_toBottomOf="@+id/form_edit" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/labelRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
