@@ -36,6 +36,36 @@ class AddMealFragment : Fragment() {
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
         val switchSpecial = root.findViewById<SwitchMaterial>(R.id.check_special)
         val text = editTitle.text
+
+        btnSave.isEnabled = false
+        btnSave.getBackground().setAlpha(51);
+        switchMeat.setOnCheckedChangeListener {_, isChecked ->
+            if (switchMeat.isChecked)
+            {
+                btnSave.isEnabled = true
+                btnSave.getBackground().setAlpha(200);
+                switchVeggie.setEnabled(false)
+            }else
+            {
+                btnSave.isEnabled = false
+                btnSave.getBackground().setAlpha(51);
+                switchVeggie.setEnabled(true)
+            }
+        }
+
+        switchVeggie.setOnCheckedChangeListener {_ , isChecked ->
+            if (switchVeggie.isChecked)
+            {
+                btnSave.isEnabled = true
+                btnSave.getBackground().setAlpha(200);
+                switchMeat.setEnabled(false)
+            }else
+            {
+                btnSave.isEnabled = false
+                btnSave.getBackground().setAlpha(51);
+                switchMeat.setEnabled(true)
+            }
+        }
         btnSave.setOnClickListener {
 
             val stars = ratingBar.rating
