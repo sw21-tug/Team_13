@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
@@ -97,11 +98,11 @@ class EditMealFragment : Fragment() {
             btnSave.setOnClickListener {
                 val type = ArrayList<Int>()
                 if (switchMeat.isChecked)
-                    type.add(0)
+                    type.add(Category.MEAT.category)
                 if (switchVeggie.isChecked)
-                    type.add(1)
+                    type.add(Category.VEGGIE.category)
                 if (switchSpecial.isChecked)
-                    type.add(2)
+                    type.add(Category.SPECIAL.category)
 
                 // check if meal name already exits
                 var canUpdate = true
