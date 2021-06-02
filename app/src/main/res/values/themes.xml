@@ -42,4 +42,10 @@
         <item name="android:minHeight">50dip</item>
         <item name="android:maxHeight">50dip</item>
     </style>
+
+    <style name="CustomRatingBarSpecial" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_custom_rating_special</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">50dip</item>
+    </style>
 </resources>

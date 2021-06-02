@@ -16,7 +16,7 @@
         android:value="50"
         android:valueFrom="0"
         android:valueTo="100"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toTopOf="@+id/labelSpecials"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,38 +40,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/sliderRating"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="16dp"
-        android:valueFrom="0.0"
-        android:valueTo="4"
-        app:values="@array/initial_slider_values"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGenerate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:stepSize="1.0"/>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/meal_rating"
-        android:textColor="#748A9D"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/sliderRating"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/labelCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/meal_category"
         android:textColor="#748A9D"
         android:textSize="20sp"
@@ -79,36 +52,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/textview_special"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:gravity="end|center_vertical"
-            android:text="@string/special" />
-
-        <com.team13.dealmymeal.util.HorizontalNumberPicker
-            android:id="@+id/np_special"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/labelRatioSlider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:labelFor="@id/sliderRatio"
         android:text="Veggie/Meat Ratio"
         app:layout_constraintBottom_toTopOf="@+id/sliderRatio"
@@ -120,7 +68,7 @@
         style="@style/CustomRatingBarMeals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:numStars="3"
         android:rating="1"
         android:stepSize="1"
@@ -143,7 +91,7 @@
         style="@style/CustomRatingBarDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:numStars="7"
         android:rating="1"
         android:stepSize="1"
@@ -158,6 +106,27 @@
         android:layout_marginBottom="8dp"
         android:text="@string/days"
         app:layout_constraintBottom_toTopOf="@+id/ratingBar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RatingBar
+        android:id="@+id/numberOfSpecials"
+        style="@style/CustomRatingBarSpecial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGenerate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/labelSpecials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Specials"
+        app:layout_constraintBottom_toTopOf="@+id/numberOfSpecials"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

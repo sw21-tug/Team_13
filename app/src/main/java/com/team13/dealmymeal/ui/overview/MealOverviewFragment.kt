@@ -1,9 +1,11 @@
 package com.team13.dealmymeal.ui.overview
 
 import android.app.AlertDialog
+import android.database.DataSetObserver
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -20,6 +22,7 @@ import com.team13.dealmymeal.*
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
+
 
 /**
  * A fragment representing a list of Items.
@@ -44,64 +47,70 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
         setHasOptionsMenu(true)
 
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list)
+        val emptyView = view.findViewById<View>(R.id.emptyView)
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
+        with(recyclerView) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
+            }
 
-                adapter =
-                    MealOverviewAdapter(
-                        ArrayList(), this@MealOverviewFragment
-                    )
+            adapter =
+                MealOverviewAdapter(
+                    ArrayList(), this@MealOverviewFragment
+                )
 
-                tracker = SelectionTracker.Builder(
-                    "mySelection",
-                    view,
-                    MealOverviewAdapter.MealItemKeyProvider(
-                        adapter as MealOverviewAdapter
-                    ),
-                    MealOverviewAdapter.MealItemDetailsLookup(
-                        view
-                    ),
-                    StorageStrategy.createParcelableStorage(Meal::class.java)
-                ).withSelectionPredicate(
-                    SelectionPredicates.createSelectAnything()
-                ).build()
+            tracker = SelectionTracker.Builder(
+                "mySelection",
+                recyclerView,
+                MealOverviewAdapter.MealItemKeyProvider(
+                    adapter as MealOverviewAdapter
+                ),
+                MealOverviewAdapter.MealItemDetailsLookup(
+                    recyclerView
+                ),
+                StorageStrategy.createParcelableStorage(Meal::class.java)
+            ).withSelectionPredicate(
+                SelectionPredicates.createSelectAnything()
+            ).build()
 
-                tracker?.addObserver(
-                    object : SelectionTracker.SelectionObserver<Meal>() {
-                        override fun onSelectionChanged() {
-                            super.onSelectionChanged()
-                            tracker?.let {
-                                selectedPostItems = it.selection.toMutableList()
+            tracker?.addObserver(
+                object : SelectionTracker.SelectionObserver<Meal>() {
+                    override fun onSelectionChanged() {
+                        super.onSelectionChanged()
+                        tracker?.let {
+                            selectedPostItems = it.selection.toMutableList()
 
-                                if (selectedPostItems.isEmpty()) {
-                                    actionMode?.finish()
-                                } else {
-                                    if (actionMode == null) actionMode = parent.startActionModeForChild(view, this@MealOverviewFragment)
-                                    actionMode?.title =
-                                        "${selectedPostItems.size}"
-                                }
+                            if (selectedPostItems.isEmpty()) {
+                                actionMode?.finish()
+                            } else {
+                                if (actionMode == null) actionMode = parent.startActionModeForChild(view, this@MealOverviewFragment)
+                                actionMode?.title =
+                                    "${selectedPostItems.size}"
                             }
                         }
-                    })
+                    }
+                })
 
-                overviewAdapter = adapter as MealOverviewAdapter
-                overviewAdapter!!.tracker = tracker
-                // Add an observer on the LiveData returned by getAll.
-                // The onChanged() method fires when the observed data changes and the activity is
-                // in the foreground.
-                mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
-                    // Update the cached copy of the words in the adapter.
-                    meals.let { overviewAdapter!!.submitList(it) }
+            overviewAdapter = adapter as MealOverviewAdapter
+            overviewAdapter!!.tracker = tracker
+            // Add an observer on the LiveData returned by getAll.
+            // The onChanged() method fires when the observed data changes and the activity is
+            // in the foreground.
+            mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
+                // Update the cached copy of the words in the adapter.
+                meals.let { overviewAdapter!!.submitList(it) }
+                emptyView.visibility = if(meals.isEmpty()) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
                 }
-                //Log.d("MOF", "calling coroutine")
-                //main(context, overviewAdapter!!).invoke()
             }
+            //Log.d("MOF", "calling coroutine")
+            //main(context, overviewAdapter!!).invoke()
         }
+
         return view
     }
 

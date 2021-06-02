@@ -1,13 +1,8 @@
 package com.team13.dealmymeal
 
-import android.service.autofill.Validators.not
-import androidx.core.os.bundleOf
 import org.junit.Test
 
 import org.junit.Assert.*
-import java.util.regex.Pattern.matches
-import androidx.test.espresso.*
-import androidx.test.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
