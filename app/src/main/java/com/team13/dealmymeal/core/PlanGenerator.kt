@@ -13,93 +13,50 @@ class PlanGenerator {
 
     companion object {
 
-        private fun getPossibleCombinations(allMeals: List<Meal>, requestMeals: Int, requestVeggie: Int, requestMeat: Int, requestSpecial: Int, requestNonSpecial: Int): List<PlanRaw> {
-            val allPossiblePlans = arrayListOf<PlanRaw>()
-            val specialVeggieCount = allMeals.count { it.categories!!.contains(Category.VEGGIE.category) && it.categories!!.contains(Category.SPECIAL.category) }
-            val specialMeatCount = allMeals.count { it.categories!!.contains(Category.MEAT.category) && it.categories!!.contains(Category.SPECIAL.category) }
-            val nonSpecialVeggieCount = allMeals.count { it.categories!!.contains(Category.VEGGIE.category) && !it.categories!!.contains(Category.SPECIAL.category) }
-            val nonSpecialMeatCount = allMeals.count { it.categories!!.contains(Category.MEAT.category) && !it.categories!!.contains(Category.SPECIAL.category) }
+        private fun getPossibleCombinations(allMeals: List<Meal>, requestVeggie: Int, requestMeat: Int, requestSpecial: Int): List<Plan> {
+            val allPossiblePlans = arrayListOf<Plan>()
+            val specialVeggieMeals = allMeals.filter { it.categories!!.contains(Category.VEGGIE.category) && it.categories!!.contains(Category.SPECIAL.category) }
+            val specialMeatMeals = allMeals.filter { it.categories!!.contains(Category.MEAT.category) && it.categories!!.contains(Category.SPECIAL.category) }
+            val nonSpecialVeggieMeals = allMeals.filter { it.categories!!.contains(Category.VEGGIE.category) && !it.categories!!.contains(Category.SPECIAL.category) }
+            val nonSpecialMeatMeals = allMeals.filter { it.categories!!.contains(Category.MEAT.category) && !it.categories!!.contains(Category.SPECIAL.category) }
 
-            for (special in 0..requestMeals){
-                val nonSpecial = requestMeals - special
-                for (specialVeggie in 0 .. special) {
-                    for (nonSpecialVeggie in 0 .. nonSpecial) {
-                        val specialMeat = special - specialVeggie
-                        val nonSpecialMeat = nonSpecial - nonSpecialVeggie
+            val specialVeggieCount = specialVeggieMeals.size
+            val specialMeatCount = specialMeatMeals.size
+            val nonSpecialVeggieCount = nonSpecialVeggieMeals.size
+            val nonSpecialMeatCount = nonSpecialMeatMeals.size
 
-                        if (specialVeggie + nonSpecialVeggie >= requestVeggie && specialMeat + nonSpecialMeat >= requestMeat && specialVeggie + specialMeat >= requestSpecial && nonSpecialVeggie + nonSpecialMeat >= requestNonSpecial) {
-                            if(specialVeggieCount >= specialVeggie && specialMeatCount >= specialMeat && nonSpecialVeggieCount >= nonSpecialVeggie && nonSpecialMeatCount >= nonSpecialMeat) {
-                                val plan = PlanRaw(arrayListOf())
-                                for (count in 1..specialVeggie) {
-                                    plan.addCategory(TypeCategory(TypeVM.VEGGIE, TypeS.SPECIAL))
-                                }
-                                for (count in 1..nonSpecialVeggie) {
-                                    plan.addCategory(TypeCategory(TypeVM.VEGGIE, TypeS.NON_SPECIAL))
-                                }
-                                for (count in 1..specialMeat) {
-                                    plan.addCategory(TypeCategory(TypeVM.MEAT, TypeS.SPECIAL))
-                                }
-                                for (count in 1..nonSpecialMeat) {
-                                    plan.addCategory(TypeCategory(TypeVM.MEAT, TypeS.NON_SPECIAL))
-                                }
-                                allPossiblePlans.add(plan)
-                            }
-                        }
-                    }
+            for (specialVeggie in 0 .. requestSpecial) {
+                val specialMeat = requestSpecial - specialVeggie
+                val nonSpecialVeggie = requestVeggie - specialVeggie
+                val nonSpecialMeat = requestMeat - specialMeat
+                if(specialVeggieCount >= specialVeggie && specialMeatCount >= specialMeat &&
+                    nonSpecialVeggieCount >= nonSpecialVeggie && nonSpecialMeatCount >= nonSpecialMeat) {
+
+                    val randomSpecialVeggieMeals = specialVeggieMeals.shuffled().take(specialVeggie)
+                    val randomSpecialMeatMeals = specialMeatMeals.shuffled().take(specialMeat)
+                    val randomNonSpecialVeggieMeals = nonSpecialVeggieMeals.shuffled().take(nonSpecialVeggie)
+                    val randomNonSpecialMeatMeals = nonSpecialMeatMeals.shuffled().take(nonSpecialMeat)
+                    val randomList = (randomNonSpecialVeggieMeals + randomNonSpecialMeatMeals +
+                            randomSpecialVeggieMeals + randomSpecialMeatMeals).shuffled()
+
+                    val plan = Plan(randomList)
+                    allPossiblePlans.add(plan)
                 }
             }
 
             return allPossiblePlans
         }
 
-//        //8 3 2 5 2
-//        private fun getPossibleCombinations(requestVeggie: Int, requestMeat: Int, requestSpecial: Int, requestNonSpecial: Int): List<Plan> {
-//
-//            if (requestSpecial + requestNonSpecial > requestVeggie + requestMeat) {
-//                for (special_veggie in 0 .. requestSpecial) {
-//                    for (non_special_veggie in 0 .. requestNonSpecial) {
-//                        val special_meat = requestSpecial - special_veggie
-//                        val non_special_meat = requestNonSpecial - non_special_veggie
-//
-//                        //0sv 0nsv 5sm 2nsm
-//
-//                    }
-//                }
-//            }
-//
-//
-//        }
+        fun generatePlan(allMeals: List<Meal>, meat: Int, veggie: Int, special: Int): Plan {
+            assert(meat + veggie >= special)
 
-        fun generatePlan(allMeals: List<Meal>, days: Int, mealsPerDay: Int, meat: Int, veggie: Int, special: Int, nonSpecial: Int): List<Meal> {
-            val test = getPossibleCombinations(allMeals, days * mealsPerDay, veggie, meat, special, nonSpecial)
+            val combinations = getPossibleCombinations(allMeals, veggie, meat, special)
 
-            if (days * mealsPerDay > allMeals.size){
+            if (combinations.isEmpty()) {
                 throw NotEnoughMealsException()
             }
-//
-//            if (special > veggieSpecialMeals.size + meatSpecialMeals.size || nonSpecial > veggieNonSpecialMeals.size + meatNonSpecialMeals.size || veggie > veggieSpecialMeals.size + veggieNonSpecialMeals.size|| meat > meatSpecialMeals.size + meatNonSpecialMeals.size) {
-//                throw NotEnoughMealsException()
-//            }
-//
-//
-//            for (attempts in 1 .. GENERATION_ATTEMPTS){
-//                for (meal_index in 1 .. days * mealsPerDay) {
-//                    val mealSpecialCategory = chooseSpecialOrNonSpecial(specialLeft, nonSpecialLeft)
-//                    val mealCategory = chooseMeatOrVeggie(meatLeft, veggieLeft)
-//
-//
-//
-//
-//                    if (mealSpecialCategory == CATEGORIES.SPECIAL) {
-//
-//                    } else if (mealSpecialCategory == CATEGORIES.NON_SPECIAL) {
-//
-//                    }
-//                }
-//            }
-//
-//            throw NotEnoughMealsException()
-            return emptyList()
+
+            return combinations.random()
         }
     }
 }
