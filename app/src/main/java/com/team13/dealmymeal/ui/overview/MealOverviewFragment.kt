@@ -4,18 +4,12 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.RatingBar
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -26,8 +20,6 @@ import com.team13.dealmymeal.*
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
-import com.team13.dealmymeal.*
-import com.team13.dealmymeal.ui.editmeal.EditMealFragment
 
 /**
  * A fragment representing a list of Items.
@@ -38,21 +30,11 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     }
 
     private var columnCount = 1
-
     private var tracker: SelectionTracker<Meal>? = null
-
     private var selectedPostItems: MutableList<Meal> = mutableListOf()
     private var actionMode: ActionMode? = null
     private var overviewAdapter: MealOverviewAdapter? = null
     private lateinit var navController: NavController
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,13 +57,13 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         ArrayList(), this@MealOverviewFragment
                     )
 
-                tracker = SelectionTracker.Builder<Meal>(
+                tracker = SelectionTracker.Builder(
                     "mySelection",
                     view,
-                    MealOverviewAdapter.MyItemKeyProvider(
+                    MealOverviewAdapter.MealItemKeyProvider(
                         adapter as MealOverviewAdapter
                     ),
-                    MealOverviewAdapter.MyItemDetailsLookup(
+                    MealOverviewAdapter.MealItemDetailsLookup(
                         view
                     ),
                     StorageStrategy.createParcelableStorage(Meal::class.java)
@@ -136,12 +118,12 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                 val builder = AlertDialog.Builder(context)
                 builder.setMessage(R.string.delete_message)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.yes) { dialog, id ->
+                        .setPositiveButton(R.string.yes) { _, _ ->
                             // Delete selected note from database
                             for (meal in selectedPostItems)
                                 mealViewModel.delete(meal)
                         }
-                        .setNegativeButton(R.string.no) { dialog, id ->
+                        .setNegativeButton(R.string.no) { dialog, _ ->
                             // Dismiss the dialog
                             dialog.dismiss()
                         }
@@ -156,7 +138,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         mode?.let {
             val inflater: MenuInflater = it.menuInflater
-            inflater.inflate(R.menu.delete, menu)
+            inflater.inflate(R.menu.overview_selection_menu, menu)
             return true
         }
         return false
@@ -174,7 +156,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.meal_overview_search_menu, menu)
+        inflater.inflate(R.menu.overview_menu, menu)
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
@@ -195,7 +177,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
 
                         overviewAdapter?.filterCategory(selection)
                         item.isChecked  = true
-                        item.setIcon(R.drawable.ic_baseline_close)
+                        item.setIcon(R.drawable.ic_close)
                         dialog.dismiss()
                     }
                     selectCategoryAlert.create().show()
@@ -212,7 +194,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
             R.id.action_filter_star -> {
                 Log.d("MealOverview", "Filter")
                 // TODO add filter for rating & type (AlertDialog)
-                if (item.isChecked == false)
+                if (!item.isChecked)
                 {
                     val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
                     val stars2 = arrayOf(1.0f,2.0f,3.0f,4.0f)
@@ -250,20 +232,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     }
 
 
-    companion object {
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            MealOverviewFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
-    }
 
     override fun onItemClick(position: Int) {
         val clickedMeal = overviewAdapter!!.currentList[position]
