@@ -71,11 +71,11 @@ class AddMealFragment : Fragment() {
 
             val stars = ratingBar.rating
             val type = ArrayList<Int>()
-            if (form_checkMeat.isChecked)
+            if (switchMeat.isChecked)
                 type.add(Category.MEAT.category)
-            if (form_checkVeggie.isChecked)
+            if (switchVeggie.isChecked)
                 type.add(Category.VEGGIE.category)
-            if (form_checkSpecial.isChecked)
+            if (switchSpecial.isChecked)
                 type.add(Category.SPECIAL.category)
             val meal = Meal(text.toString(), type, stars)
 

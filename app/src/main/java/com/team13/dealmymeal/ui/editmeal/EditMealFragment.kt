@@ -97,11 +97,11 @@ class EditMealFragment : Fragment() {
 
             btnSave.setOnClickListener {
                 val type = ArrayList<Int>()
-                if (view.check_meat.isChecked)
+                if (switchMeat.isChecked)
                     type.add(Category.MEAT.category)
-                if (view.check_veggie.isChecked)
+                if (switchVeggie.isChecked)
                     type.add(Category.VEGGIE.category)
-                if (view.check_special.isChecked)
+                if (switchSpecial.isChecked)
                     type.add(Category.SPECIAL.category)
 
                 // check if meal name already exits
