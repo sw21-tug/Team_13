@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.team13.dealmymeal.core.Plan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Meal::class], version = 4, exportSchema = false)
+@Database(entities = [Meal::class, Plan::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun mealDao(): MealDao

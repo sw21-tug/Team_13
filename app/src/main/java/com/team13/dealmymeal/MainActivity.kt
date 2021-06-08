@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                 applicationContext,
                 DBManager::class.java, DATABASE_NAME
         ).build()
+
+        supportActionBar?.elevation = 0f
     }
 
 

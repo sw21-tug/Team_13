@@ -13,9 +13,4 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:icon="@drawable/ic_filter_states"
         app:showAsAction="always"
         android:visible="true"/>
-
-    <item android:id="@+id/action_filter_star"
-        android:title="@string/action_filter_star"
-        android:icon="@drawable/ic_filter_star"
-        app:showAsAction="always" />
 </menu>

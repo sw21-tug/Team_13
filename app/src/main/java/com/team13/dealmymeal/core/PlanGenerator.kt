@@ -13,8 +13,8 @@ class PlanGenerator {
 
     companion object {
 
-        private fun getPossibleCombinations(allMeals: List<Meal>, requestVeggie: Int, requestMeat: Int, requestSpecial: Int): List<Plan> {
-            val allPossiblePlans = arrayListOf<Plan>()
+        private fun getPossibleCombinations(allMeals: List<Meal>, requestVeggie: Int, requestMeat: Int, requestSpecial: Int): List<List<Int>> {
+            val allPossiblePlans = arrayListOf<List<Int>>()
             val specialVeggieMeals = allMeals.filter { it.categories!!.contains(Category.VEGGIE.category) && it.categories!!.contains(Category.SPECIAL.category) }
             val specialMeatMeals = allMeals.filter { it.categories!!.contains(Category.MEAT.category) && it.categories!!.contains(Category.SPECIAL.category) }
             val nonSpecialVeggieMeals = allMeals.filter { it.categories!!.contains(Category.VEGGIE.category) && !it.categories!!.contains(Category.SPECIAL.category) }
@@ -39,8 +39,7 @@ class PlanGenerator {
                     val randomList = (randomNonSpecialVeggieMeals + randomNonSpecialMeatMeals +
                             randomSpecialVeggieMeals + randomSpecialMeatMeals).shuffled()
 
-                    val plan = Plan(randomList)
-                    allPossiblePlans.add(plan)
+                    allPossiblePlans.add(randomList.map { it.id.toInt() })
                 }
             }
 
@@ -50,7 +49,7 @@ class PlanGenerator {
         /**
          * generates a random plan based on the parameters
          */
-        fun generatePlan(allMeals: List<Meal>, meat: Int, veggie: Int, special: Int): Plan {
+        fun generatePlan(allMeals: List<Meal>, meat: Int, veggie: Int, special: Int): List<Int> {
             assert(meat + veggie >= special)
 
             val combinations = getPossibleCombinations(allMeals, veggie, meat, special)
