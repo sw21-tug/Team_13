@@ -9,6 +9,7 @@ import com.team13.dealmymeal.data.Meal
 @Entity(tableName = "plan")
 class Plan(
     @ColumnInfo(name = "period") var period: Int,
+    @ColumnInfo(name = "meals_per_day") var mealsPerDay: Int,
     @ColumnInfo(name = "created_time", defaultValue = "CURRENT_TIMESTAMP") var createdTime: String,
     @ColumnInfo(name = "meals") var meals: List<Long>?
 ) {

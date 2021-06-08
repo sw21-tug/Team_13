@@ -8,6 +8,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,8 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var pagerAdapter: PagerAdapter
+
+    private var selectedDay: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +66,6 @@ class DashboardFragment : Fragment() {
                     layoutEmpty.visibility = View.GONE
                     layoutPlan.visibility = View.VISIBLE
 
-                    // Felder befüllen
                     val chipGroupDays = view.findViewById<ChipGroup>(R.id.chipGroupDays)
                     val labelPlan = view.findViewById<TextView>(R.id.labelPlan)
                     val labelMeatCount = view.findViewById<TextView>(R.id.labelMeatCount)
@@ -72,20 +74,27 @@ class DashboardFragment : Fragment() {
                     val chipCurrentDay = view.findViewById<Chip>(R.id.chipCurrentDay)
                     val ratingAvg = view.findViewById<RatingBar>(R.id.ratingAvg)
 
-                    val currentDay = TimeUnit.DAYS.convert(time - creationTime.time, TimeUnit.MILLISECONDS) + 1
+                    val currentDay = (TimeUnit.DAYS.convert(time - creationTime.time, TimeUnit.MILLISECONDS) + 1).toInt()
+                    selectedDay = currentDay
 
-                    for (i in 1..plan.period){
-                        val chip = layoutInflater.inflate(R.layout.chip_day, null, false) as Chip
-                        chip.text = "Day $i"
-                        chip.isChecked = currentDay == i.toLong()
-                        chipGroupDays.addView(chip)
-                    }
-
-                    labelPlan.text = "Current Plan: ${sdfPlan.format(creationTime.time)}-${sdfPlan.format(calendar.time.time)}"
+                    labelPlan.text = getString(R.string.currentPlan, "${sdfPlan.format(creationTime.time)}-${sdfPlan.format(calendar.time.time)}")
 
                     mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
-                        val planMeals = meals.filter { plan.meals!!.contains(it.id) }
-                        pagerAdapter.submitList(planMeals)
+                        val orderById = plan.meals!!.withIndex().associate { it.value to it.index }
+                        val planMeals = meals.filter { plan.meals!!.contains(it.id) }.sortedBy { orderById[it.id] }
+                        chipGroupDays.removeAllViews()
+                        for (i in 1..plan.period){
+                            val chip = layoutInflater.inflate(R.layout.chip_day, null, false) as Chip
+                            chip.text = getString(R.string.currentDay, i)
+                            //chip.isChecked = currentDay == i
+                            chip.setOnCheckedChangeListener { _, isChecked  ->
+                                if (isChecked) {
+                                    selectedDay = i
+                                    pagerAdapter.submitList(planMeals.chunked(plan.mealsPerDay)[selectedDay-1])
+                                }
+                            }
+                            chipGroupDays.addView(chip)
+                        }
 
                         labelMeatCount.text = planMeals.count { it.categories!!.contains(Category.MEAT.category) }.toString()
                         labelVeggieCount.text = planMeals.count { it.categories!!.contains(Category.VEGGIE.category) }.toString()
@@ -95,9 +104,15 @@ class DashboardFragment : Fragment() {
                         for (m in planMeals)
                             r += m.rating!!
                         ratingAvg.rating = (r/planMeals.size).toFloat()
+
+                        chipGroupDays.check(chipGroupDays[currentDay-1].id)
                     }
 
-                    chipCurrentDay.text = "Day $currentDay"
+                    chipCurrentDay.text = getString(R.string.currentDay, currentDay)
+                    chipCurrentDay.setOnClickListener {
+                        chipGroupDays.check(chipGroupDays[currentDay-1].id)
+                        selectedDay = currentDay
+                    }
                 } else {
                     layoutEmpty.visibility = View.VISIBLE
                     layoutPlan.visibility = View.GONE
@@ -109,7 +124,7 @@ class DashboardFragment : Fragment() {
         pager.adapter = pagerAdapter
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tabDotsMeals)
-        TabLayoutMediator(tabLayout, pager) { tab, position ->
+        TabLayoutMediator(tabLayout, pager) { _, _ ->
             //tab.text = "OBJECT ${(position + 1)}"
         }.attach()
 

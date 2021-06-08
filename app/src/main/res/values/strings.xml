@@ -58,4 +58,11 @@
 
     <string name="chooseRating">Filter by Rating:</string>
     <string name="mealAdded">Meal %1$s added!</string>
+    <string name="currentDay">Day %1$d</string>
+    <string name="currentPlan">Current Plan: %1$s</string>
+    <string name="average_rating">Average Rating</string>
+    <string name="filter_by_category">Filter by category</string>
+    <string name="filter_by_rating">Filter by rating</string>
+    <string name="apply_filter">Apply filter</string>
+    <string name="apply">Apply</string>
 </resources>

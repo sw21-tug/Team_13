@@ -189,7 +189,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                     builder.setView(view)
                     //builder.setTitle("Apply filter")
                     builder.setIcon(R.drawable.ic_filter)
-                    builder.setPositiveButton("Apply") { dialog, selection ->
+                    builder.setPositiveButton(getString(R.string.apply)) { dialog, selection ->
 
                         val categories = ArrayList<Int>()
                         for(ids in chipGroup.checkedChipIds) {
@@ -230,9 +230,6 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
     }
-
-
-
 
     override fun onItemClick(position: Int) {
         val clickedMeal = overviewAdapter!!.currentList[position]

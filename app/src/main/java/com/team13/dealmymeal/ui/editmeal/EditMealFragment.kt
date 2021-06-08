@@ -42,17 +42,17 @@ class EditMealFragment : Fragment() {
         val switchMeat = root.findViewById<SwitchMaterial>(R.id.check_meat)
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
         btnSave.isEnabled = false
-        btnSave.getBackground().setAlpha(51);
+        btnSave.getBackground().setAlpha(51)
         switchMeat.setOnCheckedChangeListener {_, isChecked ->
             if (switchMeat.isChecked)
             {
                 btnSave.isEnabled = true
-                btnSave.getBackground().setAlpha(200);
+                btnSave.getBackground().setAlpha(200)
                 switchVeggie.setEnabled(false)
             }else
             {
                 btnSave.isEnabled = false
-                btnSave.getBackground().setAlpha(51);
+                btnSave.getBackground().setAlpha(51)
                 switchVeggie.setEnabled(true)
             }
         }
@@ -61,12 +61,12 @@ class EditMealFragment : Fragment() {
             if (switchVeggie.isChecked)
             {
                 btnSave.isEnabled = true
-                btnSave.getBackground().setAlpha(200);
+                btnSave.getBackground().setAlpha(200)
                 switchMeat.setEnabled(false)
             }else
             {
                 btnSave.isEnabled = false
-                btnSave.getBackground().setAlpha(51);
+                btnSave.getBackground().setAlpha(51)
                 switchMeat.setEnabled(true)
             }
         }

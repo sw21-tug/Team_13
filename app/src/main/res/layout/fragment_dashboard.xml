@@ -139,11 +139,11 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/labelAvgRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="Average Rating"
+                    android:text="@string/average_rating"
                     app:layout_constraintBottom_toTopOf="@+id/ratingAvg"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="8dp"
-                    android:text="Current Plan: 3.2-5.2"
+                    android:text="@string/currentPlan"
                     android:textColor="#748A9D"
                     android:textSize="20sp"
                     app:drawableStartCompat="@drawable/ic_plan"
@@ -170,7 +170,7 @@
                     android:layout_marginEnd="4dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="Day 2"
+                    android:text="@string/currentDay"
                     android:textColor="@color/ic_chip_text"
                     app:chipBackgroundColor="@color/ic_chip_background"
                     app:chipIcon="@drawable/ic_time"
