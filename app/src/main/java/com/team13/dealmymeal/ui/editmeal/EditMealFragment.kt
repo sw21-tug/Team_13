@@ -127,7 +127,7 @@ class EditMealFragment : Fragment() {
 
                 if (meal.title != "") {
                     if (canUpdate) {
-                        mealViewModel.update(meal)
+                        mealViewModel.updateMeal(meal)
                         activity?.onBackPressed()
                     }
                 } else {

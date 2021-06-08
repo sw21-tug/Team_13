@@ -4,33 +4,24 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.ActivityTestRule
-import com.google.common.truth.Truth
 import com.team13.dealmymeal.data.DBManager
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealDao
 import com.team13.dealmymeal.ui.overview.MealOverviewAdapter
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.concurrent.thread
 
 
 @RunWith(AndroidJUnit4::class)
@@ -78,6 +69,6 @@ class MealOverviewDeleteTest: TestCase() {
     }
 
     override fun tearDown() = runBlocking {
-        mealDao.delete(meal)
+        mealDao.deleteMeal(meal)
     }
 }

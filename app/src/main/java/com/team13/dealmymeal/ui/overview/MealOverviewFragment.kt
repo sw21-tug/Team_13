@@ -126,7 +126,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         .setPositiveButton(R.string.yes) { _, _ ->
                             // Delete selected note from database
                             for (meal in selectedPostItems)
-                                mealViewModel.delete(meal)
+                                mealViewModel.deleteMeal(meal)
                         }
                         .setNegativeButton(R.string.no) { dialog, _ ->
                             // Dismiss the dialog

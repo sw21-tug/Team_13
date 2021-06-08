@@ -86,7 +86,7 @@ class AddMealFragment : Fragment() {
 
             if(count == 0){
                 if (meal.title != "") {
-                    mealViewModel.insert(meal)
+                    mealViewModel.insertMeal(meal)
                     val toast: Toast =
                         Toast.makeText(context, getString(R.string.mealAdded, meal.title), Toast.LENGTH_LONG)
                     toast.setGravity(Gravity.TOP, 0, 250)

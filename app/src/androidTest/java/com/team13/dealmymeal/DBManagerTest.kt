@@ -42,10 +42,10 @@ class DBManagerTest: TestCase() {
     @Test
     fun writeAndReadLanguage() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
-        mealDao.insert(meal)
+        mealDao.insertMeal(meal)
         //val allMeals = mealDao.getAll().toList()
-        val allMeals = mealDao.getAllTest()
+        val allMeals = mealDao.getAllMealsTest()
         assertThat(allMeals.contains(meal)).isTrue()
-        mealDao.deleteAll()
+        mealDao.deleteAllMeals()
     }
 }

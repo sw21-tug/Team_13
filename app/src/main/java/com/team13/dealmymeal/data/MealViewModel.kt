@@ -1,6 +1,8 @@
 package com.team13.dealmymeal.data
 
 import androidx.lifecycle.*
+import com.team13.dealmymeal.core.Plan
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MealViewModel(private val repository: MealRepository) : ViewModel() {
@@ -9,31 +11,32 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allMeals: LiveData<List<Meal>> = repository.allMeals.asLiveData()
+    val currentPlan: LiveData<Plan> = repository.currentPlan.asLiveData()
 
-    suspend fun getCount(title: String): Int{
+    suspend fun getCount(title: String): Int {
         return repository.getCountMeals(title)
     }
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(meal: Meal) = viewModelScope.launch {
-        repository.insert(meal)
+    fun insertMeal(meal: Meal) = viewModelScope.launch {
+        repository.insertMeal(meal)
     }
 
-    fun delete(meal: Meal) = viewModelScope.launch {
-        repository.delete(meal)
+    fun deleteMeal(meal: Meal) = viewModelScope.launch {
+        repository.deleteMeal(meal)
     }
 
-    fun deleteById(id: Long) = viewModelScope.launch {
-        repository.deleteById(id)
+    fun deleteMealById(id: Long) = viewModelScope.launch {
+        repository.deleteMealById(id)
     }
 
-    fun deleteAll() = viewModelScope.launch {
-        repository.deleteAll()
+    fun deleteAllMeals() = viewModelScope.launch {
+        repository.deleteAllMeals()
     }
 
-    fun update(meal: Meal) = viewModelScope.launch {
+    fun updateMeal(meal: Meal) = viewModelScope.launch {
         repository.updateMeal(meal)
     }
 }

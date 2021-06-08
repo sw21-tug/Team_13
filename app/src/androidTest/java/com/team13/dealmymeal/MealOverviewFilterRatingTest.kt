@@ -15,7 +15,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.team13.dealmymeal.data.DBManager
 import com.team13.dealmymeal.data.MealDao
-import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.junit.Before
@@ -38,7 +37,7 @@ class MealOverviewFilterRatingTest {
         // init the db and dao variable
         db = Room.databaseBuilder(context, DBManager::class.java, "dmm.db").build()
         mealDao = db.mealDao()
-        mealDao.deleteAll()
+        mealDao.deleteAllMeals()
     }
 
 
@@ -58,7 +57,7 @@ class MealOverviewFilterRatingTest {
         Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(withText("Nudeln")).check(matches(isDisplayed()))
-        mealDao.deleteAll()
+        mealDao.deleteAllMeals()
     }
 
 
@@ -85,7 +84,7 @@ class MealOverviewFilterRatingTest {
         Espresso.onData(CoreMatchers.anything()).atPosition(2).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.action_filter_star)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(withText("Nudeln")).check(matches(isDisplayed()))
-        mealDao.deleteAll()
+        mealDao.deleteAllMeals()
     }
 
 

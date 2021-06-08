@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Meal::class, Plan::class], version = 4, exportSchema = false)
+@Database(entities = [Meal::class, Plan::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun mealDao(): MealDao
@@ -63,7 +63,7 @@ abstract class DBManager : RoomDatabase() {
         suspend fun populateDatabase(mealDao: MealDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            mealDao.deleteAll()
+            mealDao.deleteAllMeals()
 
             /*Log.d("DB", "add meals")
             var word = Meal("Hello")

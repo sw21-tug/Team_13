@@ -10,7 +10,7 @@
         android:id="@+id/layoutPlan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,24 +69,6 @@
                     app:singleLine="true"
                     app:singleSelection="true">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip4"
-                        style="@style/Widget.MyApp.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text="Day 1" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip5"
-                        style="@style/Widget.MyApp.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text="Day 2" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </HorizontalScrollView>
@@ -120,11 +102,11 @@
                     android:gravity="center_vertical"
                     android:text="0"
                     app:drawableStartCompat="@drawable/ic_meat"
-                    app:layout_constraintBottom_toTopOf="@+id/labeVeggieCount"
+                    app:layout_constraintBottom_toTopOf="@+id/labelVeggieCount"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/labeVeggieCount"
+                    android:id="@+id/labelVeggieCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"

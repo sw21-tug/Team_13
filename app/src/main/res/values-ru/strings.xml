@@ -16,7 +16,7 @@
     <string name="burgerbuttonmenu">Меню кнопки бургера</string>
     <string name="title_activity_test">Основная деятельность</string>
     <string name="title_addmeal">добавить еду</string>
-    <string name="title_dashboard">Приборная панель</string>
+    <string name="title_dashboard">план</string>
     <string name="title_overview">Обзор</string>
     <string name="title_edit">Изменить еду</string>
     <string name="title_activity_navigation_bar">Основная деятельность</string>
