@@ -109,4 +109,17 @@ class DBManagerTest: TestCase() {
         assertEquals(2, mealDao.getCountTitle("Spaghetti"))
         assertEquals(1, mealDao.getCountTitle("Toast"))
     }
+
+    @Test
+    fun deleteWithTitle() = runBlocking {
+        val meal = Meal("Spaghetti", listOf(0), 0f)
+        val meal2 = Meal("Toast", listOf(0), 0f)
+        mealDao.insert(meal)
+        mealDao.insert(meal2)
+        val allMeals = mealDao.getAllTest()
+        assertEquals(2, allMeals.size)
+        mealDao.deleteWithTitle(meal2.title!!)
+        assertFalse(mealDao.getAllTest().contains(meal2))
+        assertTrue(mealDao.getAllTest().contains(meal))
+    }
 }
