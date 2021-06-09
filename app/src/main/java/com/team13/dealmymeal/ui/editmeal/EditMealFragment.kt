@@ -38,7 +38,6 @@ class EditMealFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_editmeal, container, false)
 
         val btnSave = root.findViewById<Button>(R.id.form_save)
-        val editTitle = root.findViewById<EditText>(R.id.form_edit)
         val switchMeat = root.findViewById<SwitchMaterial>(R.id.check_meat)
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
         btnSave.isEnabled = false
