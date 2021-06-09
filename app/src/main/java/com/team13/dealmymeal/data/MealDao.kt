@@ -49,4 +49,10 @@ interface MealDao {
 
     @Query("DELETE FROM 'plan'")
     suspend fun deleteAllPlans()
+
+    @Query("INSERT INTO 'plan' (period, meals_per_day, meals) values (:period, :mealsPerDay, :meals)")
+    suspend fun insertPlan(period: Int, mealsPerDay:Int, meals: String)
+
+    @Query("SELECT * FROM 'plan' WHERE created_time = (SELECT MAX(created_time) FROM 'plan')")
+    fun getCurrentPlanTest(): Plan?
 }

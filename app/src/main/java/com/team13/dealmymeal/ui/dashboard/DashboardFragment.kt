@@ -124,6 +124,9 @@ class DashboardFragment : Fragment() {
                 } else {
                     layoutEmpty.visibility = View.VISIBLE
                     layoutPlan.visibility = View.GONE
+
+                    //delete database entries
+                    mealViewModel.deleteAllPlans()
                 }
             }
         }
