@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.DBManager
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealDao
@@ -78,5 +79,20 @@ class DBManagerTest: TestCase() {
         mealDao.deleteById(id)
         allMeals = mealDao.getAllTest()
         assertEquals(0, allMeals.size)
+    }
+
+    @Test
+    fun updateMeal() = runBlocking {
+        val meal = Meal("Spaghetti", listOf(0), 0f)
+        mealDao.insert(meal)
+        var allMeals = mealDao.getAllTest()
+        val mealDb = allMeals[0]
+        assertEquals(meal.rating, mealDb.rating)
+        assertTrue(meal.categories == mealDb.categories)
+        mealDao.updateMeal(mealDb.id, "Gemüsepfanne", 1f, listOf(Category.SPECIAL.category, Category.VEGGIE.category))
+        val mealUpdated = mealDao.getAllTest()[0]
+        assertEquals("Gemüsepfanne", mealUpdated.title)
+        assertEquals(1f, mealUpdated.rating)
+        assertTrue(mealUpdated.categories!!.contains(Category.SPECIAL.category))
     }
 }
