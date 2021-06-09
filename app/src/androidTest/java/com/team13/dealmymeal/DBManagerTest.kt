@@ -40,12 +40,29 @@ class DBManagerTest: TestCase() {
     // here we are first adding an item to the db and then checking if that item
     // is present in the db -- if the item is present then our test cases pass
     @Test
-    fun writeAndReadLanguage() = runBlocking {
+    fun checkInsert() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
         mealDao.insert(meal)
         //val allMeals = mealDao.getAll().toList()
         val allMeals = mealDao.getAllTest()
         assertThat(allMeals.contains(meal)).isTrue()
+        mealDao.deleteAll()
+    }
+
+    @Test
+    fun deleteTestItems() = runBlocking {
+        val meal = Meal("Spaghetti", listOf(0), 0f)
+        val mealTest = Meal("asdfqwer1234", listOf(0), 0f)
+        mealDao.insert(meal)
+        mealDao.insert(mealTest)
+        //val allMeals = mealDao.getAll().toList()
+        val allMeals = mealDao.getAllTest()
+        assertEquals(2, allMeals.size)
+        mealDao.deleteTestItems()
+        val allMealsDelete = mealDao.getAllTest()
+        assertEquals(1, allMealsDelete.size)
+        assertFalse(allMealsDelete.contains(mealTest))
+        assertTrue(allMealsDelete.contains(meal))
         mealDao.deleteAll()
     }
 }
