@@ -173,6 +173,22 @@ class DashboardFragment : Fragment() {
                     selectLanguageAlert.create().show()
                 true
             }
+            R.id.delete -> {
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage(R.string.delete_message)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        // Delete plan from database
+                        mealViewModel.deleteAllPlans()
+                    }
+                    .setNegativeButton(R.string.no) { dialog, _ ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

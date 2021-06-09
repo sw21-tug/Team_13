@@ -41,6 +41,12 @@ interface MealDao {
     @Query("DELETE from meal WHERE title=:title")
     suspend fun deleteWithMealTitle(title:String)
 
-    @Query("SELECT * FROM plan WHERE created_time = (SELECT MAX(created_time) FROM plan)")
+    @Query("SELECT * FROM 'plan' WHERE created_time = (SELECT MAX(created_time) FROM 'plan')")
     fun getCurrentPlan(): Flow<Plan>
+
+    @Query("DELETE FROM 'plan' WHERE id=:id")
+    suspend fun deletePlanWithId(id: Long)
+
+    @Query("DELETE FROM 'plan'")
+    suspend fun deleteAllPlans()
 }
