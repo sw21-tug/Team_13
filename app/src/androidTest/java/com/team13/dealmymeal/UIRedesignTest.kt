@@ -22,9 +22,9 @@ class UIRedesignTest{
 
         onView(withId(R.id.navigation_addMeal)).perform(click())
         onView(withId(R.id.form_save)).check(matches(hasTextColor(R.color.white)))
-        onView(withId(R.id.form_edit)).check(matches(withHint("Enter the Name of your meal!")))
-        onView(withId(R.id.labelName)).check(matches(withText("Meal Name")))
-        onView(withId(R.id.labelCategry)).check(matches(withText("Category")))
-        onView(withId(R.id.labelRating)).check(matches(withText("Rating")))
+       onView(withId(R.id.form_edit)).check(matches(withHint("Enter the Name of your meal!")))
+        onView(withId(R.id.textView)).check(matches(withText("Meal Name")))
+       onView(withId(R.id.textView3)).check(matches(withText("Category")))
+        onView(withId(R.id.textView4)).check(matches(withText("Rating")))
     }
 }
