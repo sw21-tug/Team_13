@@ -38,22 +38,21 @@ class EditMealFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_editmeal, container, false)
 
         val btnSave = root.findViewById<Button>(R.id.form_save)
-        val editTitle = root.findViewById<EditText>(R.id.form_edit)
         val switchMeat = root.findViewById<SwitchMaterial>(R.id.check_meat)
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
         btnSave.isEnabled = false
-        btnSave.getBackground().setAlpha(51)
+        btnSave.background.alpha = 51;
         switchMeat.setOnCheckedChangeListener {_, isChecked ->
             if (switchMeat.isChecked)
             {
                 btnSave.isEnabled = true
-                btnSave.getBackground().setAlpha(200)
-                switchVeggie.setEnabled(false)
+                btnSave.background.alpha = 200;
+                switchVeggie.isEnabled = false
             }else
             {
                 btnSave.isEnabled = false
-                btnSave.getBackground().setAlpha(51)
-                switchVeggie.setEnabled(true)
+                btnSave.background.alpha = 51;
+                switchVeggie.isEnabled = true
             }
         }
 
@@ -61,13 +60,13 @@ class EditMealFragment : Fragment() {
             if (switchVeggie.isChecked)
             {
                 btnSave.isEnabled = true
-                btnSave.getBackground().setAlpha(200)
-                switchMeat.setEnabled(false)
+                btnSave.background.alpha = 200;
+                switchMeat.isEnabled = false
             }else
             {
                 btnSave.isEnabled = false
-                btnSave.getBackground().setAlpha(51)
-                switchMeat.setEnabled(true)
+                btnSave.background.alpha = 51;
+                switchMeat.isEnabled = true
             }
         }
 
@@ -87,13 +86,13 @@ class EditMealFragment : Fragment() {
         if (meal != null) {
             editTitle.setText(meal.title)
             ratingBar.rating = meal.rating!!
-            val isMeat = meal.categories!!.contains(0)
-            val isSpecial = meal.categories!!.contains(1)
-            val isVeggie = meal.categories!!.contains(2)
+            val isMeat = meal.categories!!.contains(Category.MEAT.category)
+            val isSpecial = meal.categories!!.contains(Category.SPECIAL.category)
+            val isVeggie = meal.categories!!.contains(Category.VEGGIE.category)
 
             switchMeat.isChecked = isMeat
             switchVeggie.isChecked = isVeggie
-           switchSpecial.isChecked = isSpecial
+            switchSpecial.isChecked = isSpecial
 
             btnSave.setOnClickListener {
                 val type = ArrayList<Int>()
