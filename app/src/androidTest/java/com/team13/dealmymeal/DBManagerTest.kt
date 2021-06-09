@@ -95,4 +95,18 @@ class DBManagerTest: TestCase() {
         assertEquals(1f, mealUpdated.rating)
         assertTrue(mealUpdated.categories!!.contains(Category.SPECIAL.category))
     }
+
+    @Test
+    fun countTitle() = runBlocking {
+        val meal = Meal("Spaghetti", listOf(0), 0f)
+        val meal2 = Meal("Spaghetti", listOf(0), 0f)
+        val meal3 = Meal("Toast", listOf(0), 0f)
+        mealDao.insert(meal)
+        mealDao.insert(meal2)
+        mealDao.insert(meal3)
+        val allMeals = mealDao.getAllTest()
+        assertEquals(3, allMeals.size)
+        assertEquals(2, mealDao.getCountTitle("Spaghetti"))
+        assertEquals(1, mealDao.getCountTitle("Toast"))
+    }
 }
