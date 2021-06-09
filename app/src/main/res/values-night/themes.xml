@@ -18,5 +18,6 @@
         <item name="overview_item_bg">@color/ic_card_bg_d</item>
         <item name="overview_item_1">@drawable/ic_background_meal_purple</item>
         <item name="overview_item_2">@drawable/ic_background_meal_blue</item>
+        <item name="navigation_bg">@color/bg</item>
     </style>
 </resources>

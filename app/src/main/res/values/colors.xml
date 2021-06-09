@@ -21,4 +21,5 @@
     <color name="shadow">#E2605D5D</color>
     <color name="shadow_dark">#E2272626</color>
     <color name="chip_icon_tint">#F8F8F8</color>
+    <color name="bg">#141414</color>
 </resources>

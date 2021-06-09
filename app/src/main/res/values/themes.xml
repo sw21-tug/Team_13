@@ -22,6 +22,7 @@
         <item name="overview_item_2">@drawable/ic_background_meal_green</item>
 
         <item name="toolbarStyle">@style/Widget.Toolbar</item>
+        <item name="navigation_bg">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 
