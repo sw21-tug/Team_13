@@ -13,15 +13,15 @@
         android:layout_width="315dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
-        android:autofillHints=""
-        android:background="?attr/add_meal_edit_bg"
+        android:background="@drawable/ic_edit_bg_round"
         android:hint="@string/enter_menu"
         android:inputType="text"
         android:textAlignment="center"
         android:textColor="#A6BCD0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/form_save"

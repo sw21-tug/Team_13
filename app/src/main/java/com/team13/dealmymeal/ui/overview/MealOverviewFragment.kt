@@ -2,9 +2,9 @@ package com.team13.dealmymeal.ui.overview
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,10 +16,15 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.slider.RangeSlider
 import com.team13.dealmymeal.*
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
+import kotlin.math.roundToInt
+
 
 /**
  * A fragment representing a list of Items.
@@ -121,7 +126,7 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
                         .setPositiveButton(R.string.yes) { _, _ ->
                             // Delete selected note from database
                             for (meal in selectedPostItems)
-                                mealViewModel.delete(meal)
+                                mealViewModel.deleteMeal(meal)
                         }
                         .setNegativeButton(R.string.no) { dialog, _ ->
                             // Dismiss the dialog
@@ -166,54 +171,49 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
         super.onOptionsItemSelected(item)
         return when (item.itemId) {
             R.id.action_filter -> {
-                Log.d("MealOverview", "Filter")
-
                 if (!item.isChecked)
                 {
-                    val categories = resources.getStringArray(R.array.categories)
-                    val selectCategoryAlert = AlertDialog.Builder(context)
-                    selectCategoryAlert.setTitle(R.string.chooseCategory)
-                    selectCategoryAlert.setSingleChoiceItems(categories, -1) { dialog, selection ->
+                    val builder = AlertDialog.Builder(context, R.style.RoundedCornersDialog)
+                    val view = layoutInflater.inflate(R.layout.dialog_filter_meals, null)
+                    val chipGroup = view.findViewById<ChipGroup>(R.id.chipsCategory)
+                    val ratingRange = view.findViewById<RangeSlider>(R.id.sliderRating)
+                    val textSliderRight = view.findViewById<TextView>(R.id.textSliderRight)
+                    val textSliderLeft = view.findViewById<TextView>(R.id.textSliderLeft)
 
-                        overviewAdapter?.filterCategory(selection)
+                    ratingRange.addOnChangeListener { rangeSlider, value, fromUser ->
+                        // Responds to when slider's value is changed
+                        textSliderLeft.text = rangeSlider.values.minOrNull()?.roundToInt().toString()
+                        textSliderRight.text = rangeSlider.values.maxOrNull()?.roundToInt().toString()
+                    }
+
+                    builder.setView(view)
+                    //builder.setTitle("Apply filter")
+                    builder.setIcon(R.drawable.ic_filter)
+                    builder.setPositiveButton(getString(R.string.apply)) { dialog, selection ->
+
+                        val categories = ArrayList<Int>()
+                        for(ids in chipGroup.checkedChipIds) {
+                            categories.add(resources.getStringArray(R.array.categories).indexOf(chipGroup.findViewById<Chip>(ids).text))
+                        }
+
+                        overviewAdapter?.applyFilter(categories, ratingRange.values)
+
                         item.isChecked  = true
                         item.setIcon(R.drawable.ic_close)
                         dialog.dismiss()
                     }
-                    selectCategoryAlert.create().show()
+                    val dialog = builder.create()
+                    dialog.setOnShowListener {
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setTextColor(resources.getColor(R.color.green, context?.theme))
+                    }
+                    dialog.show()
+
 
                 }else{
-
                     overviewAdapter?.resetFilter()
                     item.isChecked = false
                     item.setIcon(R.drawable.ic_filter)
-                }
-                // TODO add filter for rating & type (AlertDialog)
-                true
-            }
-            R.id.action_filter_star -> {
-                Log.d("MealOverview", "Filter")
-                // TODO add filter for rating & type (AlertDialog)
-                if (!item.isChecked)
-                {
-                    val stars = arrayOf("1 star", "2 stars", "3 stars", "4 stars")
-                    val stars2 = arrayOf(1.0f,2.0f,3.0f,4.0f)
-                    val selectStarAlert = AlertDialog.Builder(context)
-                    selectStarAlert.setTitle(R.string.chooseRating)
-                    selectStarAlert.setSingleChoiceItems(stars, -1) { dialog, selection ->
-
-                        overviewAdapter?.filterRating(stars2[selection])
-                        item.isChecked  = true
-                        item.setIcon(R.drawable.ic_filter_star_filled)
-                        dialog.dismiss()
-                    }
-                    selectStarAlert.create().show()
-
-                }else{
-
-                    overviewAdapter?.resetFilter()
-                    item.isChecked = false
-                    item.setIcon(R.drawable.ic_filter_star)
                 }
                 true
             }
@@ -230,9 +230,6 @@ class MealOverviewFragment : Fragment(), ActionMode.Callback, SearchView.OnQuery
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
     }
-
-
-
 
     override fun onItemClick(position: Int) {
         val clickedMeal = overviewAdapter!!.currentList[position]

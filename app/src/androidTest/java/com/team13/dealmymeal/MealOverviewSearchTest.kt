@@ -1,34 +1,25 @@
 package com.team13.dealmymeal
 
 import android.content.Context
-import android.graphics.Color
-import android.service.autofill.Validators.not
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.team13.dealmymeal.data.DBManager
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealDao
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.FixMethodOrder
 
 
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
-import kotlin.random.Random
 
 
 /**
@@ -53,9 +44,9 @@ class MealOverviewSearchTest {
         // init the db and dao variable
         db = Room.databaseBuilder(context, DBManager::class.java, "dmm.db").build()
         mealDao = db.mealDao()
-        mealDao.deleteAll()
-        mealDao.insert(meal)
-        mealDao.insert(meal2)
+        mealDao.deleteAllMeals()
+        mealDao.insertMeal(meal)
+        mealDao.insertMeal(meal2)
     }
 
     @Test

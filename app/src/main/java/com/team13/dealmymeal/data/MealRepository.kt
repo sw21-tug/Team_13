@@ -1,7 +1,7 @@
 package com.team13.dealmymeal.data
 
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
+import com.team13.dealmymeal.core.Plan
 import kotlinx.coroutines.flow.Flow
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -9,40 +9,40 @@ import kotlinx.coroutines.flow.Flow
 class MealRepository(private val mealDao: MealDao) {
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
-    val allMeals: Flow<List<Meal>> = mealDao.getAll()
+    val allMeals: Flow<List<Meal>> = mealDao.getAllMeals()
+    val currentPlan: Flow<Plan> = mealDao.getCurrentPlan()
 
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
     // off the main thread.
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(meal: Meal) {
-        mealDao.insert(meal)
+    suspend fun insertMeal(meal: Meal) {
+        mealDao.insertMeal(meal)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun delete(meal: Meal) {
-        mealDao.delete(meal)
+    suspend fun deleteMeal(meal: Meal) {
+        mealDao.deleteMeal(meal)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun deleteById(id: Long) {
-        mealDao.deleteById(id)
+    suspend fun deleteMealById(id: Long) {
+        mealDao.deleteMealById(id)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun deleteAll() {
-        mealDao.deleteAll()
+    suspend fun deleteAllMeals() {
+        mealDao.deleteAllMeals()
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-
     suspend fun getCountMeals(title: String): Int {
-        return mealDao.getCountTitle(title)
+        return mealDao.getCountByMealTitle(title)
     }
 
     suspend fun updateMeal(meal: Meal) {
@@ -52,9 +52,7 @@ class MealRepository(private val mealDao: MealDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun deleteWithName(title: String) {
-        mealDao.deleteWithTitle(title)
+        mealDao.deleteWithMealTitle(title)
     }
-
-
 
 }

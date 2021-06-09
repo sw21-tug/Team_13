@@ -43,54 +43,54 @@ class DBManagerTest: TestCase() {
     @Test
     fun checkInsert() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
-        mealDao.insert(meal)
+        mealDao.insertMeal(meal)
         //val allMeals = mealDao.getAll().toList()
-        val allMeals = mealDao.getAllTest()
+        val allMeals = mealDao.getAllMealsTest()
         assertThat(allMeals.contains(meal)).isTrue()
-        mealDao.deleteAll()
+        mealDao.deleteAllMeals()
     }
 
     @Test
     fun deleteTestItems() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
         val mealTest = Meal("asdfqwer1234", listOf(0), 0f)
-        mealDao.insert(meal)
-        mealDao.insert(mealTest)
-        val allMeals = mealDao.getAllTest()
+        mealDao.insertMeal(meal)
+        mealDao.insertMeal(mealTest)
+        val allMeals = mealDao.getAllMealsTest()
         assertEquals(2, allMeals.size)
         mealDao.deleteTestItems()
-        val allMealsDelete = mealDao.getAllTest()
+        val allMealsDelete = mealDao.getAllMealsTest()
         assertEquals(1, allMealsDelete.size)
         assertFalse(allMealsDelete.contains(mealTest))
         assertTrue(allMealsDelete.contains(meal))
-        mealDao.deleteAll()
+        mealDao.deleteAllMeals()
     }
 
     @Test
     fun deleteById() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
-        mealDao.insert(meal)
-        var allMeals = mealDao.getAllTest()
+        mealDao.insertMeal(meal)
+        var allMeals = mealDao.getAllMealsTest()
         val id = allMeals[0].id
         assertEquals(1, allMeals.size)
-        mealDao.deleteById(12341234123412341L)
-        allMeals = mealDao.getAllTest()
+        mealDao.deleteMealById(12341234123412341L)
+        allMeals = mealDao.getAllMealsTest()
         assertEquals(1, allMeals.size)
-        mealDao.deleteById(id)
-        allMeals = mealDao.getAllTest()
+        mealDao.deleteMealById(id)
+        allMeals = mealDao.getAllMealsTest()
         assertEquals(0, allMeals.size)
     }
 
     @Test
     fun updateMeal() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
-        mealDao.insert(meal)
-        var allMeals = mealDao.getAllTest()
+        mealDao.insertMeal(meal)
+        var allMeals = mealDao.getAllMealsTest()
         val mealDb = allMeals[0]
         assertEquals(meal.rating, mealDb.rating)
         assertTrue(meal.categories == mealDb.categories)
         mealDao.updateMeal(mealDb.id, "Gemüsepfanne", 1f, listOf(Category.SPECIAL.category, Category.VEGGIE.category))
-        val mealUpdated = mealDao.getAllTest()[0]
+        val mealUpdated = mealDao.getAllMealsTest()[0]
         assertEquals("Gemüsepfanne", mealUpdated.title)
         assertEquals(1f, mealUpdated.rating)
         assertTrue(mealUpdated.categories!!.contains(Category.SPECIAL.category))
@@ -101,25 +101,25 @@ class DBManagerTest: TestCase() {
         val meal = Meal("Spaghetti", listOf(0), 0f)
         val meal2 = Meal("Spaghetti", listOf(0), 0f)
         val meal3 = Meal("Toast", listOf(0), 0f)
-        mealDao.insert(meal)
-        mealDao.insert(meal2)
-        mealDao.insert(meal3)
-        val allMeals = mealDao.getAllTest()
+        mealDao.insertMeal(meal)
+        mealDao.insertMeal(meal2)
+        mealDao.insertMeal(meal3)
+        val allMeals = mealDao.getAllMealsTest()
         assertEquals(3, allMeals.size)
-        assertEquals(2, mealDao.getCountTitle("Spaghetti"))
-        assertEquals(1, mealDao.getCountTitle("Toast"))
+        assertEquals(2, mealDao.getCountByMealTitle("Spaghetti"))
+        assertEquals(1, mealDao.getCountByMealTitle("Toast"))
     }
 
     @Test
     fun deleteWithTitle() = runBlocking {
         val meal = Meal("Spaghetti", listOf(0), 0f)
         val meal2 = Meal("Toast", listOf(0), 0f)
-        mealDao.insert(meal)
-        mealDao.insert(meal2)
-        val allMeals = mealDao.getAllTest()
+        mealDao.insertMeal(meal)
+        mealDao.insertMeal(meal2)
+        val allMeals = mealDao.getAllMealsTest()
         assertEquals(2, allMeals.size)
-        mealDao.deleteWithTitle(meal2.title!!)
-        assertFalse(mealDao.getAllTest().contains(meal2))
-        assertTrue(mealDao.getAllTest().contains(meal))
+        mealDao.deleteWithMealTitle(meal2.title!!)
+        assertFalse(mealDao.getAllMealsTest().contains(meal2))
+        assertTrue(mealDao.getAllMealsTest().contains(meal))
     }
 }

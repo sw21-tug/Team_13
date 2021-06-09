@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.team13.dealmymeal.core.Plan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Meal::class], version = 4, exportSchema = false)
+@Database(entities = [Meal::class, Plan::class], version = 6, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun mealDao(): MealDao
@@ -62,7 +63,7 @@ abstract class DBManager : RoomDatabase() {
         suspend fun populateDatabase(mealDao: MealDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            mealDao.deleteAll()
+            mealDao.deleteAllMeals()
         }
     }
 

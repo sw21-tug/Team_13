@@ -20,6 +20,9 @@
         <item name="overview_item_bg">@color/ic_card_bg_l</item>
         <item name="overview_item_1">@drawable/ic_background_meal_orange</item>
         <item name="overview_item_2">@drawable/ic_background_meal_green</item>
+
+        <item name="toolbarStyle">@style/Widget.Toolbar</item>
+        <item name="navigation_bg">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -28,6 +31,34 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:background">@drawable/ic_status</item>
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+    </style>
+
     <style name="Theme.DealMyMeal.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.DealMyMeal.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.MyApp.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MyApp.Chip.Choice</item>
+        <item name="chipBackgroundColor">@color/ic_chip_background</item>
+        <item name="android:textColor">@color/ic_chip_text</item>
+    </style>
+
+    <!-- Disabling elevation overlays because when chip's default background/surface
+         composite are combined with elevation overlays in a highly elevated dialog,
+         the resulting color becomes too light and causes contrast
+         issues. -->
+    <style name="ThemeOverlay.MyApp.Chip.Choice" parent="">
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <style name="RoundedCornersDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="titleTextColor">@color/green</item>
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
 </resources>

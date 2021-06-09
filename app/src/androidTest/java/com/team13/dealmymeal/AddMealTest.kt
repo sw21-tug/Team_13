@@ -4,13 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -82,7 +79,7 @@ class AddMealTest: TestCase() {
         var flag = 0
 
         //This does not work, maybe wrong context
-        val allItems = mealDao.getAllTest()
+        val allItems = mealDao.getAllMealsTest()
 
         //allItems.contains(meal)
         assertTrue(allItems.contains(meal))
@@ -145,7 +142,7 @@ class AddMealTest: TestCase() {
             .perform(ViewActions.closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
 
-        var count =  mealDao.getCountTitle("asdfqwer1234")
+        var count =  mealDao.getCountByMealTitle("asdfqwer1234")
         assertEquals(1, count)
 
         //TODO delete Test items from database

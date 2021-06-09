@@ -7,5 +7,6 @@
         <attr name="add_meal_edit_bg" format="reference" />
         <attr name="meal_item_txt" format="reference" />
         <attr name="overview_item_bg" format="reference" />
+        <attr name="navigation_bg" format="reference" />
     </declare-styleable>
 </resources>
