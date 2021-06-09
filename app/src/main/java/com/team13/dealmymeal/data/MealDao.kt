@@ -47,6 +47,6 @@ interface MealDao {
     @Query("SELECT * FROM plan WHERE created_time = (SELECT MAX(created_time) FROM plan)")
     fun getCurrentPlan(): Flow<Plan>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertPlan(plan: Plan)
+    @Query("INSERT INTO plan (period, meals_per_day, meals) VALUES (:period, :mealsPerDay, :meals)")
+    suspend fun insertPlan(period: Int, mealsPerDay: Int, meals: String)
 }

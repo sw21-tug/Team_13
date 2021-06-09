@@ -71,5 +71,6 @@
     <string name="apply">Применять</string>
     <string name="veggie_meat_ratio">Соотношение овощи / мясо</string>
     <string name="specials">Специальные</string>
+    <string name="not_enough_meals">Недостаточно еды</string>
 
 </resources>

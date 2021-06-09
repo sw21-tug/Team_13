@@ -1,15 +1,11 @@
 package com.team13.dealmymeal.ui.generate
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.slider.Slider
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.team13.dealmymeal.*
 import com.team13.dealmymeal.core.NotEnoughMealsException
 import com.team13.dealmymeal.core.Plan
@@ -18,8 +14,6 @@ import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.math.roundToInt
 
 
@@ -44,33 +38,6 @@ class GeneratePlanFragment : Fragment() {
         sliderRatio.valueTo = ratingDays.rating * numberOfMeals.rating
         sliderRatio.value = (sliderRatio.valueTo/2).roundToInt().toFloat()
 
-        val meatCount: Int = (sliderRatio.valueTo - sliderRatio.value).roundToInt()
-        val veggieCount: Int = (sliderRatio.value).roundToInt()
-        /*
-        buttonGenerate.isEnabled = mealViewModel.allMeals.value?.let { it1 ->
-            meatCount <= it1.count { it.categories!!.contains(Category.MEAT.category)}
-                    && veggieCount <= it1.count { it.categories!!.contains(Category.VEGGIE.category)}
-                    && numberOfSpecials.rating.roundToInt() <= it1.count { it.categories!!.contains(Category.SPECIAL.category)}
-        } == true*/
-
-        sliderRatio.addOnChangeListener { slider, value, fromUser ->
-            val meatCount: Int = (sliderRatio.valueTo - sliderRatio.value).roundToInt()
-            val veggieCount: Int = (sliderRatio.value).roundToInt()
-            // check if so many in db
-            /*
-            buttonGenerate.isEnabled = !(meatCount > mealViewModel.allMeals.value?.count { it.categories!!.contains(Category.MEAT.category) }!!
-                    || veggieCount > mealViewModel.allMeals.value?.count { it.categories!!.contains(Category.VEGGIE.category) }!!)*/
-            Log.e("hfsif", (mealViewModel.allMeals.value?.let { it1 ->
-                meatCount <= it1.count { it.categories!!.contains(Category.MEAT.category)}
-                        && veggieCount <= it1.count { it.categories!!.contains(Category.VEGGIE.category)}
-            } == true).toString())
-            Log.e("gdsi", "$meatCount $veggieCount")
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                Log.e("gdsi", mealViewModel.getCount(0).toString())
-            }
-        }
-
         ratingDays.setOnRatingBarChangeListener { ratingBar, rating, user ->
             sliderRatio.valueTo = rating * numberOfMeals.rating.roundToInt()
         }
@@ -84,20 +51,28 @@ class GeneratePlanFragment : Fragment() {
             buttonGenerate.isEnabled = rating.roundToInt() <= mealViewModel.allMeals.value?.count { it.categories!!.contains(Category.SPECIAL.category) }!!
         }
 
+        var data: List<Meal> = listOf()
+        mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
+            data = meals
+        }
+
         buttonGenerate.setOnClickListener {
-            val mealCount = ratingDays.rating.roundToInt() * numberOfMeals.rating.roundToInt()
+            //val mealCount = ratingDays.rating.roundToInt() * numberOfMeals.rating.roundToInt()
             val meatCount: Int = (sliderRatio.valueTo - sliderRatio.value).roundToInt()
             val veggieCount: Int = (sliderRatio.value).roundToInt()
             //if (meatCount + veggieCount != mealCount)
 
-            try {
-                val plan = mealViewModel.allMeals.value?.let { it1 -> PlanGenerator.generatePlan(it1, meatCount, veggieCount, numberOfSpecials.rating.roundToInt()) }
-                mealViewModel.insertPlan(Plan(ratingDays.rating.roundToInt(), numberOfMeals.rating.roundToInt(), "", plan))
-                activity?.onBackPressed()
-            } catch (e: NotEnoughMealsException) {
-                Toast.makeText(context, "blblb", Toast.LENGTH_SHORT).show()
-            }
-
+            if(data.isEmpty())
+                Toast.makeText(context, getString(R.string.not_enough_meals), Toast.LENGTH_SHORT).show()
+            else
+                try {
+                    val plan = PlanGenerator.generatePlan(data, meatCount, veggieCount, numberOfSpecials.rating.roundToInt())
+                    mealViewModel.insertPlan(Plan(ratingDays.rating.roundToInt(), numberOfMeals.rating.roundToInt(), null, plan))
+                    //val plan = mealViewModel.allMeals.value?.let { it1 -> PlanGenerator.generatePlan(it1, meatCount, veggieCount, numberOfSpecials.rating.roundToInt()) }
+                    activity?.onBackPressed()
+                } catch (e: NotEnoughMealsException) {
+                    Toast.makeText(context, getString(R.string.not_enough_meals), Toast.LENGTH_SHORT).show()
+                }
         }
 
         return root

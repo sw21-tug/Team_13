@@ -70,4 +70,5 @@
     <string name="apply">Apply</string>
     <string name="veggie_meat_ratio">Veggie/Meat Ratio</string>
     <string name="specials">Specials</string>
+    <string name="not_enough_meals">Not enough meals</string>
 </resources>
