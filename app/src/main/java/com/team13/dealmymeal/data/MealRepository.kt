@@ -67,6 +67,7 @@ class MealRepository(private val mealDao: MealDao) {
     @WorkerThread
     suspend fun insertPlan(plan: Plan) {
         mealDao.insertPlan(plan.period, plan.mealsPerDay, Json.encodeToString(plan.meals))
+    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
