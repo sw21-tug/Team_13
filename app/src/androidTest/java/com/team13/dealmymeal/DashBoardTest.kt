@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,23 +20,27 @@ import com.team13.dealmymeal.data.MealDao
 import com.team13.dealmymeal.ui.overview.MealOverviewAdapter
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
+
 import org.junit.runner.RunWith
 
-
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
 @RunWith(AndroidJUnit4::class)
-class MealOverviewDeleteTest: TestCase() {
+class DashBoardTest: TestCase() {
+
+    private lateinit var db: DBManager
+    private lateinit var mealDao: MealDao
 
     @get:Rule
     val activityRule: ActivityScenarioRule<MainActivity>
             = ActivityScenarioRule(MainActivity::class.java)
 
-    private lateinit var db: DBManager
-    private lateinit var mealDao: MealDao
-    private val meal = Meal("Spaghetti", listOf(), 0f)
-
-    override fun setUp() = runBlocking {
+    @Before
+    public override fun setUp() = runBlocking {
         // get context -- this is an instrumental test
         // context from the running application
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -45,31 +50,33 @@ class MealOverviewDeleteTest: TestCase() {
     }
 
     @Test
-    fun selectSingleAndCheckDelete() {
-        onView(withId(R.id.navigation_addMeal)).perform(click())
-        onView(withId(R.id.form_edit))
-            .perform(ViewActions.typeText(meal.title))
-            .perform(ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.check_meat)).perform(click())
-        onView(withId(R.id.form_save)).perform(click())
-        Thread.sleep(3000)
+    fun deleteButtonExists() {
+        onView(withId(R.id.navigation_dashboard)).perform(click())
+        onView(withId(R.id.delete)).check(matches(isDisplayed()))
+    }
 
-        onView(withId(R.id.navigation_overview)).perform(click())
+    /**
+     * Tests if plan is displayed if a plan is in the database
+     */
+    @Test
+    fun showPlan() = runBlocking  {
+        onView(withId(R.id.navigation_dashboard)).perform(click())
+        val plan = mealDao.getCurrentPlanTest()
 
-        var pos = 0
-        activityRule.scenario.onActivity {
-            pos = (it.findViewById<RecyclerView>(R.id.list).adapter as MealOverviewAdapter).currentList.indexOf(meal)
+        if (plan != null) {
+            onView(withId(R.id.materialCardView)).check(matches(isDisplayed()))
+        } else {
+            assertTrue(true)
         }
-        onView(withId(R.id.list)).perform(RecyclerViewActions.scrollToPosition<MealOverviewAdapter.ViewHolder>(pos))
-        Thread.sleep(500)
 
-        onView(withText("Spaghetti")).check(matches(isDisplayed()))
-        onView(withText("Spaghetti")).perform(longClick())
-
-        Thread.sleep(1000)
+        assertTrue(true)
     }
 
-    override fun tearDown() = runBlocking {
-        mealDao.deleteMeal(meal)
+
+    @After
+    fun cleanUp() = runBlocking {
+        //mealDao.deleteTestItems()
     }
+
+
 }

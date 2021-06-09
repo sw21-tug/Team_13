@@ -54,6 +54,8 @@ class EditMealTest: TestCase() {
         onView(withId(R.id.form_edit))
             .perform(ViewActions.typeText(meal.title))
             .perform(ViewActions.closeSoftKeyboard())
+
+        onView(withId(R.id.check_meat)).perform(click())
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
         onView(withId(R.id.navigation_overview)).perform(click())
@@ -80,6 +82,7 @@ class EditMealTest: TestCase() {
         onView(withId(R.id.form_edit))
             .perform(ViewActions.typeText(meal.title))
             .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.check_meat)).perform(click())
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
         onView(withId(R.id.navigation_overview)).perform(click())

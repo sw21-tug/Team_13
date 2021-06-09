@@ -46,6 +46,13 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
 
     fun insertPlan(plan: Plan) = viewModelScope.launch {
         repository.insertPlan(plan)
+
+    fun deletePlanWithId(id: Long) = viewModelScope.launch {
+        repository.deletePlanWithId(id)
+    }
+
+    fun deleteAllPlans() = viewModelScope.launch {
+        repository.deleteAllPlans()
     }
 }
 

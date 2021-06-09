@@ -14,6 +14,7 @@ import com.team13.dealmymeal.data.DBManager
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealDao
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 
 
@@ -69,5 +70,8 @@ class MealOverviewSearchTest {
         onView(withId(R.id.action_search)).perform(pressBack())
 
     }
-
+    @After
+    fun cleanUp() = runBlocking {
+        mealDao.deleteAllMeals()
+    }
 }
