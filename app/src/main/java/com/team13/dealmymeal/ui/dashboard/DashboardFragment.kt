@@ -63,8 +63,6 @@ class DashboardFragment : Fragment() {
                 calendar.time = creationTime!!
                 calendar.add(Calendar.DATE, plan.period)
                 if (creationTime.time <= time && time <= calendar.time.time) {
-                    layoutEmpty.visibility = View.GONE
-                    layoutPlan.visibility = View.VISIBLE
 
                     val chipGroupDays = view.findViewById<ChipGroup>(R.id.chipGroupDays)
                     val labelPlan = view.findViewById<TextView>(R.id.labelPlan)
@@ -82,30 +80,40 @@ class DashboardFragment : Fragment() {
                     mealViewModel.allMeals.observe(viewLifecycleOwner) { meals ->
                         val orderById = plan.meals!!.withIndex().associate { it.value to it.index }
                         val planMeals = meals.filter { plan.meals!!.contains(it.id) }.sortedBy { orderById[it.id] }
-                        chipGroupDays.removeAllViews()
-                        for (i in 1..plan.period){
-                            val chip = layoutInflater.inflate(R.layout.chip_day, null, false) as Chip
-                            chip.text = getString(R.string.currentDay, i)
-                            //chip.isChecked = currentDay == i
-                            chip.setOnCheckedChangeListener { _, isChecked  ->
-                                if (isChecked) {
-                                    selectedDay = i
-                                    pagerAdapter.submitList(planMeals.chunked(plan.mealsPerDay)[selectedDay-1])
+
+                        if(planMeals.size != plan.mealsPerDay*plan.period) {
+                            // TODO delete
+                            layoutEmpty.visibility = View.VISIBLE
+                            layoutPlan.visibility = View.GONE
+                        } else {
+                            layoutEmpty.visibility = View.GONE
+                            layoutPlan.visibility = View.VISIBLE
+
+                            chipGroupDays.removeAllViews()
+                            for (i in 1..plan.period){
+                                val chip = layoutInflater.inflate(R.layout.chip_day, null, false) as Chip
+                                chip.text = getString(R.string.currentDay, i)
+                                //chip.isChecked = currentDay == i
+                                chip.setOnCheckedChangeListener { _, isChecked  ->
+                                    if (isChecked) {
+                                        selectedDay = i
+                                        pagerAdapter.submitList(planMeals.chunked(plan.mealsPerDay)[selectedDay-1])
+                                    }
                                 }
+                                chipGroupDays.addView(chip)
                             }
-                            chipGroupDays.addView(chip)
+
+                            labelMeatCount.text = planMeals.count { it.categories!!.contains(Category.MEAT.category) }.toString()
+                            labelVeggieCount.text = planMeals.count { it.categories!!.contains(Category.VEGGIE.category) }.toString()
+                            labelSpecialCount.text = planMeals.count { it.categories!!.contains(Category.SPECIAL.category) }.toString()
+
+                            var r = 0.0
+                            for (m in planMeals)
+                                r += m.rating!!
+                            ratingAvg.rating = (r/planMeals.size).toFloat()
+
+                            chipGroupDays.check(chipGroupDays[currentDay-1].id)
                         }
-
-                        labelMeatCount.text = planMeals.count { it.categories!!.contains(Category.MEAT.category) }.toString()
-                        labelVeggieCount.text = planMeals.count { it.categories!!.contains(Category.VEGGIE.category) }.toString()
-                        labelSpecialCount.text = planMeals.count { it.categories!!.contains(Category.SPECIAL.category) }.toString()
-
-                        var r = 0.0
-                        for (m in planMeals)
-                            r += m.rating!!
-                        ratingAvg.rating = (r/planMeals.size).toFloat()
-
-                        chipGroupDays.check(chipGroupDays[currentDay-1].id)
                     }
 
                     chipCurrentDay.text = getString(R.string.currentDay, currentDay)
