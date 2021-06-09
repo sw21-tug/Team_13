@@ -17,6 +17,7 @@ import com.team13.dealmymeal.data.DBManager
 import com.team13.dealmymeal.data.MealDao
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -89,5 +90,8 @@ class MealOverviewFilterRatingTest {
         mealDao.deleteAllMeals()
     }
 
-
+    @After
+    fun cleanUp() = runBlocking {
+        mealDao.deleteAllMeals()
+    }
 }

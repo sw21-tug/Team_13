@@ -23,7 +23,6 @@ import kotlin.concurrent.thread
 class DarkModeTest {
     @get:Rule
     val activityTestRule = ActivityScenarioRule(Activity::class.java)
-
     @Before
     private fun createActivityScenarioRule(withNightMode: Boolean = false) =
         activityTestRule.scenario.apply {
