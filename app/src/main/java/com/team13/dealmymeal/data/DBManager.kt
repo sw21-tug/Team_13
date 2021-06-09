@@ -63,12 +63,6 @@ abstract class DBManager : RoomDatabase() {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
             mealDao.deleteAll()
-
-            /*Log.d("DB", "add meals")
-            var word = Meal("Hello")
-            mealDao.insert(word)
-            word = Meal("World!")
-            mealDao.insert(word)*/
         }
     }
 

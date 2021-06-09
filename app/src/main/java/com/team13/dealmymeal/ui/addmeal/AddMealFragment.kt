@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
@@ -36,16 +37,46 @@ class AddMealFragment : Fragment() {
         val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
         val switchSpecial = root.findViewById<SwitchMaterial>(R.id.check_special)
         val text = editTitle.text
+
+        btnSave.isEnabled = false
+        btnSave.getBackground().setAlpha(51);
+        switchMeat.setOnCheckedChangeListener {_, isChecked ->
+            if (switchMeat.isChecked)
+            {
+                btnSave.isEnabled = true
+                btnSave.getBackground().setAlpha(200);
+                switchVeggie.setEnabled(false)
+            }else
+            {
+                btnSave.isEnabled = false
+                btnSave.getBackground().setAlpha(51);
+                switchVeggie.setEnabled(true)
+            }
+        }
+
+        switchVeggie.setOnCheckedChangeListener {_ , isChecked ->
+            if (switchVeggie.isChecked)
+            {
+                btnSave.isEnabled = true
+                btnSave.getBackground().setAlpha(200);
+                switchMeat.setEnabled(false)
+            }else
+            {
+                btnSave.isEnabled = false
+                btnSave.getBackground().setAlpha(51);
+                switchMeat.setEnabled(true)
+            }
+        }
         btnSave.setOnClickListener {
 
             val stars = ratingBar.rating
             val type = ArrayList<Int>()
             if (switchMeat.isChecked)
-                type.add(0)
+                type.add(Category.MEAT.category)
             if (switchVeggie.isChecked)
-                type.add(1)
+                type.add(Category.VEGGIE.category)
             if (switchSpecial.isChecked)
-                type.add(2)
+                type.add(Category.SPECIAL.category)
             val meal = Meal(text.toString(), type, stars)
 
             var count: Int

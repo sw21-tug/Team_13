@@ -12,16 +12,13 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.team13.dealmymeal.*
+import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
-import kotlinx.android.synthetic.main.fragment_editmeal.view.check_meat
-import kotlinx.android.synthetic.main.fragment_editmeal.view.check_special
-import kotlinx.android.synthetic.main.fragment_editmeal.view.check_veggie
-import kotlinx.android.synthetic.main.fragment_editmeal.view.form_edit
-import kotlinx.android.synthetic.main.fragment_editmeal.view.form_ratingBar
-import kotlinx.android.synthetic.main.fragment_editmeal.view.form_save
+
 import kotlinx.coroutines.runBlocking
 
 
@@ -38,39 +35,80 @@ class EditMealFragment : Fragment() {
     ): View? {
         editMealViewModel =
             ViewModelProvider(this).get(AddMealViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_editmeal, container, false)
+        val root = inflater.inflate(R.layout.fragment_editmeal, container, false)
+
+        val btnSave = root.findViewById<Button>(R.id.form_save)
+        val switchMeat = root.findViewById<SwitchMaterial>(R.id.check_meat)
+        val switchVeggie = root.findViewById<SwitchMaterial>(R.id.check_veggie)
+        btnSave.isEnabled = false
+        btnSave.background.alpha = 51;
+        switchMeat.setOnCheckedChangeListener {_, isChecked ->
+            if (switchMeat.isChecked)
+            {
+                btnSave.isEnabled = true
+                btnSave.background.alpha = 200;
+                switchVeggie.isEnabled = false
+            }else
+            {
+                btnSave.isEnabled = false
+                btnSave.background.alpha = 51;
+                switchVeggie.isEnabled = true
+            }
+        }
+
+        switchVeggie.setOnCheckedChangeListener {_ , isChecked ->
+            if (switchVeggie.isChecked)
+            {
+                btnSave.isEnabled = true
+                btnSave.background.alpha = 200;
+                switchMeat.isEnabled = false
+            }else
+            {
+                btnSave.isEnabled = false
+                btnSave.background.alpha = 51;
+                switchMeat.isEnabled = true
+            }
+        }
+
+        return root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val btnSave = view.findViewById<Button>(R.id.form_save)
+        val editTitle = view.findViewById<EditText>(R.id.form_edit)
+        val ratingBar = view.findViewById<RatingBar>(R.id.form_ratingBar)
+        val switchMeat = view.findViewById<SwitchMaterial>(R.id.check_meat)
+        val switchVeggie = view.findViewById<SwitchMaterial>(R.id.check_veggie)
+        val switchSpecial = view.findViewById<SwitchMaterial>(R.id.check_special)
         val meal = arguments?.getParcelable<Meal>("Meal")
         if (meal != null) {
-            view.form_edit.setText(meal.title)
-            view.form_ratingBar.rating = meal.rating!!
-            val isMeat = meal.categories!!.contains(0)
-            val isSpecial = meal.categories!!.contains(1)
-            val isVeggie = meal.categories!!.contains(2)
+            editTitle.setText(meal.title)
+            ratingBar.rating = meal.rating!!
+            val isMeat = meal.categories!!.contains(Category.MEAT.category)
+            val isSpecial = meal.categories!!.contains(Category.SPECIAL.category)
+            val isVeggie = meal.categories!!.contains(Category.VEGGIE.category)
 
-            view.check_meat.isChecked = isMeat
-            view.check_veggie.isChecked = isVeggie
-            view.check_special.isChecked = isSpecial
+            switchMeat.isChecked = isMeat
+            switchVeggie.isChecked = isVeggie
+            switchSpecial.isChecked = isSpecial
 
-            view.form_save.setOnClickListener {
+            btnSave.setOnClickListener {
                 val type = ArrayList<Int>()
-                if (view.check_meat.isChecked)
-                    type.add(0)
-                if (view.check_veggie.isChecked)
-                    type.add(1)
-                if (view.check_special.isChecked)
-                    type.add(2)
+                if (switchMeat.isChecked)
+                    type.add(Category.MEAT.category)
+                if (switchVeggie.isChecked)
+                    type.add(Category.VEGGIE.category)
+                if (switchSpecial.isChecked)
+                    type.add(Category.SPECIAL.category)
 
                 // check if meal name already exits
                 var canUpdate = true
-                if(view.form_edit.text.toString() != meal.title) {
+                if(editTitle.text.toString() != meal.title) {
                     var count: Int
                     runBlocking {
-                        count = mealViewModel.getCount(view.form_edit.text.toString())
+                        count = mealViewModel.getCount(editTitle.text.toString())
                     }
 
                     if (count > 0) {
@@ -82,8 +120,8 @@ class EditMealFragment : Fragment() {
                     }
                 }
 
-                meal.title = view.form_edit.text.toString()
-                meal.rating = view.form_ratingBar.rating
+                meal.title = editTitle.text.toString()
+                meal.rating = ratingBar.rating
                 meal.categories = type
 
                 if (meal.title != "") {
