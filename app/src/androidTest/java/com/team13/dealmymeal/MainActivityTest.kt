@@ -46,6 +46,9 @@ class MainActivityTest{
         onData(anything()).atPosition(1).perform(click());
         onView(withId(R.id.language)).perform(click());
         onData(anything()).atPosition(0).perform(click());
+        onView(withId(R.id.language)).perform(click());
+        onData(anything()).atPosition(1).perform(click());
+
     }
 
     @Test

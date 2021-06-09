@@ -17,6 +17,7 @@ import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealDao
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -71,19 +72,13 @@ class AddMealTest: TestCase() {
         onView(withId(R.id.form_edit))
                 .perform(ViewActions.typeText(meal.title))
                 .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.check_meat)).perform(click())
+
         onView(withId(R.id.form_save)).perform(click())
         Thread.sleep(500)
 
-
-        //val meal = Meal("Schnitzel")
-        var flag = 0
-
-        //This does not work, maybe wrong context
-        val allItems = mealDao.getAllMealsTest()
-
-        //allItems.contains(meal)
-        assertTrue(allItems.contains(meal))
-        //Truth.assertThat(allItems.contains(meal)).isTrue()
+        onView(withId(R.id.navigation_overview)).perform(click())
+        onView(withText("asdfqwer1234")).check(ViewAssertions.matches(isDisplayed()))
 
         //TODO solve with delete button later
         mealDao.deleteTestItems()
@@ -93,14 +88,23 @@ class AddMealTest: TestCase() {
     fun form_checkBoxes() {
         Espresso.onView(ViewMatchers.withId(R.id.check_meat)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_meat)).check(ViewAssertions.matches(ViewMatchers.isChecked()))
+        Espresso.onView(ViewMatchers.withId(R.id.check_meat)).perform(ViewActions.click())
+
         Espresso.onView(ViewMatchers.withId(R.id.check_veggie)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_veggie)).check(ViewAssertions.matches(ViewMatchers.isChecked()))
+        Espresso.onView(ViewMatchers.withId(R.id.check_veggie)).perform(ViewActions.click())
+
         Espresso.onView(ViewMatchers.withId(R.id.check_special)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_special)).check(ViewAssertions.matches(ViewMatchers.isChecked()))
+
+        Espresso.onView(ViewMatchers.withId(R.id.check_meat)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_meat)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_meat)).check(ViewAssertions.matches(ViewMatchers.isNotChecked()))
+
+        Espresso.onView(ViewMatchers.withId(R.id.check_veggie)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_veggie)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_veggie)).check(ViewAssertions.matches(ViewMatchers.isNotChecked()))
+
         Espresso.onView(ViewMatchers.withId(R.id.check_special)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.check_special)).check(ViewAssertions.matches(ViewMatchers.isNotChecked()))
 
@@ -133,6 +137,7 @@ class AddMealTest: TestCase() {
         Espresso.onView(ViewMatchers.withId(R.id.form_edit))
             .perform(ViewActions.typeText(meal.title))
             .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.check_meat)).perform(click())
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
 
         var meal2 = Meal("asdfqwer1234", listOf() ,0f)
@@ -140,6 +145,8 @@ class AddMealTest: TestCase() {
         Espresso.onView(ViewMatchers.withId(R.id.form_edit))
             .perform(ViewActions.typeText(meal2.title))
             .perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.check_meat)).perform(click())
+
         Espresso.onView(ViewMatchers.withId(R.id.form_save)).perform(ViewActions.click())
 
         var count =  mealDao.getCountByMealTitle("asdfqwer1234")
@@ -147,5 +154,11 @@ class AddMealTest: TestCase() {
 
         //TODO delete Test items from database
     }
+
+    @After
+    fun cleanUp() = runBlocking {
+        mealDao.deleteTestItems()
+    }
+
 
 }
