@@ -23,6 +23,7 @@
     <string name="title_activity_navigation_bar">Основная деятельность</string>
     <string name="delete">Удалить</string>
     <string name="delete_message">Вы уверены, что хотите удалить свой выбор?</string>
+    <string name="delete_plan_message">Вы уверены, что хотите удалить этот план?</string>
     <string name="yes">да</string>
     <string name="no">нет</string>
     <string name="MenuButtonHomeFragment">Фрагмент главного меню кнопки меню</string>

@@ -14,6 +14,7 @@ import com.team13.dealmymeal.data.Category
 import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.data.MealViewModel
 import com.team13.dealmymeal.data.MealViewModelFactory
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -37,18 +38,26 @@ class GeneratePlanFragment : Fragment() {
 
         sliderRatio.valueTo = ratingDays.rating * numberOfMeals.rating
         sliderRatio.value = (sliderRatio.valueTo/2).roundToInt().toFloat()
+        numberOfSpecials.rating = 0.0f
+        numberOfSpecials.numStars = min(5, ratingDays.rating.roundToInt() * numberOfMeals.rating.roundToInt())
+        numberOfSpecials.stepSize = 1.0f
 
         ratingDays.setOnRatingBarChangeListener { ratingBar, rating, user ->
+            sliderRatio.value = 0.0f
             sliderRatio.valueTo = rating * numberOfMeals.rating.roundToInt()
+            sliderRatio.value = ((rating * numberOfMeals.rating)/2).roundToInt().toFloat()
+            numberOfSpecials.rating = 0.0f
+            numberOfSpecials.numStars = min(5, rating.roundToInt() * numberOfMeals.rating.roundToInt())
+            numberOfSpecials.stepSize = 1.0f
         }
 
         numberOfMeals.setOnRatingBarChangeListener { ratingBar, rating, user ->
+            sliderRatio.value = 0.0f
             sliderRatio.valueTo = rating * ratingDays.rating.roundToInt()
-        }
-
-        numberOfSpecials.setOnRatingBarChangeListener { ratingBar, rating, user ->
-            // check
-            buttonGenerate.isEnabled = rating.roundToInt() <= mealViewModel.allMeals.value?.count { it.categories!!.contains(Category.SPECIAL.category) }!!
+            sliderRatio.value = ((rating * ratingDays.rating)/2).roundToInt().toFloat()
+            numberOfSpecials.rating = 0.0f
+            numberOfSpecials.numStars = min(5, rating.roundToInt() * ratingDays.rating.roundToInt())
+            numberOfSpecials.stepSize = 1.0f
         }
 
         var data: List<Meal> = listOf()
@@ -66,7 +75,7 @@ class GeneratePlanFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.not_enough_meals), Toast.LENGTH_SHORT).show()
             else
                 try {
-                    val plan = PlanGenerator.generatePlan(data, meatCount, veggieCount, numberOfSpecials.rating.roundToInt())
+                    val plan = PlanGenerator.generatePlan(data, meatCount, veggieCount, min(meatCount, min(veggieCount, numberOfSpecials.rating.roundToInt())))
                     mealViewModel.insertPlan(Plan(ratingDays.rating.roundToInt(), numberOfMeals.rating.roundToInt(), null, plan))
                     //val plan = mealViewModel.allMeals.value?.let { it1 -> PlanGenerator.generatePlan(it1, meatCount, veggieCount, numberOfSpecials.rating.roundToInt()) }
                     activity?.onBackPressed()
