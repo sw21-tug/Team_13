@@ -55,7 +55,6 @@ class DBManagerTest: TestCase() {
         val mealTest = Meal("asdfqwer1234", listOf(0), 0f)
         mealDao.insert(meal)
         mealDao.insert(mealTest)
-        //val allMeals = mealDao.getAll().toList()
         val allMeals = mealDao.getAllTest()
         assertEquals(2, allMeals.size)
         mealDao.deleteTestItems()
@@ -64,5 +63,20 @@ class DBManagerTest: TestCase() {
         assertFalse(allMealsDelete.contains(mealTest))
         assertTrue(allMealsDelete.contains(meal))
         mealDao.deleteAll()
+    }
+
+    @Test
+    fun deleteById() = runBlocking {
+        val meal = Meal("Spaghetti", listOf(0), 0f)
+        mealDao.insert(meal)
+        var allMeals = mealDao.getAllTest()
+        val id = allMeals[0].id
+        assertEquals(1, allMeals.size)
+        mealDao.deleteById(12341234123412341L)
+        allMeals = mealDao.getAllTest()
+        assertEquals(1, allMeals.size)
+        mealDao.deleteById(id)
+        allMeals = mealDao.getAllTest()
+        assertEquals(0, allMeals.size)
     }
 }
