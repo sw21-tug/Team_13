@@ -38,9 +38,15 @@ interface MealDao {
     @Query("SELECT COUNT(id) FROM meal WHERE title=:title")
     suspend fun getCountByMealTitle(title: String): Int
 
+    @Query("SELECT COUNT(id) FROM meal WHERE categories LIKE :category")
+    suspend fun getCountMealsByCategory(category: Int): Int
+
     @Query("DELETE from meal WHERE title=:title")
     suspend fun deleteWithMealTitle(title:String)
 
     @Query("SELECT * FROM plan WHERE created_time = (SELECT MAX(created_time) FROM plan)")
     fun getCurrentPlan(): Flow<Plan>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertPlan(plan: Plan)
 }

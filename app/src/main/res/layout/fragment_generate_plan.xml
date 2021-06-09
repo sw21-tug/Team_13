@@ -13,9 +13,10 @@
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
-        android:value="50"
+        android:value="0"
         android:valueFrom="0"
         android:valueTo="100"
+        android:stepSize="1"
         app:layout_constraintBottom_toTopOf="@+id/labelSpecials"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -87,7 +88,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatRatingBar
-        android:id="@+id/ratingBar2"
+        android:id="@+id/ratingDays"
         style="@style/CustomRatingBarDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/days"
-        app:layout_constraintBottom_toTopOf="@+id/ratingBar2"
+        app:layout_constraintBottom_toTopOf="@+id/ratingDays"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

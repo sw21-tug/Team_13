@@ -17,6 +17,10 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
         return repository.getCountMeals(title)
     }
 
+    suspend fun getCount(category: Int): Int {
+        return repository.getCountMealsByCategory(category)
+    }
+
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
@@ -38,6 +42,10 @@ class MealViewModel(private val repository: MealRepository) : ViewModel() {
 
     fun updateMeal(meal: Meal) = viewModelScope.launch {
         repository.updateMeal(meal)
+    }
+
+    fun insertPlan(plan: Plan) = viewModelScope.launch {
+        repository.insertPlan(plan)
     }
 }
 

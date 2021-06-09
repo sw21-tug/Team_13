@@ -45,6 +45,12 @@ class MealRepository(private val mealDao: MealDao) {
         return mealDao.getCountByMealTitle(title)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getCountMealsByCategory(category: Int): Int {
+        return mealDao.getCountMealsByCategory(category)
+    }
+
     suspend fun updateMeal(meal: Meal) {
         mealDao.updateMeal(meal.id, meal.title!!, meal.rating!!, meal.categories!!)
     }
@@ -53,6 +59,12 @@ class MealRepository(private val mealDao: MealDao) {
     @WorkerThread
     suspend fun deleteWithName(title: String) {
         mealDao.deleteWithMealTitle(title)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertPlan(plan: Plan) {
+        mealDao.insertPlan(plan)
     }
 
 }
