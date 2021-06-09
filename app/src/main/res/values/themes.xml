@@ -61,4 +61,22 @@
         <item name="titleTextColor">@color/green</item>
         <item name="dialogCornerRadius">16dp</item>
     </style>
+
+    <style name="CustomRatingBarMeals" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_custom_rating_meals</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">50dip</item>
+    </style>
+
+    <style name="CustomRatingBarDays" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_custom_rating_days</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">50dip</item>
+    </style>
+
+    <style name="CustomRatingBarSpecial" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_custom_rating_special</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">50dip</item>
+    </style>
 </resources>

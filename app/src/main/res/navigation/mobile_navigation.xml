@@ -15,7 +15,19 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.team13.dealmymeal.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_generatePlanFragment"
+            app:destination="@id/navigation_generatePlanFragment"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_generatePlanFragment"
+        android:name="com.team13.dealmymeal.ui.generate.GeneratePlanFragment"
+        android:label="@string/title_generate"
+        tools:layout="@layout/fragment_generate_plan" />
 
     <fragment
         android:id="@+id/navigation_overview"

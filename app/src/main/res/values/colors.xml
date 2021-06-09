@@ -18,6 +18,8 @@
     <color name="dark_gray">#475059</color>
     <color name="card_normal">#FFFFFF</color>
     <color name="card_selected">#D5D5D5</color>
+    <color name="meat">#EF9A9A</color>
+    <color name="veggie">#C0CA33</color>
     <color name="shadow">#E2605D5D</color>
     <color name="shadow_dark">#E2272626</color>
     <color name="chip_icon_tint">#F8F8F8</color>

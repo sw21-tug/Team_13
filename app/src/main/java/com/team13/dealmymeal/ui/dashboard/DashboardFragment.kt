@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -12,6 +13,8 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -35,7 +38,10 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var pagerAdapter: PagerAdapter
+    private lateinit var navController: NavController
 
+    private var optionsMenu: Menu? = null
+    private var layoutPlan: ConstraintLayout? = null
     private var selectedDay: Int = 0
 
     override fun onCreateView(
@@ -45,7 +51,7 @@ class DashboardFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val layoutEmpty = view.findViewById<ConstraintLayout>(R.id.layoutPlanEmpty)
-        val layoutPlan = view.findViewById<ConstraintLayout>(R.id.layoutPlan)
+        layoutPlan = view.findViewById<ConstraintLayout>(R.id.layoutPlan)
 
         val pager = view.findViewById<ViewPager2>(R.id.pagerMeals)
         pagerAdapter = PagerAdapter()
@@ -53,7 +59,13 @@ class DashboardFragment : Fragment() {
         mealViewModel.currentPlan.observe(viewLifecycleOwner) { plan ->
             if(plan == null) {
                 layoutEmpty.visibility = View.VISIBLE
-                layoutPlan.visibility = View.GONE
+                layoutPlan?.visibility = View.GONE
+                optionsMenu?.findItem(R.id.deletePlan)?.isVisible = layoutPlan?.visibility == View.VISIBLE
+
+                val btnGenerate = view.findViewById<Button>(R.id.btnGenerate)
+                btnGenerate.setOnClickListener {
+                    navController.navigate(R.id.action_navigation_dashboard_to_generatePlanFragment)
+                }
             } else {
                 val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 val sdfPlan = SimpleDateFormat("dd.MM", Locale.getDefault())
@@ -84,10 +96,12 @@ class DashboardFragment : Fragment() {
                         if(planMeals.size != plan.mealsPerDay*plan.period) {
                             // TODO delete
                             layoutEmpty.visibility = View.VISIBLE
-                            layoutPlan.visibility = View.GONE
+                            layoutPlan?.visibility = View.GONE
+                            optionsMenu?.findItem(R.id.deletePlan)?.isVisible = layoutPlan?.visibility == View.VISIBLE
                         } else {
                             layoutEmpty.visibility = View.GONE
-                            layoutPlan.visibility = View.VISIBLE
+                            layoutPlan?.visibility = View.VISIBLE
+                            optionsMenu?.findItem(R.id.deletePlan)?.isVisible = layoutPlan?.visibility == View.VISIBLE
 
                             chipGroupDays.removeAllViews()
                             for (i in 1..plan.period){
@@ -123,7 +137,8 @@ class DashboardFragment : Fragment() {
                     }
                 } else {
                     layoutEmpty.visibility = View.VISIBLE
-                    layoutPlan.visibility = View.GONE
+                    layoutPlan?.visibility = View.GONE
+                    optionsMenu?.findItem(R.id.deletePlan)?.isVisible = layoutPlan?.visibility == View.VISIBLE
 
                     //delete database entries
                     mealViewModel.deleteAllPlans()
@@ -148,9 +163,16 @@ class DashboardFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.dashboard_menu, menu)
+        optionsMenu = menu
+        menu.findItem(R.id.deletePlan).isVisible = layoutPlan?.visibility == View.VISIBLE
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -176,9 +198,9 @@ class DashboardFragment : Fragment() {
                     selectLanguageAlert.create().show()
                 true
             }
-            R.id.delete -> {
+            R.id.deletePlan -> {
                 val builder = AlertDialog.Builder(context)
-                builder.setMessage(R.string.delete_message)
+                builder.setMessage(R.string.delete_plan_message)
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes) { _, _ ->
                         // Delete plan from database

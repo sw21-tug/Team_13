@@ -3,6 +3,8 @@ package com.team13.dealmymeal.data
 import androidx.annotation.WorkerThread
 import com.team13.dealmymeal.core.Plan
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
@@ -45,6 +47,12 @@ class MealRepository(private val mealDao: MealDao) {
         return mealDao.getCountByMealTitle(title)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getCountMealsByCategory(category: Int): Int {
+        return mealDao.getCountMealsByCategory(category)
+    }
+
     suspend fun updateMeal(meal: Meal) {
         mealDao.updateMeal(meal.id, meal.title!!, meal.rating!!, meal.categories!!)
     }
@@ -53,6 +61,12 @@ class MealRepository(private val mealDao: MealDao) {
     @WorkerThread
     suspend fun deleteWithName(title: String) {
         mealDao.deleteWithMealTitle(title)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertPlan(plan: Plan) {
+        mealDao.insertPlan(plan.period, plan.mealsPerDay, Json.encodeToString(plan.meals))
     }
 
     @Suppress("RedundantSuspendModifier")

@@ -38,20 +38,23 @@ interface MealDao {
     @Query("SELECT COUNT(id) FROM meal WHERE title=:title")
     suspend fun getCountByMealTitle(title: String): Int
 
+    @Query("SELECT COUNT(id) FROM meal WHERE categories LIKE :category")
+    suspend fun getCountMealsByCategory(category: Int): Int
+
     @Query("DELETE from meal WHERE title=:title")
     suspend fun deleteWithMealTitle(title:String)
 
     @Query("SELECT * FROM 'plan' WHERE created_time = (SELECT MAX(created_time) FROM 'plan')")
     fun getCurrentPlan(): Flow<Plan>
 
+    @Query("INSERT INTO plan (period, meals_per_day, meals) VALUES (:period, :mealsPerDay, :meals)")
+    suspend fun insertPlan(period: Int, mealsPerDay: Int, meals: String)
+
     @Query("DELETE FROM 'plan' WHERE id=:id")
     suspend fun deletePlanWithId(id: Long)
 
     @Query("DELETE FROM 'plan'")
     suspend fun deleteAllPlans()
-
-    @Query("INSERT INTO 'plan' (period, meals_per_day, meals) values (:period, :mealsPerDay, :meals)")
-    suspend fun insertPlan(period: Int, mealsPerDay:Int, meals: String)
 
     @Query("SELECT * FROM 'plan' WHERE created_time = (SELECT MAX(created_time) FROM 'plan')")
     fun getCurrentPlanTest(): Plan?
