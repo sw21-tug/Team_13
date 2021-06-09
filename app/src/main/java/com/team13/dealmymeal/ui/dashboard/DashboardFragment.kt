@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -12,6 +13,8 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -35,6 +38,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var pagerAdapter: PagerAdapter
+    private lateinit var navController: NavController
 
     private var selectedDay: Int = 0
 
@@ -54,6 +58,11 @@ class DashboardFragment : Fragment() {
             if(plan == null) {
                 layoutEmpty.visibility = View.VISIBLE
                 layoutPlan.visibility = View.GONE
+
+                val btnGenerate = view.findViewById<Button>(R.id.btnGenerate)
+                btnGenerate.setOnClickListener {
+                    navController.navigate(R.id.action_navigation_dashboard_to_generatePlanFragment)
+                }
             } else {
                 val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 val sdfPlan = SimpleDateFormat("dd.MM", Locale.getDefault())
@@ -143,6 +152,11 @@ class DashboardFragment : Fragment() {
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

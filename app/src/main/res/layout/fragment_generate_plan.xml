@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:labelFor="@id/sliderRatio"
-        android:text="Veggie/Meat Ratio"
+        android:text="@string/veggie_meat_ratio"
         app:layout_constraintBottom_toTopOf="@+id/sliderRatio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -125,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Specials"
+        android:text="@string/specials"
         app:layout_constraintBottom_toTopOf="@+id/numberOfSpecials"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
