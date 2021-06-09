@@ -1,44 +1,46 @@
 package com.team13.dealmymeal.data
 
 import androidx.room.*
+import com.team13.dealmymeal.core.Plan
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealDao {
     @Query("SELECT * from meal")
-    fun getAll(): Flow<List<Meal>>
+    fun getAllMeals(): Flow<List<Meal>>
 
     @Insert
-    fun insertAll(vararg meals: Meal)
+    fun insertAllMeals(vararg meals: Meal)
 
+    //This is a test function - DO NOT USE (except in tests)
     @Query("DELETE from meal WHERE title='asdfqwer1234'")
     fun deleteTestItems()
 
     @Delete
-    suspend fun delete(meal: Meal)
+    suspend fun deleteMeal(meal: Meal)
 
     @Query("DELETE from meal WHERE id= :id")
-    suspend fun deleteById(id: Long)
+    suspend fun deleteMealById(id: Long)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(meal: Meal)
+    suspend fun insertMeal(meal: Meal)
 
     @Query("DELETE FROM meal")
-    suspend fun deleteAll()
+    suspend fun deleteAllMeals()
 
     @Query("UPDATE meal SET title=:title, rating=:rating, categories=:categories WHERE id=:id")
     suspend fun updateMeal(id: Long, title: String, rating: Float, categories: List<Int?>)
 
     //This is a test function - DO NOT USE (except in tests)
     @Query("SELECT * from meal")
-    suspend fun getAllTest(): List<Meal>
-
+    suspend fun getAllMealsTest(): List<Meal>
 
     @Query("SELECT COUNT(id) FROM meal WHERE title=:title")
-    suspend fun getCountTitle(title: String): Int
+    suspend fun getCountByMealTitle(title: String): Int
 
     @Query("DELETE from meal WHERE title=:title")
-    suspend fun deleteWithTitle(title:String)
+    suspend fun deleteWithMealTitle(title:String)
 
-
+    @Query("SELECT * FROM plan WHERE created_time = (SELECT MAX(created_time) FROM plan)")
+    fun getCurrentPlan(): Flow<Plan>
 }

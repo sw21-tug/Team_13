@@ -39,17 +39,17 @@ class AddMealFragment : Fragment() {
         val text = editTitle.text
 
         btnSave.isEnabled = false
-        btnSave.getBackground().setAlpha(51);
+        btnSave.getBackground().setAlpha(51)
         switchMeat.setOnCheckedChangeListener {_, isChecked ->
             if (switchMeat.isChecked)
             {
                 btnSave.isEnabled = true
-                btnSave.getBackground().setAlpha(200);
+                btnSave.getBackground().setAlpha(200)
                 switchVeggie.setEnabled(false)
             }else
             {
                 btnSave.isEnabled = false
-                btnSave.getBackground().setAlpha(51);
+                btnSave.getBackground().setAlpha(51)
                 switchVeggie.setEnabled(true)
             }
         }
@@ -58,12 +58,12 @@ class AddMealFragment : Fragment() {
             if (switchVeggie.isChecked)
             {
                 btnSave.isEnabled = true
-                btnSave.getBackground().setAlpha(200);
+                btnSave.getBackground().setAlpha(200)
                 switchMeat.setEnabled(false)
             }else
             {
                 btnSave.isEnabled = false
-                btnSave.getBackground().setAlpha(51);
+                btnSave.getBackground().setAlpha(51)
                 switchMeat.setEnabled(true)
             }
         }
@@ -86,7 +86,7 @@ class AddMealFragment : Fragment() {
 
             if(count == 0){
                 if (meal.title != "") {
-                    mealViewModel.insert(meal)
+                    mealViewModel.insertMeal(meal)
                     val toast: Toast =
                         Toast.makeText(context, getString(R.string.mealAdded, meal.title), Toast.LENGTH_LONG)
                     toast.setGravity(Gravity.TOP, 0, 250)

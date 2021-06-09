@@ -4,4 +4,10 @@
         <item>0.0</item>
         <item>4.0</item>
     </array>
+
+    <array name="icons_category">
+        <item>@drawable/ic_meat</item>
+        <item>@drawable/ic_veggie</item>
+        <item>@drawable/ic_special</item>
+    </array>
 </resources>

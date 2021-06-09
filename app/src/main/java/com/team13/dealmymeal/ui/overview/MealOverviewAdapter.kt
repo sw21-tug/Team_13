@@ -52,11 +52,11 @@ class MealOverviewAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        private val txtTitle: TextView = view.findViewById(R.id.item_name)
-        private val imgBackgroundMeal: ImageView = view.findViewById(R.id.item_frame)
-        private val cardMeal: MaterialCardView = view.findViewById(R.id.card_background)
-        private val chips: ChipGroup = view.findViewById(R.id.chip_group)
-        private val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
+        private val txtTitle: TextView = view.findViewById(R.id.labelMeal)
+        private val imgBackgroundMeal: ImageView = view.findViewById(R.id.imgCardBackground)
+        private val cardMeal: MaterialCardView = view.findViewById(R.id.cardMeal)
+        private val chips: ChipGroup = view.findViewById(R.id.chipGroupCategories)
+        private val ratingBar: RatingBar = view.findViewById(R.id.ratingMeal)
         val context: Context = view.context
 
         init {
@@ -95,13 +95,18 @@ class MealOverviewAdapter(
             imgBackgroundMeal.setImageResource(typedValue.resourceId)
 
             chips.removeAllViews()
+            val categoryNames = context.resources.getStringArray(R.array.categories)
+            val categoryIcons = context.resources.obtainTypedArray(R.array.icons_category)
             for (category in meal.categories!!){
                 val chip = Chip(context)
-                chip.text = context.resources.getStringArray(R.array.categories)[category]
+                chip.text = categoryNames[category]
                 chip.setChipBackgroundColorResource(R.color.green)
                 chip.setTextColor(Color.WHITE)
+                chip.setChipIconResource(categoryIcons.getResourceId(category, 0))
+                chip.setChipIconTintResource(R.color.chip_icon_tint)
                 chips.addView(chip)
             }
+            categoryIcons.recycle()
 
             ratingBar.rating = meal.rating!!
         }
@@ -161,34 +166,35 @@ class MealOverviewAdapter(
         return results
     }
 
-    fun filterCategory(category: Int) {
-        resetFilter()
-        valuesOriginal = currentList
+    private fun filterCategory(list: MutableList<Meal?>, categories: List<Int>): MutableList<Meal?> {
         val results: MutableList<Meal?> = ArrayList()
-        for (item in valuesOriginal) {
-            if (item.categories?.contains(category) == true) {
+        for (item in list) {
+            if (item?.categories?.containsAll(categories) == true) {
                 results.add(item)
             }
         }
-        submitList(results)
+        return results
     }
 
-    fun filterRating(category: Float) {
-        resetFilter()
-        valuesOriginal = currentList
+    private fun filterRating(list: MutableList<Meal?>, ratings: List<Float>): MutableList<Meal?> {
         val results: MutableList<Meal?> = ArrayList()
-        for (item in valuesOriginal) {
-
-            if (item.rating!!.roundToInt() == category.roundToInt())
+        for (item in list) {
+            if (ratings.minOrNull()?.roundToInt()!! <= item?.rating!!.roundToInt()
+                &&  item.rating!!.roundToInt()  <= ratings.maxOrNull()?.roundToInt()!!)
                 results.add(item)
         }
+        return results
+    }
+
+    fun applyFilter(categories: List<Int>, ratings: List<Float>) {
+        if(currentList.size >= valuesOriginal.size)
+            valuesOriginal = currentList
+
+        val results: MutableList<Meal?> = filterCategory(filterRating(currentList, ratings), categories)
         submitList(results)
     }
 
     fun resetFilter() {
-        if(currentList.size >= valuesOriginal.size)
-            valuesOriginal = currentList
-
         submitList(valuesOriginal)
     }
 
