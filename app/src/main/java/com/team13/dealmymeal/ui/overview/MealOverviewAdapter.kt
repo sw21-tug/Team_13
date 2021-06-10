@@ -2,80 +2,76 @@ package com.team13.dealmymeal.ui.overview
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.*
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.team13.dealmymeal.Meal
+import com.team13.dealmymeal.data.Meal
 import com.team13.dealmymeal.R
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
+ * [ListAdapter] that can display a [Meal].
  *
  */
 class MealOverviewAdapter(
-    private var valuesOriginal: MutableList<Meal>,
+        private var valuesOriginal: MutableList<Meal>,
+        private val listener: OnItemClickListener
 ) : ListAdapter<Meal, MealOverviewAdapter.ViewHolder>(MEAL_COMPARATOR), Filterable {
 
     var tracker: SelectionTracker<Meal>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_meal_overview, parent, false)
-
-        view.setOnClickListener {
-            //TODO edit
-            //TODO check if we are in selection -> abort
-            if(tracker?.hasSelection() == false) {
-                Toast.makeText(parent.context, "Edit", Toast.LENGTH_SHORT).show()
-                view.findViewById<TextView>(R.id.item_name).setTextColor(Color.RED)
-            }
-        }
+                .inflate(R.layout.fragment_meal_overview, parent, false)
 
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //val item = values[position]
-        //holder.idView.text = item.name
-
-
         tracker?.let {
-            holder.setItemSelected(getItem(position), it.isSelected(getItem(position)))
+            holder.setItemSelected(it.isSelected(getItem(position)))
         }
 
         val current = getItem(position)
-        holder.bind(current.title, position, current.categories , current.rating)
-        Log.d("Adapter", current.title)
-
+        holder.bind(current, position)
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val itemName: TextView = view.findViewById(R.id.item_name)
-
-        val background: ConstraintLayout = view.findViewById(R.id.item_frame)
-        val chips: ChipGroup = view.findViewById(R.id.chip_group)
-        val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        private val txtTitle: TextView = view.findViewById(R.id.labelMeal)
+        private val imgBackgroundMeal: ImageView = view.findViewById(R.id.imgCardBackground)
+        private val cardMeal: MaterialCardView = view.findViewById(R.id.cardMeal)
+        private val chips: ChipGroup = view.findViewById(R.id.chipGroupCategories)
+        private val ratingBar: RatingBar = view.findViewById(R.id.ratingMeal)
         val context: Context = view.context
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         override fun toString(): String {
             return super.toString()
+        }
+
+        override fun onClick(v: View?) {
+            val position = bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
         }
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Meal> =
@@ -84,47 +80,50 @@ class MealOverviewAdapter(
                 override fun getSelectionKey(): Meal? = getItem(bindingAdapterPosition)
             }
 
-        fun setItemSelected(postItem: Meal, isSelected: Boolean = false) {
-            itemView.isSelected = isSelected
+        fun setItemSelected(isSelected: Boolean = false) {
+            cardMeal.isSelected = isSelected
         }
 
-        fun bind(text: String?, position: Int, categories: List<String>?, rating: Float?) {
-            itemName.text = text
+        fun bind(meal: Meal, position: Int) {
+            txtTitle.text = meal.title
+
+            val typedValue = TypedValue()
             when (position % 2) {
-                0 -> background.setBackgroundResource(R.drawable.ic_background_meal)
-                1 -> background.setBackgroundResource(R.drawable.ic_background_meal_green)
+                0 -> context.theme.resolveAttribute(R.attr.overview_item_1, typedValue, true)
+                1 -> context.theme.resolveAttribute(R.attr.overview_item_2, typedValue, true)
             }
-            if (categories != null) {
-                for (category in categories){
-                    val chip = Chip(context)
-                    chip.text = category
-                    chip.setChipBackgroundColorResource(R.color.green)
-                    chip.setTextColor(Color.WHITE)
-                    chips.addView(chip)
-                }
-            }
+            imgBackgroundMeal.setImageResource(typedValue.resourceId)
 
-            if (rating != null) {
-                ratingBar.rating = rating
+            chips.removeAllViews()
+            val categoryNames = context.resources.getStringArray(R.array.categories)
+            val categoryIcons = context.resources.obtainTypedArray(R.array.icons_category)
+            for (category in meal.categories!!){
+                val chip = Chip(context)
+                chip.text = categoryNames[category]
+                chip.setChipBackgroundColorResource(R.color.green)
+                chip.setTextColor(Color.WHITE)
+                chip.setChipIconResource(categoryIcons.getResourceId(category, 0))
+                chip.setChipIconTintResource(R.color.chip_icon_tint)
+                chips.addView(chip)
             }
+            categoryIcons.recycle()
 
+            ratingBar.rating = meal.rating!!
         }
     }
 
-    class MyItemKeyProvider(private val adapter: MealOverviewAdapter) :
+    class MealItemKeyProvider(private val adapter: MealOverviewAdapter) :
         ItemKeyProvider<Meal>(SCOPE_CACHED) {
         override fun getKey(position: Int): Meal? {
             return adapter.getItem(position)
         }
 
         override fun getPosition(key: Meal): Int {
-            return adapter.currentList.indexOf(key.title)//adapter.getI.indexOfFirst { it.name == key.title }
+            return adapter.currentList.indexOf(key)//adapter.getI.indexOfFirst { it.name == key.title }
         }
     }
 
-
-    //TODO is this needed? -->listener
-    class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
+    class MealItemDetailsLookup(private val recyclerView: RecyclerView) :
         ItemDetailsLookup<Meal>() {
         override fun getItemDetails(event: MotionEvent): ItemDetails<Meal>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
@@ -139,16 +138,16 @@ class MealOverviewAdapter(
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                submitList(results.values as List<Meal>)
+                submitList(results.values as MutableList<Meal>?)
             }
 
             override fun performFiltering(constraint: CharSequence): FilterResults {
                 if(currentList.size >= valuesOriginal.size)
                     valuesOriginal = currentList
-                var filteredResults = if (constraint.isEmpty()) {
+                val filteredResults = if (constraint.isEmpty()) {
                     valuesOriginal
                 } else {
-                    getFilteredResults(constraint.toString().toLowerCase())
+                    getFilteredResults(constraint.toString().toLowerCase(Locale.getDefault()))
                 }
                 val results = FilterResults()
                 results.values = filteredResults
@@ -160,11 +159,47 @@ class MealOverviewAdapter(
     private fun getFilteredResults(constraint: String?): List<Meal?> {
         val results: MutableList<Meal?> = ArrayList()
         for (item in valuesOriginal) {
-            if (constraint?.let { item.title?.toLowerCase()?.contains(it) } == true) {
+            if (constraint?.let { item.title?.toLowerCase(Locale.getDefault())?.contains(it) } == true) {
                 results.add(item)
             }
         }
         return results
+    }
+
+    private fun filterCategory(list: MutableList<Meal?>, categories: List<Int>): MutableList<Meal?> {
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in list) {
+            if (item?.categories?.containsAll(categories) == true) {
+                results.add(item)
+            }
+        }
+        return results
+    }
+
+    private fun filterRating(list: MutableList<Meal?>, ratings: List<Float>): MutableList<Meal?> {
+        val results: MutableList<Meal?> = ArrayList()
+        for (item in list) {
+            if (ratings.minOrNull()?.roundToInt()!! <= item?.rating!!.roundToInt()
+                &&  item.rating!!.roundToInt()  <= ratings.maxOrNull()?.roundToInt()!!)
+                results.add(item)
+        }
+        return results
+    }
+
+    fun applyFilter(categories: List<Int>, ratings: List<Float>) {
+        if(currentList.size >= valuesOriginal.size)
+            valuesOriginal = currentList
+
+        val results: MutableList<Meal?> = filterCategory(filterRating(currentList, ratings), categories)
+        submitList(results)
+    }
+
+    fun resetFilter() {
+        submitList(valuesOriginal)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     companion object {
@@ -174,7 +209,7 @@ class MealOverviewAdapter(
             }
 
             override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem == newItem
             }
         }
     }
